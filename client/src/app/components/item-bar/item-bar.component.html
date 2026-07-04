@@ -1,0 +1,39 @@
+<div class="tool-container" draggable="false">
+    <div class="title-container">
+        <p class="game-text bar-title">{{ 'item_bar.title' | translate }}</p>
+    </div>
+    @for (group of groupedItems; track group) {
+    <ng-container>
+        @for (section of filterSectionsByMode(group.sections); track section) {
+        <div class="item-container">
+            <label class="game-text section-title">{{ itemsNames.get(section.label) | translate }}</label>
+            @for (row of filterItemsByMapSize(section.items); track $index) {
+            <div class="item-row" [class.one-item]="row.length === 1">
+                @for (item of row; track item.id) {
+                <div class="item-icon">
+                    <img
+                        [src]="item.image"
+                        [alt]="''"
+                        [id]="item.id"
+                        draggable="true"
+                        (dragstart)="onDragStart($event, item.id, item.tooltip)"
+                        (dragend)="onDragEnd($event)"
+                        (dragover)="allowDrop($event)"
+                        (drop)="onDrop($event)"
+                        [matTooltip]="itemsDescription.get(item.id) | translate"
+                        matTooltipClass="custom-tooltip"
+                    />
+                    @if (section.label === itemCategory.Random) {
+                    <p class="game-text label count">{{ getItemLeft() }}</p>
+                    } @if (section.label === itemCategory.Starting) {
+                    <p class="game-text label count">{{ getStartLeft() }}</p>
+                    }
+                </div>
+                }
+            </div>
+            }
+        </div>
+        }
+    </ng-container>
+    }
+</div>

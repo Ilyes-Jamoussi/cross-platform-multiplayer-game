@@ -1,0 +1,61 @@
+@if (isVisible) {
+<div class="popup-overlay">
+    <div class="popup-container">
+        <h2>{{ 'trade_popup.title' | translate }}</h2>
+
+        <div class="trade-layout">
+            <div class="inventory-column">
+                <h3>{{ 'trade_popup.your_inventory' | translate }}</h3>
+                <div class="inventory-list">
+                    @for (item of playerInventory; track item.uniqueId) {
+                    <div class="inventory-item" (click)="selectPlayerItem(item)">
+                        <img [src]="getItemImage(item)" class="item-icon" draggable="false" />
+                        @if(playerSelected?.uniqueId === item.uniqueId){
+                        <div class="selected-overlay"></div>
+                        }
+                    </div>
+                    }
+                </div>
+            </div>
+
+            <div class="trade-middle">
+                <div class="trade-slot" [class.accepted]="playerAccepted">
+                    @if(playerSelected){
+                    <img [src]="getItemImage(playerSelected)" class="item-icon" />
+                    } @if(playerAccepted){
+                    <span class="status-badge">✅</span>
+                    }
+                </div>
+
+                <div class="trade-arrow">⇄</div>
+
+                <div class="trade-slot" [class.accepted]="teammateAccepted">
+                    @if(teammateItemOffered){
+                    <img [src]="getItemImage(teammateItemOffered)" class="item-icon" />
+                    } @if(teammateAccepted){
+                    <span class="status-badge">✅</span>
+                    }
+                </div>
+            </div>
+
+            <div class="inventory-column">
+                <h3>{{ 'trade_popup.teammate_inventory' | translate }}</h3>
+                <div class="inventory-list">
+                    @for (item of teammateInventory; track item.uniqueId) {
+                    <div class="inventory-item">
+                        <img [src]="getItemImage(item)" class="item-icon" />
+                    </div>
+                    }
+                </div>
+            </div>
+        </div>
+
+        <div class="action-buttons">
+            <button class="btn-accept" (click)="acceptTrade()" [disabled]="playerAccepted" [class.is-accepted]="playerAccepted">
+                {{ (playerAccepted ? 'trade_popup.ready' : 'trade_popup.accept') | translate }}
+            </button>
+            <button class="btn-cancel" (click)="cancelTrade()">{{ 'trade_popup.refuse' | translate }}</button>
+        </div>
+    </div>
+</div>
+}

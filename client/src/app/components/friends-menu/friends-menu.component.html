@@ -1,0 +1,264 @@
+@if (isVisible) { @if (!hideButton) {
+<button class="friends-button" (click)="toggleMenu()" [class.active]="isOpen" title="{{ 'profile_menu.amis' | translate }}">
+    <svg class="btn-icon" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+        <path d="M17 21v-2a4 4 0 00-4-4H5a4 4 0 00-4 4v2" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" />
+        <circle cx="9" cy="7" r="4" stroke="currentColor" stroke-width="2" />
+        <path
+            d="M23 21v-2a4 4 0 00-3-3.87M16 3.13a4 4 0 010 7.75"
+            stroke="currentColor"
+            stroke-width="2"
+            stroke-linecap="round"
+            stroke-linejoin="round"
+        />
+    </svg>
+</button>
+} @if (isOpen) {
+<div class="friends-overlay" (click)="toggleMenu()"></div>
+
+<div class="friends-panel">
+    <div class="panel-header">
+        <span class="header-title">{{ 'friends_menu.title' | translate }}</span>
+        <div class="header-actions">
+            <button class="header-btn close-btn" (click)="toggleMenu()" title="{{ 'friends_menu.close' | translate }}">
+                <svg viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                    <line x1="18" y1="6" x2="6" y2="18" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" />
+                    <line x1="6" y1="6" x2="18" y2="18" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" />
+                </svg>
+            </button>
+        </div>
+    </div>
+
+    <div class="panel-content">
+        <!-- Search -->
+        <div class="search-section">
+            <div class="search-bar">
+                <input
+                    type="text"
+                    placeholder="{{ 'friends_menu.search' | translate }}"
+                    [(ngModel)]="searchQuery"
+                    (ngModelChange)="search()"
+                    (keyup.enter)="search()"
+                    (focus)="searchFocused = true"
+                    (blur)="onSearchBlur()"
+                    class="search-input"
+                />
+                <button class="search-btn" (click)="search()" title="{{ 'friends_menu.search' | translate }}">
+                    <svg viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                        <circle cx="11" cy="11" r="8" stroke="currentColor" stroke-width="2" />
+                        <line x1="21" y1="21" x2="16.65" y2="16.65" stroke="currentColor" stroke-width="2" stroke-linecap="round" />
+                    </svg>
+                </button>
+            </div>
+
+            @if (searchResults.length > 0 && searchFocused) {
+            <div class="search-results">
+                @for (user of searchResults; track user.uid) {
+                <div class="result-item">
+                    <span class="result-name">{{ user.username }}</span>
+                    @if (friends$ | async; as friends) { @if (requests$ | async; as requests) { @if (sentRequests$ | async; as sentRequests) {
+                    <button
+                        *ngIf="!isFriend(user, friends) && !isPending(user, requests, sentRequests)"
+                        class="action-btn add-btn"
+                        (click)="sendRequest(user)"
+                        title="{{ 'friends_menu.add' | translate }}"
+                    >
+                        <svg viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                            <path
+                                d="M16 21v-2a4 4 0 00-4-4H5a4 4 0 00-4 4v2"
+                                stroke="currentColor"
+                                stroke-width="2"
+                                stroke-linecap="round"
+                                stroke-linejoin="round"
+                            />
+                            <circle cx="8.5" cy="7" r="4" stroke="currentColor" stroke-width="2" />
+                            <line x1="20" y1="8" x2="20" y2="14" stroke="currentColor" stroke-width="2" stroke-linecap="round" />
+                            <line x1="23" y1="11" x2="17" y2="11" stroke="currentColor" stroke-width="2" stroke-linecap="round" />
+                        </svg>
+                    </button>
+
+                    <span *ngIf="!isFriend(user, friends) && isPending(user, requests, sentRequests)" class="status-badge pending">
+                        <svg viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                            <circle cx="12" cy="12" r="10" stroke="currentColor" stroke-width="2" />
+                            <polyline
+                                points="12 6 12 12 16 14"
+                                stroke="currentColor"
+                                stroke-width="2"
+                                stroke-linecap="round"
+                                stroke-linejoin="round"
+                            />
+                        </svg>
+                    </span>
+
+                    <span *ngIf="isFriend(user, friends)" class="status-badge friend">
+                        <svg viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                            <polyline
+                                points="20 6 9 17 4 12"
+                                stroke="currentColor"
+                                stroke-width="2.5"
+                                stroke-linecap="round"
+                                stroke-linejoin="round"
+                            />
+                        </svg>
+                    </span>
+                    } } }
+                </div>
+                }
+            </div>
+            }
+        </div>
+
+        <!-- Pending requests -->
+        <div class="section">
+            <div class="section-title" (click)="pendingExpanded = !pendingExpanded">
+                <span class="toggle-arrow" [class.expanded]="pendingExpanded">&#9654;</span>
+                {{ 'friends_menu.pending_requests' | translate }}
+                @if (!pendingExpanded && (requests$ | async)?.length) {
+                <span class="section-count">{{ (requests$ | async)?.length }}</span>
+                }
+            </div>
+
+            @if (pendingExpanded) { @if ((requests$ | async)?.length === 0) {
+            <div class="empty-state">
+                <svg class="empty-icon" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                    <path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z" stroke="currentColor" stroke-width="1.5" />
+                    <polyline points="22,6 12,13 2,6" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" />
+                </svg>
+                <p class="empty-text">{{ 'friends_menu.no_requests' | translate }}</p>
+            </div>
+            } @for (request of requests$ | async; track request.uid) {
+            <div class="friend-card">
+                <span class="friend-name">{{ request.username }}</span>
+                <div class="card-actions">
+                    <button class="action-btn accept-btn" (click)="accept(request.uid)" title="{{ 'friends_menu.accept' | translate }}">
+                        <svg viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                            <polyline
+                                points="20 6 9 17 4 12"
+                                stroke="currentColor"
+                                stroke-width="2.5"
+                                stroke-linecap="round"
+                                stroke-linejoin="round"
+                            />
+                        </svg>
+                    </button>
+                    <button class="action-btn refuse-btn" (click)="refuse(request.uid)" title="{{ 'friends_menu.refuse' | translate }}">
+                        <svg viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                            <line x1="18" y1="6" x2="6" y2="18" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" />
+                            <line x1="6" y1="6" x2="18" y2="18" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" />
+                        </svg>
+                    </button>
+                </div>
+            </div>
+            } }
+        </div>
+
+        <!-- Sent requests -->
+        <div class="section">
+            <div class="section-title" (click)="sentExpanded = !sentExpanded">
+                <span class="toggle-arrow" [class.expanded]="sentExpanded">&#9654;</span>
+                {{ 'friends_menu.sent_requests' | translate }}
+                @if (!sentExpanded && (sentRequests$ | async)?.length) {
+                <span class="section-count">{{ (sentRequests$ | async)?.length }}</span>
+                }
+            </div>
+
+            @if (sentExpanded) { @if ((sentRequests$ | async)?.length === 0) {
+            <div class="empty-state">
+                <svg class="empty-icon" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                    <path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z" stroke="currentColor" stroke-width="1.5" />
+                    <polyline points="22,6 12,13 2,6" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" />
+                </svg>
+                <p class="empty-text">{{ 'friends_menu.no_sent_requests' | translate }}</p>
+            </div>
+            } @for (sent of sentRequests$ | async; track sent.uid) {
+            <div class="friend-card">
+                <span class="friend-name">{{ sent.username }}</span>
+                <span class="status-badge pending">
+                    <svg viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                        <circle cx="12" cy="12" r="10" stroke="currentColor" stroke-width="2" />
+                        <polyline
+                            points="12 6 12 12 16 14"
+                            stroke="currentColor"
+                            stroke-width="2"
+                            stroke-linecap="round"
+                            stroke-linejoin="round"
+                        />
+                    </svg>
+                </span>
+            </div>
+            } }
+        </div>
+
+        <!-- My friends -->
+        <div class="section">
+            <div class="section-title">{{ 'friends_menu.my_friends' | translate }}</div>
+
+            @if ((friends$ | async)?.length === 0) {
+            <div class="empty-state">
+                <svg class="empty-icon" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                    <path
+                        d="M17 21v-2a4 4 0 00-4-4H5a4 4 0 00-4 4v2"
+                        stroke="currentColor"
+                        stroke-width="1.5"
+                        stroke-linecap="round"
+                        stroke-linejoin="round"
+                    />
+                    <circle cx="9" cy="7" r="4" stroke="currentColor" stroke-width="1.5" />
+                    <path
+                        d="M23 21v-2a4 4 0 00-3-3.87M16 3.13a4 4 0 010 7.75"
+                        stroke="currentColor"
+                        stroke-width="1.5"
+                        stroke-linecap="round"
+                        stroke-linejoin="round"
+                    />
+                </svg>
+                <p class="empty-text">{{ 'friends_menu.no_friends' | translate }}</p>
+            </div>
+            } @for (friend of friends$ | async; track friend.uid) {
+            <div class="friend-card">
+                <div class="friend-info">
+                    <span class="friend-name">
+                        {{ friend.username }}
+                        <span class="status-dot" [class.online]="friend.status === 'online'" [class.in-combat]="friend.status === 'inCombat'"></span>
+                    </span>
+
+                    <span
+                        class="status-label"
+                        [ngClass]="{
+                            'status-online': friend.status === 'online',
+                            'status-offline': friend.status === 'offline' || !friend.status,
+                            'status-combat': friend.status === 'inCombat'
+                        }"
+                    >
+                        @if (friend.status === 'online') {
+                        {{ 'friends_menu.status_online' | translate }}
+                        } @else if (friend.status === 'inCombat') {
+                        {{ 'friends_menu.status_in_combat' | translate }}
+                        } @else {
+                        {{ 'friends_menu.status_offline' | translate }}
+                        }
+                    </span>
+
+                    @if (friend.status !== 'online' && friend.status !== 'inCombat' && friend.lastLoginAt) {
+                    <span class="last-login"> {{ 'friends_menu.last_login' | translate }} {{ friend.lastLoginAt | date: 'dd/MM HH:mm' }} </span>
+                    }
+                </div>
+
+                <button class="action-btn remove-btn" (click)="remove(friend.uid, friend.username)" title="{{ 'friends_menu.remove' | translate }}">
+                    <svg viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                        <path
+                            d="M16 21v-2a4 4 0 00-4-4H5a4 4 0 00-4 4v2"
+                            stroke="currentColor"
+                            stroke-width="2"
+                            stroke-linecap="round"
+                            stroke-linejoin="round"
+                        />
+                        <circle cx="8.5" cy="7" r="4" stroke="currentColor" stroke-width="2" />
+                        <line x1="23" y1="11" x2="17" y2="11" stroke="currentColor" stroke-width="2" stroke-linecap="round" />
+                    </svg>
+                </button>
+            </div>
+            }
+        </div>
+    </div>
+</div>
+} }

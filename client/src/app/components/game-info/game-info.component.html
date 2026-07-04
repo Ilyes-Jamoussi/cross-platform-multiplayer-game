@@ -1,0 +1,26 @@
+@if (grid) {
+<div class="game-info">
+    <div class="info-header">
+        <h2>{{ 'game_page.game_infos.title' | translate }}</h2>
+    </div>
+    <div class="info-body">
+        <div class="info-row">
+            <span class="info-label">{{ 'game_page.game_infos.grid_size' | translate }}</span>
+            <span class="info-value">{{ grid.gridSize }}×{{ grid.gridSize }}</span>
+        </div>
+        <div class="info-row">
+            <span class="info-label">{{ 'game_page.game_infos.game_mode' | translate }}</span>
+            <span class="info-value">{{ gameModeTranslationKey | translate }}</span>
+        </div>
+        <div class="info-row">
+            <span class="info-label">{{ 'game_page.game_infos.connected_players' | translate }}</span>
+            <span class="info-value">{{ numberOfPlayers }}</span>
+        </div>
+        <div class="info-row highlight">
+            <span class="info-label">{{ 'game_page.game_infos.turn' | translate }}</span>
+            <span class="info-value turn-name">{{ playerNameTurn }}</span>
+        </div>
+    </div>
+    <app-debug class="debug"></app-debug>
+</div>
+}

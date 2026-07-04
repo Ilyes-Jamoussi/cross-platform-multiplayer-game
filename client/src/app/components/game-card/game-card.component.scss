@@ -1,0 +1,163 @@
+:host {
+    display: block;
+    width: 100%;
+}
+
+.game-card {
+    display: flex;
+    align-items: center;
+    background: var(--app-primary-background);
+    color: var(--app-primary-text);
+    border: 0.4vmin solid var(--app-primary);
+    border-radius: 1vmin;
+    padding: 1.25vmin 2vmin;
+    gap: 1.75vmin;
+    width: 100%;
+    box-sizing: border-box;
+    font-family: 'Press Start 2P', cursive;
+    transition: background-color 0.3s, color 0.3s;
+}
+
+.game-details {
+    flex: 1 1 auto;
+    min-width: 0;
+}
+
+.game-details h2 {
+    margin: 0;
+    font-family: 'Press Start 2P', cursive;
+    font-size: 1.6vmin;
+    text-align: left;
+    padding-bottom: 1vmin;
+    color: var(--app-primary);
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+}
+
+.game-details p {
+    margin: 0.5vmin 0;
+    font-family: 'Press Start 2P', cursive;
+    font-size: 1vmin;
+    color: var(--app-primary-text);
+}
+
+.map-image {
+    flex: 0 0 auto;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.map-image img {
+    display: block;
+    box-sizing: border-box;
+    width: min(23vmin, 184px);
+    height: min(23vmin, 184px);
+    object-fit: contain;
+    border: 0.3vmin solid var(--app-primary);
+    border-radius: 0.5vmin;
+    image-rendering: pixelated;
+}
+
+.game-actions {
+    flex: 0 0 auto;
+    display: flex;
+    align-items: center;
+}
+
+.game-actions button {
+    background: transparent;
+    border: none;
+    cursor: pointer;
+    padding: 0.5vmin;
+    transition: transform 0.2s;
+}
+
+button img {
+    width: 4vmin;
+    height: 4vmin;
+    filter: var(--app-icon-filter, none);
+    transition: filter 0.3s;
+}
+
+.game-actions button:hover {
+    transform: scale(1.15);
+}
+
+.game-actions button:active {
+    transform: scale(1);
+}
+
+#map-size {
+    text-align: left;
+}
+
+#last-modified {
+    text-align: left;
+    color: var(--app-primary-text);
+}
+
+#owner-name {
+    text-align: left;
+    color: var(--app-primary-text);
+}
+
+.game-state {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    gap: 0.5vmin;
+    flex: 0 0 auto;
+}
+
+.state-btn {
+    font-family: 'Press Start 2P', cursive;
+    font-size: 0.9vmin;
+    padding: 0.7vmin 1vmin;
+    border: 0.3vmin solid var(--app-primary);
+    border-radius: 0.5vmin;
+    background: var(--app-primary-background);
+    color: var(--app-primary-text);
+    cursor: pointer;
+    min-width: 13vmin;
+    text-align: center;
+    transition:
+        background-color 0.2s,
+        color 0.2s;
+
+    &:hover:not(:disabled) {
+        background: var(--app-primary);
+        color: var(--app-primary-hover-text);
+    }
+
+    &:disabled {
+        opacity: 0.4;
+        cursor: not-allowed;
+    }
+}
+
+.state-active {
+    background: var(--app-primary);
+    color: var(--app-primary-hover-text);
+    border-color: var(--app-primary);
+
+    &:disabled {
+        opacity: 0.7;
+    }
+}
+
+.disabled-icon {
+    opacity: 0.3;
+}
+
+button:disabled {
+    cursor: not-allowed;
+}
+
+.state-label {
+    font-family: 'Press Start 2P', cursive;
+    font-size: 2vmin;
+    color: var(--app-primary);
+}

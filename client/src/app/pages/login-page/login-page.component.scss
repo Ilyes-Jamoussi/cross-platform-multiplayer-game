@@ -1,0 +1,234 @@
+@import url('https://fonts.googleapis.com/css2?family=Press+Start+2P&display=swap');
+
+body {
+    background-color: #000116;
+}
+
+:host {
+    display: block;
+    flex: 1;
+    min-height: 0;
+    overflow: hidden;
+}
+
+.container {
+    height: 100%;
+    overflow-y: auto;
+    box-sizing: border-box;
+    background-image: var(--app-bg-image);
+    background-size: cover;
+    background-repeat: no-repeat;
+    background-position: center center;
+    background-color: black;
+}
+
+.justified {
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.logo {
+    width: 20vmin;
+    display: flex;
+    background-size: contain;
+    margin-top: 10vmin;
+}
+
+.mainPageButton {
+    width: 45vmin;
+    height: 2vmin;
+    font-size: 1vmin;
+    margin-bottom: 1vmin;
+    margin-top: 1vmin;
+}
+
+.team-name {
+    margin-top: 1vmin;
+    margin-bottom: 1vmin;
+    font-family: 'Press Start 2P', sans-serif;
+    color: #ffa500;
+    font-size: 1vmin;
+    align-items: center;
+}
+
+.header-item {
+    justify-content: center;
+    text-align: center;
+}
+
+.footer-item {
+    text-align: center;
+}
+
+.footer-item p {
+    font-family: 'Press Start 2P', sans-serif;
+    color: #ffa500;
+}
+
+.server-message {
+    justify-content: center;
+    width: 20%;
+    min-width: min-content;
+}
+
+.login-buttons-container button {
+    width: 30vmin;
+    height: 3vmin;
+    font-size: 1vmin;
+    margin-top: 1vmin;
+}
+
+.login-container {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    width: 60vmin;
+    min-height: 38vmin;
+    background-color: var(--app-primary-background);
+    color: var(--app-primary-text);
+    opacity: 0.9;
+    border-radius: 10px;
+    border: 0.5vmin solid var(--app-primary);
+    margin-bottom: 5vmin;
+    padding: 2vmin;
+}
+
+.login-container-create {
+    min-height: auto;
+    width: auto;
+    padding: 3vmin 5vmin;
+}
+
+// --- Create account: CSS Grid layout ---
+//   Row 1: inputs          | avatars
+//   Row 2: create button   | (empty)
+//   Row 3: "déjà un compte"| (empty)
+.create-row {
+    display: grid;
+    grid-template-columns: 45vmin 45vmin;
+    grid-template-rows: 1fr auto auto;
+    column-gap: 6vmin;
+    justify-content: center;
+}
+
+.spacer {
+    display: block;
+}
+
+.create-inputs {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: flex-end;
+}
+
+.create-avatars {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+.upload-placeholder {
+    border: 0.4vmin dashed var(--app-primary);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background: rgba(0, 102, 204, 0.05);
+    cursor: pointer;
+}
+
+.upload-icon {
+    font-size: 3vmin;
+    color: var(--app-primary);
+    line-height: 1;
+}
+
+.upload-btn {
+    margin-top: 1vmin;
+}
+
+.login-input {
+    width: 100%;
+    max-width: 45vmin;
+    text-align: left;
+    color: var(--app-primary-text);
+    background-color: var(--app-primary-background);
+    border: 0.4vmin solid var(--app-primary);
+    margin-bottom: 1vmin;
+    border-radius: 5px;
+    padding: 3vmin;
+    font-family: 'Press Start 2P', sans-serif;
+    transition-duration: 0.3s;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    height: 0.5vmin;
+    font-size: 1.5vmin;
+}
+
+.error-message {
+    color: #ff4444;
+    background-color: rgba(255, 68, 68, 0.1);
+    border: 2px solid #ff4444;
+    border-radius: 5px;
+    padding: 2vmin;
+    margin: 1vmin 0;
+    font-family: 'Press Start 2P', sans-serif;
+    font-size: 1.5vmin;
+    text-align: center;
+    width: 100%;
+    max-width: 45vmin;
+}
+
+.login-button {
+    width: 100%;
+    max-width: 45vmin;
+    height: 0.5vmin;
+    font-size: 1.5vmin;
+    margin-top: 3vmin;
+}
+
+.create-title {
+    font-family: 'Press Start 2P', sans-serif;
+    text-decoration: underline;
+    font-size: 1.2vmin;
+    margin-top: 2vmin;
+    cursor: pointer;
+    text-align: center;
+}
+
+.avatar-title {
+    font-family: 'Press Start 2P', sans-serif;
+    font-size: 1.5vmin;
+    margin-bottom: 2vmin;
+}
+
+.avatar-select-container {
+    display: grid;
+    grid-template-columns: repeat(5, 6vmin);
+    gap: 1vmin;
+    justify-content: center;
+}
+
+.avatar-select {
+    width: 6vmin;
+    height: 6vmin;
+    border: 0.4vmin solid transparent;
+    cursor: pointer;
+    transition-duration: 0.3s;
+}
+
+.avatar-select.isSelected {
+    border: 0.4vmin solid var(--app-primary);
+}
+
+.avatar-select.isDashed {
+    border: 0.4vmin dashed var(--app-primary);
+}
+
+.hidden-input {
+    display: none;
+}

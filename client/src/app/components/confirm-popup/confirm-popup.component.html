@@ -1,0 +1,25 @@
+@if (showPopupContent) {
+<div class="popup-shell" @popupShell (@popupShell.done)="onPopupShellDone($event)">
+    <div class="popup-container" [class]="data.type">
+        <div class="popup-icon-wrapper" [class]="data.type">
+            <span class="popup-icon">{{ icon }}</span>
+        </div>
+
+        <h2 class="popup-title">{{ data.title | translate: (data.titleParams ?? {}) }}</h2>
+        <p class="popup-message">{{ data.message | translate: (data.messageParams ?? {}) }}</p>
+
+        <div class="popup-actions">
+            @if (data.type === 'confirm') {
+            <button class="popup-btn cancel" (click)="onCancel()">
+                {{ (data.cancelLabel || 'common.cancel') | translate }}
+            </button>
+            <button class="popup-btn confirm" (click)="onConfirm()">
+                {{ (data.confirmLabel || 'common.confirm') | translate }}
+            </button>
+            } @else {
+            <button class="popup-btn ok" (click)="onCancel()">{{ 'common.ok' | translate }}</button>
+            }
+        </div>
+    </div>
+</div>
+}

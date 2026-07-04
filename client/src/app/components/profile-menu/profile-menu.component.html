@@ -1,0 +1,45 @@
+@if (userProfile$ | async; as profile) {
+<button class="profile-button" (click)="toggleMenu()" [title]="'profile_menu.profile' | translate">
+    <img [src]="getAvatarPath(profile.avatar)" alt="Avatar" class="profile-button-img" />
+</button>
+
+@if (showMenu) {
+<div class="profile-dropdown">
+    <button class="menu-item" (click)="goToProfile()">
+        <img [src]="getAvatarPath(profile.avatar)" alt="Avatar" class="row-avatar" />
+        <div class="row-info">
+            <span class="row-primary">{{ profile.username }}</span>
+            <span class="row-secondary">{{ profile.email }}</span>
+        </div>
+        <span class="menu-arrow">›</span>
+    </button>
+
+    <button class="menu-item" (click)="openFriends()">
+        <span class="row-primary">{{ 'profile_menu.amis' | translate }}</span>
+        <span class="menu-arrow">›</span>
+    </button>
+
+    <div class="menu-item toggle-item">
+        <span class="row-primary">{{ 'profile_menu.language' | translate }}</span>
+        <div class="toggle-group">
+            <button class="toggle-option" [class.active]="isFr" (click)="setLanguage(true)">FR</button>
+            <button class="toggle-option" [class.active]="!isFr" (click)="setLanguage(false)">EN</button>
+        </div>
+    </div>
+
+    <div class="menu-item toggle-item">
+        <span class="row-primary">{{ 'profile_menu.theme' | translate }}</span>
+        <div class="toggle-group">
+            <button class="toggle-option" [class.active]="isLightTheme" (click)="setTheme(true)">{{ 'profile_menu.blue' | translate }}</button>
+            <button class="toggle-option" [class.active]="!isLightTheme" (click)="setTheme(false)">{{ 'profile_menu.red' | translate }}</button>
+        </div>
+    </div>
+
+    <button class="menu-item logout-item" (click)="logout()">
+        <span class="row-primary logout-text">{{ 'home_page.deconnexion' | translate }}</span>
+    </button>
+</div>
+}
+
+<app-friends-menu #friendsMenuRef [hideButton]="true" (click)="$event.stopPropagation()"></app-friends-menu>
+}

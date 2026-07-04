@@ -1,0 +1,107 @@
+.popup-overlay {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100vw;
+    height: 100vh;
+    background: rgba(0, 0, 0, 0.7);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.desactived-button {
+    position: relative;
+    padding: 0.5vmin 1vmin;
+    bottom: 5vmin;
+    width: 16vmin;
+    height: 4.5vmin;
+    font-size: 1.5vmin;
+    text-decoration-color: rgb(255, 243, 243);
+    cursor: not-allowed;
+    border: 0.2vmin solid black;
+    background: rgb(34, 209, 34);
+    font-family: 'Press Start 2P', cursive;
+    opacity: 0.5;
+    pointer-events: none;
+}
+
+.popup-box {
+    padding: 2vmin;
+    border-radius: 1vmin;
+    width: 40vmin;
+    height: 15vmin;
+    text-align: center;
+    font-family: 'Press Start 2P', cursive;
+    box-shadow:
+        0px 0px 0px 4px var(--app-primary),
+        0px 0px 0px 8px var(--app-secondary),
+        0px 0px 0px 12px var(--app-tertiary);
+    border: 0.4vmin solid black;
+    image-rendering: pixelated;
+}
+
+form {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+input {
+    position: relative;
+    margin-bottom: 1vmin;
+    padding: 0.5vmin;
+    height: 5vmin;
+    bottom: 5vmin;
+    font-size: 1.6vmin;
+    border: 0.2vmin solid black;
+    background: #f4f4f4;
+    font-family: 'Press Start 2P', cursive;
+    text-align: center;
+}
+
+.validate-button {
+    position: relative;
+    padding: 0.5vmin 1vmin;
+    bottom: 5vmin;
+    width: 16vmin;
+    height: 4.5vmin;
+    font-size: 1.5vmin;
+    text-decoration-color: rgb(255, 243, 243);
+    cursor: pointer;
+    border: 0.2vmin solid black;
+    background: rgb(34, 209, 34);
+    font-family: 'Press Start 2P', cursive;
+}
+
+.validate-button:hover,
+.xButton:hover {
+    opacity: 0.7;
+}
+.close-button {
+    position: relative;
+    background: white;
+    width: 4.5vmin;
+    height: 4.5vmin;
+    border-radius: 50%;
+    top: -4.4vmin;
+    left: 22.4vmin;
+    padding: 0;
+    cursor: pointer;
+    border: none;
+}
+
+.xButton {
+    width: 7vmin;
+    height: 6vmin;
+    image-rendering: pixelated;
+    position: relative;
+    bottom: 0.8vmin;
+    right: 1.5vmin;
+}
+
+.title {
+    position: relative;
+    bottom: 7vmin;
+    font-size: 1vmin;
+}

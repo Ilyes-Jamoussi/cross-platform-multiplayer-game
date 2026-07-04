@@ -1,0 +1,9 @@
+<div class="menu-container">
+    <button (click)="toggleMenu()" class="menu-toggle">
+        {{ label }} ({{ gameCount }})
+        <span class="arrow" [class.open]="isMenuOpen"> > </span>
+    </button>
+    <div #menu class="menu" [class.open]="isMenuOpen">
+        <ng-content></ng-content>
+    </div>
+</div>

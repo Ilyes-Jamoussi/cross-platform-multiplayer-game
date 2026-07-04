@@ -1,0 +1,69 @@
+<div class="log-chat-container">
+    <div class="tab-header">
+        <button class="tab-btn" [class.active]="chosenWindow === 'chat'" (click)="seeChat()">
+            <svg class="tab-icon" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                <path
+                    d="M21 15a2 2 0 01-2 2H7l-4 4V5a2 2 0 012-2h14a2 2 0 012 2z"
+                    stroke="currentColor"
+                    stroke-width="2"
+                    stroke-linecap="round"
+                    stroke-linejoin="round"
+                />
+            </svg>
+            {{ 'game_chat.tab_chat' | translate }}
+        </button>
+        @if (isTeamGame) {
+        <button class="tab-btn" [class.active]="chosenWindow === 'team'" (click)="seeTeam()">
+            <svg class="tab-icon" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                <path
+                    d="M21 15a2 2 0 01-2 2H7l-4 4V5a2 2 0 012-2h14a2 2 0 012 2z"
+                    stroke="currentColor"
+                    stroke-width="2"
+                    stroke-linecap="round"
+                    stroke-linejoin="round"
+                />
+            </svg>
+            {{ 'game_page.team' | translate }}
+        </button>
+        }
+        <button class="tab-btn" [class.active]="chosenWindow === 'logs'" (click)="seeLogs()">
+            <svg class="tab-icon" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                <path
+                    d="M14 2H6a2 2 0 00-2 2v16a2 2 0 002 2h12a2 2 0 002-2V8z"
+                    stroke="currentColor"
+                    stroke-width="2"
+                    stroke-linecap="round"
+                    stroke-linejoin="round"
+                />
+                <polyline points="14 2 14 8 20 8" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" />
+                <line x1="16" y1="13" x2="8" y2="13" stroke="currentColor" stroke-width="2" stroke-linecap="round" />
+                <line x1="16" y1="17" x2="8" y2="17" stroke="currentColor" stroke-width="2" stroke-linecap="round" />
+            </svg>
+            {{ 'game_page.journal' | translate }}
+        </button>
+    </div>
+
+    <div class="tab-body">
+        @if (chosenWindow === 'logs') {
+        <div class="logs">
+            <div (mouseover)="scrollDown = false" (mouseleave)="scrollDown = true" #logsContainer class="logs-container">
+                @for (log of logs; track log) {
+                <div class="log">
+                    <div class="log-date">
+                        <span id="time">{{ log.message.time }}</span>
+                    </div>
+                    <div id="log-text">
+                        <span id="text">{{ log.message.message }}</span>
+                    </div>
+                </div>
+                }
+            </div>
+            <button class="myLogs" [class.active]="areLogsFiltered" (click)="filterLogs()">{{ 'game_page.my_journal' | translate }}</button>
+        </div>
+        } @else if (chosenWindow === 'team' && isTeamGame) {
+        <app-game-team-chat></app-game-team-chat>
+        } @else {
+        <app-game-chat></app-game-chat>
+        }
+    </div>
+</div>

@@ -1,0 +1,7 @@
+<ng-container>
+    <div class="debug-row" [ngClass]="{ debugOFF: getDebug() === 'debug.desactivated' }">
+        <span class="debug-label">DEBUG</span>
+        <span class="debug-status">{{ getDebug() | translate }}</span>
+        <span class="debug-key">D</span>
+    </div>
+</ng-container>

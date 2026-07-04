@@ -1,0 +1,56 @@
+.debug-row {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 0.6vmin;
+    padding: 0.5vmin 1vmin;
+    user-select: none;
+}
+
+.debug-label {
+    font-size: 0.75vmin;
+    font-weight: bold;
+    color: var(--app-tertiary, #33afff);
+    letter-spacing: 0.1vmin;
+}
+
+/* ── Keycap badge ─────────────────────────── */
+.debug-key {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    min-width: 1.6vmin;
+    height: 1.6vmin;
+    padding: 0 0.3vmin;
+    font-size: 0.7vmin;
+    font-weight: bold;
+    color: var(--app-tertiary, #33afff);
+    background: rgba(255, 255, 255, 0.08);
+    border: 0.1vmin solid rgba(255, 255, 255, 0.15);
+    border-bottom-width: 0.2vmin;
+    border-radius: 0.3vmin;
+    line-height: 1;
+    flex-shrink: 0;
+}
+
+.debug-status {
+    font-size: 0.7vmin;
+    color: var(--app-tertiary, #33afff);
+    min-width: 6vmin;
+}
+
+/* ── Debug OFF overrides ──────────────────── */
+.debugOFF {
+    .debug-label {
+        color: #666;
+    }
+
+    .debug-key {
+        color: #666;
+        border-color: rgba(255, 255, 255, 0.08);
+    }
+
+    .debug-status {
+        color: #666;
+    }
+}

@@ -1,0 +1,24 @@
+<div class="player-card" [ngClass]="{ 'highlight-player': isCurrentUser() }">
+    <img
+        class="player-icon
+    {{ player.type === virtualPlayerTypes.Aggressive ? 'bot-aggressive' : player.type === virtualPlayerTypes.Defensive ? 'bot-defensive' : '' }}"
+        src="assets/waiting_view/{{ player.type ? 'bot' : player.isHost ? 'crown' : 'player' }}.png"
+        draggable="false"
+        alt=""
+    />
+
+    <div class="player-details game-text">
+        @if (player.name) {
+        <p class="avatar-name">{{ player.avatar }}</p>
+        <img class="avatar" [src]="getIcon()" alt="Avatar" draggable="false" />
+        }
+        <h3 class="player-name">{{ player.name }}</h3>
+    </div>
+    @if (isHost() && !player.isHost) {
+    <div class="player-actions">
+        <button (click)="kick.emit()">
+            <img src="assets/kick.png" [attr.alt]="'player_card.kick_alt' | translate" draggable="false" />
+        </button>
+    </div>
+    }
+</div>

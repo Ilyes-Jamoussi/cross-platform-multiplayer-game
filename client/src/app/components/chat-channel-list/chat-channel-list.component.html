@@ -1,0 +1,120 @@
+<div class="channel-list-view">
+    @if (deletedNotifications$ | async; as notifications) { @for (notif of notifications; track notif.channelName) {
+    <div class="deleted-notification" [class.self]="notif.selfDeleted">
+        <span class="notification-text">
+            @if (notif.selfDeleted) {
+            {{ 'channel_chat.channel_closed_self' | translate: { name: notif.channelName } }}
+            } @else {
+            {{ 'channel_chat.channel_closed' | translate: { name: notif.channelName } }}
+            }
+        </span>
+        <button class="notification-dismiss" [class.self]="notif.selfDeleted" (click)="dismissNotification(notif.channelName)">✕</button>
+    </div>
+    } }
+    <div class="channel-actions">
+        <input type="text" class="filter-input" [(ngModel)]="filterQuery" placeholder="{{ 'channel_chat.filter' | translate }}" />
+        <button class="add-channel-btn" (click)="isModalOpen = true" title="{{ 'channel_chat.add_channel' | translate }}"><span>＋</span></button>
+    </div>
+    <div class="channel-list">
+        @for (channel of filteredChannels; track channel._id) {
+        <div class="channel-item">
+            <button class="channel-name" (click)="openChannel.emit(channel)">
+                @if (isOwner(channel)) {
+                <svg
+                    class="owner-badge"
+                    viewBox="0 0 24 24"
+                    fill="none"
+                    xmlns="http://www.w3.org/2000/svg"
+                    title="{{ 'channel_chat.owner' | translate }}"
+                >
+                    <path d="M2 20h20V10l-4 4-6-8-6 8-4-4v10z" fill="#ffd700" stroke="#b8960c" stroke-width="1.5" stroke-linejoin="round" />
+                    <circle cx="12" cy="6" r="1.5" fill="#ffd700" stroke="#b8960c" stroke-width="1" />
+                    <circle cx="2" cy="10" r="1.5" fill="#ffd700" stroke="#b8960c" stroke-width="1" />
+                    <circle cx="22" cy="10" r="1.5" fill="#ffd700" stroke="#b8960c" stroke-width="1" />
+                </svg>
+                }
+                <span class="channel-label">{{ channel.name }}</span>
+            </button>
+            <div class="channel-item-actions">
+                <button
+                    class="action-btn delete-btn"
+                    (click)="closeChannelEvent.emit(channel)"
+                    title="{{ 'channel_chat.delete_tooltip' | translate }}"
+                >
+                    <svg viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                        <path
+                            d="M3 6h18M8 6V4a2 2 0 012-2h4a2 2 0 012 2v2m3 0v14a2 2 0 01-2 2H7a2 2 0 01-2-2V6h14z"
+                            stroke="currentColor"
+                            stroke-width="2"
+                            stroke-linecap="round"
+                            stroke-linejoin="round"
+                        />
+                        <line x1="10" y1="11" x2="10" y2="17" stroke="currentColor" stroke-width="2" stroke-linecap="round" />
+                        <line x1="14" y1="11" x2="14" y2="17" stroke="currentColor" stroke-width="2" stroke-linecap="round" />
+                    </svg>
+                </button>
+                <button class="action-btn leave-btn" (click)="leaveChannel.emit(channel)" title="{{ 'channel_chat.leave_tooltip' | translate }}">
+                    <svg viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                        <path
+                            d="M9 21H5a2 2 0 01-2-2V5a2 2 0 012-2h4"
+                            stroke="currentColor"
+                            stroke-width="2"
+                            stroke-linecap="round"
+                            stroke-linejoin="round"
+                        />
+                        <polyline points="16 17 21 12 16 7" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" />
+                        <line x1="21" y1="12" x2="9" y2="12" stroke="currentColor" stroke-width="2" stroke-linecap="round" />
+                    </svg>
+                </button>
+            </div>
+        </div>
+        } @empty {
+        <div class="empty-state">
+            <span class="empty-icon">📋</span>
+            <p class="empty-title">{{ 'channel_chat.no_channel' | translate }}</p>
+        </div>
+        }
+    </div>
+</div>
+
+@if (isModalOpen) {
+<div class="modal-overlay" (click)="closeModal()"></div>
+<div class="modal">
+    <div class="modal-header">
+        <div class="modal-tabs">
+            <button class="modal-tab" [class.active]="modalTab === 'join'" (click)="modalTab = 'join'">{{ 'channel_chat.join' | translate }}</button>
+            <button class="modal-tab" [class.active]="modalTab === 'create'" (click)="modalTab = 'create'">
+                {{ 'channel_chat.create' | translate }}
+            </button>
+        </div>
+        <button class="modal-close" (click)="closeModal()">✕</button>
+    </div>
+    <div class="modal-body">
+        <input
+            type="text"
+            [(ngModel)]="searchQuery"
+            [placeholder]="modalTab === 'join' ? ('channel_chat.search' | translate) : ('channel_chat.name' | translate)"
+            maxlength="30"
+            (input)="onSearchInput()"
+            (keydown.enter)="modalTab === 'create' && onCreate()"
+        />
+
+        @if (modalTab === 'join') {
+        <div class="results">
+            @for (channel of searchResults; track channel._id) {
+            <div class="result-item">
+                <span class="result-name">{{ channel.name }}</span>
+                <button class="join-btn" (click)="onJoinChannel(channel._id)">{{ 'channel_chat.join' | translate }}</button>
+            </div>
+            } @empty { @if (searchQuery.trim()) {
+            <p class="no-results">{{ 'channel_chat.no_results' | translate }}</p>
+            } }
+        </div>
+        } @if (modalTab === 'create') { @if (errorMessage) {
+        <p class="error-message">{{ errorMessage }}</p>
+        }
+        <button class="create-btn" (click)="onCreate()" [disabled]="!searchQuery.trim()">{{ 'channel_chat.create_button' | translate }}</button>
+        }
+    </div>
+</div>
+}

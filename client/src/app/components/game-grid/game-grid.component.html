@@ -1,0 +1,66 @@
+@if (isDefined) {
+<div class="test">
+    <div class="button-container">
+        <button class="button action-game-btn" (click)="openGenerator()">{{ 'map_editor.generate' | translate }}</button>
+    </div>
+    <div class="grid" [style.gridTemplateColumns]="'repeat(' + getSize() + ', ' + getTileSize() + ')'">
+        @for (row of grid; track rowIndex; let rowIndex = $index) {
+        <div class="row">
+            @for (tile of row; track colIndex; let colIndex = $index) {
+            <div
+                class="tile"
+                [ngStyle]="{ width: getTileSize(), height: getTileSize() }"
+                [attr.data-row]="rowIndex"
+                [attr.data-col]="colIndex"
+                [class]="tile"
+                (mouseenter)="onTileMouseEnter($event)"
+                (mouseleave)="onTileMouseLeave($event)"
+            >
+                <img
+                    [id]="getTileContent({ row: rowIndex, col: colIndex })"
+                    class="tile-image"
+                    alt=""
+                    (dragover)="allowDrop($event)"
+                    (dragleave)="onDragLeave($event)"
+                    (mouseup)="onMouseUp($event, { row: rowIndex, col: colIndex })"
+                    (mousedown)="onMouseDown($event, { row: rowIndex, col: colIndex })"
+                    (drop)="onDrop($event)"
+                    [src]="getImage({ row: rowIndex, col: colIndex })"
+                    draggable="false"
+                />
+                @if (getItem({ row: rowIndex, col: colIndex})) {
+                <img
+                    [ngSrc]="getItemImage({ row: rowIndex, col: colIndex })"
+                    [alt]="getItemImage({ row: rowIndex, col: colIndex })"
+                    class="item-icon"
+                    draggable="true"
+                    (dragstart)="
+                        onDragStart({
+                            event: $event,
+                            coords: { row: rowIndex, col: colIndex },
+                            item: getId({ row: rowIndex, col: colIndex }),
+                            description: getItemDescription({ row: rowIndex, col: colIndex })
+                        })
+                    "
+                    (mouseup)="onMouseUp($event, { row: rowIndex, col: colIndex })"
+                    (mousedown)="onMouseDown($event, { row: rowIndex, col: colIndex })"
+                    [id]="getId({ row: rowIndex, col: colIndex })"
+                    height="32"
+                    width="32"
+                    [matTooltip]="getItemDescription({ row: rowIndex, col: colIndex }) | translate"
+                    matTooltipClass="custom-tooltip"
+                    [style.cursor]="getCursorStyle()"
+                    [matTooltipDisabled]="getIsTooltipVisible()"
+                />
+                }
+            </div>
+            }
+        </div>
+        }
+    </div>
+    <div class="button-container">
+        <button class="button action-game-btn" (click)="resetGrid()">{{ 'map_editor.reset' | translate }}</button>
+        <button class="button action-game-btn" (click)="saveGrid()">{{ 'map_editor.save' | translate }}</button>
+    </div>
+</div>
+}

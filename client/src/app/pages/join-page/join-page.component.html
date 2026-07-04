@@ -1,0 +1,154 @@
+<div class="join-page-layout">
+    <section class="join-private-trigger" [attr.aria-label]="'join_page.join_private_game' | translate">
+        <button
+            type="button"
+            class="button action-game-btn"
+            (click)="openPrivateJoinModal()"
+            [attr.aria-haspopup]="'dialog'"
+            [attr.aria-expanded]="showPrivateJoinModal"
+            aria-controls="join-private-dialog"
+        >
+            {{ 'join_page.join_private_game' | translate }}
+        </button>
+    </section>
+
+    @if (showPrivateJoinModal) {
+    <div
+        class="join-private-overlay"
+        @privateJoinShell
+        (click)="onPrivateModalOverlayClick($event)"
+        role="presentation"
+    >
+        <div
+            id="join-private-dialog"
+            class="join-private-modal join-login-panel"
+            (click)="$event.stopPropagation()"
+            role="dialog"
+            aria-modal="true"
+            aria-labelledby="join-private-title"
+        >
+            <h2 id="join-private-title" class="game-text title join-panel-title">{{ 'join_page.entrez_code' | translate }}</h2>
+            <p class="join-code-hint" id="join-private-code-hint">{{ 'join_page.code_hint' | translate }}</p>
+
+            <form class="code-form" (ngSubmit)="onSubmit()" novalidate>
+                <div class="join-code-form-row">
+                    <div class="join-code-field">
+                        <input
+                            id="join-private-room-code"
+                            class="join-code-input"
+                            type="text"
+                            name="roomCodePrivate"
+                            [ngModel]="roomId"
+                            (ngModelChange)="onRoomCodeChange($event)"
+                            (keydown)="onRoomCodeKeydown($event)"
+                            inputmode="numeric"
+                            autocomplete="one-time-code"
+                            maxlength="4"
+                            [placeholder]="'join_page.code' | translate"
+                            [attr.aria-invalid]="digitsOnlyError"
+                            [attr.aria-describedby]="
+                                digitsOnlyError ? 'join-private-code-hint join-private-code-err' : 'join-private-code-hint join-private-code-count'
+                            "
+                            [attr.aria-required]="true"
+                        />
+                        <div
+                            class="join-code-progress"
+                            [class.join-code-progress--complete]="roomId.length === 4"
+                            id="join-private-code-count"
+                            role="progressbar"
+                            aria-live="polite"
+                            [attr.aria-valuenow]="roomId.length"
+                            aria-valuemin="0"
+                            aria-valuemax="4"
+                            [attr.aria-label]="'join_page.code_progress_a11y' | translate: { n: roomId.length }"
+                        >
+                            @for (slot of codeDigitSlots; track slot) {
+                            <span
+                                class="join-code-progress__seg"
+                                [class.join-code-progress__seg--filled]="roomId.length > slot"
+                                aria-hidden="true"
+                            ></span>
+                            }
+                        </div>
+                        @if (digitsOnlyError) {
+                        <p id="join-private-code-err" class="join-error-message" role="alert">
+                            {{ 'join_page.veuillez_entrer_chiffres' | translate }}
+                        </p>
+                        }
+                    </div>
+
+                    <button
+                        class="button action-game-btn join-submit-btn"
+                        type="submit"
+                        [class.join-submit-btn--ready]="isValidCode() && !isJoining"
+                        [disabled]="!isValidCode() || isJoining"
+                        [attr.aria-busy]="isJoining"
+                    >
+                        @if (isJoining) {
+                        {{ 'join_page.joining' | translate }}
+                        } @else {
+                        {{ 'join_page.rejoindre' | translate }}
+                        }
+                    </button>
+                </div>
+            </form>
+        </div>
+    </div>
+    }
+
+    <div class="public-rooms-container">
+        <h2 class="game-text section-title">{{ 'join_page.parties_publiques' | translate }}</h2>
+
+        @if (isLoadingPublicRooms) {
+        <app-page-loading messageKey="join_page.loading_public_rooms" layout="inline" />
+        } @else if (publicRoomsLoadError) {
+        <div class="no-rooms">
+            <p class="game-text">{{ 'join_page.public_rooms_error' | translate }}</p>
+            <button type="button" class="button join-retry-btn" (click)="retryLoadPublicRooms()">
+                {{ 'join_page.retry' | translate }}
+            </button>
+        </div>
+        } @else if (availableRooms.length === 0) {
+        <div class="no-rooms">
+            <p class="game-text">{{ 'join_page.aucune_partie' | translate }}</p>
+        </div>
+        } @else {
+        <div class="cards-scroll-wrapper">
+            <section class="cards-section">
+                @for (room of availableRooms; track room.roomId) { @if (room.players < room.playerMax) {
+                <app-public-room-card [room]="room" (join)="joinRoom($event)"></app-public-room-card>
+                } }
+            </section>
+        </div>
+        }
+    </div>
+
+    @if (showConfirmation && roomData) {
+    <div class="confirmation-overlay" (click)="cancelJoin()" role="presentation">
+        <div class="confirmation-modal" (click)="$event.stopPropagation()" role="dialog" aria-modal="true" aria-labelledby="join-paid-title">
+            <h2 id="join-paid-title" class="modal-title">{{ 'join_page.paid_game' | translate }}</h2>
+            <div class="modal-content">
+                <div class="info-row">
+                    <span class="label">{{ 'join_page.entry_price' | translate }}</span>
+                    <span class="value cost">{{ roomData.entryFee }} <app-coin-icon /></span>
+                </div>
+                <div class="info-row">
+                    <span class="label">{{ 'join_page.your_balance' | translate }}</span>
+                    <span class="value balance">{{ userCurrency }} <app-coin-icon /></span>
+                </div>
+                <div class="divider"></div>
+                <div class="info-row">
+                    <span class="label">{{ 'join_page.after_payment' | translate }}</span>
+                    <span class="value remaining">{{ userCurrency - roomData.entryFee }} <app-coin-icon /></span>
+                </div>
+            </div>
+            <div class="modal-actions">
+                <button type="button" class="button join-modal-btn join-modal-btn--primary" (click)="confirmJoin()">
+                    {{ 'common.confirm' | translate }}
+                </button>
+                <button type="button" class="button join-modal-btn" (click)="cancelJoin()">{{ 'common.cancel' | translate }}</button>
+            </div>
+        </div>
+    </div>
+    }
+</div>

@@ -1,0 +1,160 @@
+.chat {
+    font-family: 'Press Start 2P', monospace;
+    border: 0.3vmin solid var(--app-primary, #0056b3);
+    border-radius: 1vmin;
+    width: var(--chat-width, 40vmin);
+    height: var(--chat-height, 20vmin);
+    background-color: var(--app-chat-overlay);
+    box-sizing: border-box;
+    display: flex;
+    flex-direction: column;
+    overflow: hidden;
+}
+
+.messages-container {
+    flex: 1;
+    overflow-y: auto;
+    padding: 1vmin;
+    display: flex;
+    flex-direction: column;
+    gap: 0.8vmin;
+    scroll-behavior: smooth;
+
+    &::-webkit-scrollbar {
+        width: 0.6vmin;
+    }
+
+    &::-webkit-scrollbar-track {
+        background: var(--app-chat-surface);
+    }
+
+    &::-webkit-scrollbar-thumb {
+        background: var(--app-primary, #0056b3);
+
+        &:hover {
+            background: var(--app-secondary, #007bff);
+        }
+    }
+}
+
+.message {
+    display: flex;
+
+    &.own-message {
+        justify-content: flex-end;
+
+        .message-bubble {
+            background: var(--app-primary, #0056b3);
+            border-color: var(--app-primary-text);
+
+            .message-author {
+                color: white;
+            }
+
+            .message-time {
+                color: rgba(255, 255, 255, 0.7);
+            }
+
+            .message-content {
+                color: white;
+            }
+        }
+    }
+}
+
+.message-bubble {
+    max-width: 80%;
+    background: white;
+    border: 0.2vmin solid var(--app-primary, #0056b3);
+    padding: 0.6vmin 0.8vmin;
+}
+
+.message-header {
+    display: flex;
+    justify-content: space-between;
+    margin-bottom: 0.3vmin;
+    gap: 0.5vmin;
+}
+
+.message-author {
+    color: var(--app-primary, #0056b3);
+    font-size: 0.8vmin;
+    font-weight: bold;
+}
+
+.message-time {
+    color: #999;
+    font-size: 0.8vmin;
+}
+
+.message-content {
+    color: black;
+    font-size: 0.9vmin;
+    word-wrap: break-word;
+    line-height: 1.6;
+}
+
+.input-container {
+    display: flex;
+    gap: 0.5vmin;
+    flex-shrink: 0;
+    padding: 1vmin;
+    background: var(--app-chat-surface);
+    border-top: 0.3vmin solid var(--app-primary, #0056b3);
+}
+
+.chat-input {
+    flex: 1;
+    padding: 0.6vmin 0.8vmin;
+    background: white;
+    border: 0.3vmin solid var(--app-primary, #0056b3);
+    color: black;
+    font-size: 0.8vmin;
+    font-family: 'Press Start 2P', monospace;
+
+    &::placeholder {
+        color: #666;
+    }
+
+    &:focus {
+        outline: none;
+        background: var(--app-primary, #0056b3);
+        color: white;
+
+        &::placeholder {
+            color: rgba(255, 255, 255, 0.7);
+        }
+    }
+}
+
+.send-button {
+    width: 3vmin;
+    height: 3vmin;
+    background: white;
+    color: var(--app-primary, #0056b3);
+    border: 0.3vmin solid var(--app-primary, #0056b3);
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    transition: all 0.2s;
+    flex-shrink: 0;
+
+    svg {
+        width: 1.5vmin;
+        height: 1.5vmin;
+    }
+
+    &:hover:not(:disabled) {
+        background: var(--app-primary, #0056b3);
+        color: white;
+    }
+
+    &:disabled {
+        background: var(--app-chat-surface);
+        border-color: var(--app-chat-border);
+        color: #888;
+        cursor: not-allowed;
+        opacity: 0.5;
+    }
+}

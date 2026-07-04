@@ -1,0 +1,25 @@
+@if(isVisible){
+<div class="popup-overlay">
+    <div class="popup-box" [style.backgroundImage]="'url(' + backGround + ')'">
+        <button class="close-button" (click)="xButtonClick()">
+            <img draggable="false" src="assets/x_button.png" alt="Retour" class="xButton" />
+        </button>
+        <h2 class="title">{{ 'username_popup.title' | translate }}</h2>
+        <form (ngSubmit)="validateButtonClick()" (keydown.enter)="preventEnter($event)">
+            <input
+                type="text"
+                [(ngModel)]="username"
+                name="username"
+                [placeholder]="'username_popup.placeholder' | translate"
+                required
+                maxlength="10"
+            />
+            @if(validateUsername()){<button type="submit" class="validate-button">{{ 'username_popup.validate' | translate }}</button>} @else{<button
+                class="desactived-button"
+            >
+                {{ 'username_popup.validate' | translate }}</button
+            >}
+        </form>
+    </div>
+</div>
+}

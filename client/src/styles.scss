@@ -1,0 +1,460 @@
+// Custom Theming for Angular Material
+// For more information: https://material.angular.io/guide/theming
+@use '@angular/material' as mat;
+// Plus imports for other components in your app.
+
+// Include the common styles for Angular Material. We include this here so that you only
+// have to load a single css file for Angular Material in your app.
+// Be sure that you only ever include this mixin once!
+@include mat.core();
+
+// Include theme styles for core and each component used in your app.
+// Alternatively, you can import and @include the theme mixins for each component
+// that you are using.
+.blue-theme {
+    --app-primary: #0056b3;
+    --app-primary-background: rgba(255, 255, 255, 0.95);
+    --app-primary-hover-text: white;
+    --app-primary-text: black;
+    --app-secondary: #007bff;
+    --app-secondary-disabled: #007bff88;
+    --app-tertiary: #33afff;
+    --app-secondary-hover: #0056b3;
+    --app-icon-filter: none;
+    --app-bg-image: url('./assets/gif_stats.gif');
+    --app-surface: #16171f;
+    --app-surface-alt: #2a2c36;
+    --app-success: #4caf50;
+    --app-success-hover: #45a049;
+    --app-error: #f44336;
+    --app-error-hover: #d32f2f;
+    --app-text-muted: #aab0bc;
+    --app-panel-inset: rgba(0, 0, 0, 0.08);
+    --app-highlight-bg: rgba(0, 123, 255, 0.15);
+    --app-chat-surface: #ebebeb;
+    --app-chat-overlay: rgba(240, 240, 240, 0.92);
+    --app-chat-border: #d0d0d0;
+}
+
+.red-theme {
+    --app-primary: red;
+    --app-primary-background: black;
+    --app-primary-hover-text: black;
+    --app-primary-text: white;
+    --app-secondary: #ff4d4d;
+    --app-secondary-disabled: #ff4d4d88;
+    --app-tertiary: #ff9999;
+    --app-secondary-hover: #ff1a1a;
+    --app-icon-filter: invert(1);
+    --app-bg-image: url('./assets/dark_theme_background.gif');
+    --app-surface: #16171f;
+    --app-surface-alt: #2a2c36;
+    --app-success: #4caf50;
+    --app-success-hover: #45a049;
+    --app-error: #f44336;
+    --app-error-hover: #d32f2f;
+    --app-text-muted: #aab0bc;
+    --app-panel-inset: rgba(255, 255, 255, 0.1);
+    --app-highlight-bg: rgba(255, 77, 77, 0.15);
+    --app-chat-surface: #1a1a1a;
+    --app-chat-overlay: rgba(0, 0, 0, 0.9);
+    --app-chat-border: #333;
+}
+
+/* CDK drag-drop global styles (rendered outside component encapsulation) */
+.cdk-drag-preview {
+    z-index: 10000 !important;
+    box-sizing: border-box;
+    overflow: visible !important;
+    border-radius: 0 !important;
+    border: none !important;
+    box-shadow: none !important;
+    background: transparent !important;
+    padding: 0 !important;
+}
+
+.cdk-drag-animating {
+    transition: none !important;
+}
+
+.deeppurple-amber-theme {
+    $deeppurple-amber-theme: mat.m2-define-light-theme(
+        (
+            color: (
+                primary: mat.m2-define-palette(mat.$m2-deep-purple-palette),
+                accent: mat.m2-define-palette(mat.$m2-amber-palette, A200, A100, A400),
+            ),
+        )
+    );
+    @include mat.all-component-colors($deeppurple-amber-theme);
+}
+
+.pink-bluegrey-theme {
+    $pink-bluegrey-theme: mat.m2-define-dark-theme(
+        (
+            color: (
+                primary: mat.m2-define-palette(mat.$m2-pink-palette, 700, 500, 900),
+                accent: mat.m2-define-palette(mat.$m2-blue-grey-palette, A200, A100, A400),
+            ),
+        )
+    );
+    @include mat.all-component-colors($pink-bluegrey-theme);
+}
+
+.purple-green-theme {
+    $purple-green-theme: mat.m2-define-dark-theme(
+        (
+            color: (
+                primary: mat.m2-define-palette(mat.$m2-purple-palette, 700, 500, 800),
+                accent: mat.m2-define-palette(mat.$m2-green-palette, A200, A100, A400),
+            ),
+        )
+    );
+    @include mat.all-component-colors($purple-green-theme);
+}
+
+/* You can add global styles to this file, and also import other style files */
+
+html,
+body {
+    height: 100%;
+    overflow: hidden;
+    background-color: black;
+    background-image: var(--app-bg-image);
+    background-size: cover;
+    background-repeat: no-repeat;
+    background-position: center center;
+    margin: 0;
+}
+body {
+    margin: 0;
+    font-family: Roboto, 'Helvetica Neue', sans-serif;
+}
+
+@import url('https://fonts.googleapis.com/css2?family=Press+Start+2P&display=swap');
+.game-text {
+    font-family: 'Press Start 2P', cursive;
+    font-size: 3vmin;
+    text-align: center;
+    color: white;
+    margin: 0.5vmin;
+    padding: 0.5vmin;
+    display: flex;
+    justify-content: center;
+}
+
+input {
+    font-family: 'Press Start 2P', cursive;
+}
+
+.button {
+    margin-top: 2vmin;
+    margin-bottom: 1vmin;
+    width: 60vmin;
+    text-align: center;
+    color: var(--app-primary-text);
+    background-color: var(--app-primary-background);
+    border: 0.5vmin solid var(--app-primary);
+    border-radius: 5vmin;
+    padding: 3vmin;
+    font-family: 'Press Start 2P', sans-serif;
+    transition-duration: 0.3s;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    height: 10vmin;
+    font-size: 1.5vmin;
+}
+
+.button:hover {
+    cursor: pointer;
+    background-color: var(--app-primary);
+    border: 0.5vmin solid var(--app-primary);
+    color: var(--app-primary-hover-text);
+}
+
+/*
+ * Action principale type bandeau (admin « Créer un jeu », join « Partie privée », etc.) :
+ * même gabarit que les boutons de la page d'accueil (.mainPageButton).
+ */
+.button.action-game-btn {
+    width: 45vmin;
+    height: 2vmin;
+    font-size: 1vmin;
+    margin-top: 1vmin;
+    margin-bottom: 1vmin;
+}
+
+.tool-container {
+    width: 100%;
+    max-height: 100%;
+    background-color: transparent;
+    color: var(--app-primary-text);
+    padding-inline: 2vmin;
+
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+
+    overflow-y: auto;
+    box-sizing: border-box;
+    overflow-x: hidden;
+}
+
+.title-container {
+    top: 0;
+    background-color: var(--app-primary-background);
+    padding-bottom: 10pt;
+    position: sticky;
+    z-index: 10;
+    border: 2pt solid var(--app-primary);
+    border-radius: 1vmin;
+    display: flex;
+    width: 100%;
+    box-sizing: border-box;
+}
+
+.bar-title {
+    font-size: 2vmin;
+    line-height: 1.5;
+    padding-top: 8pt;
+    color: var(--app-primary-text);
+    text-align: center;
+    white-space: nowrap;
+}
+
+.custom-tooltip {
+    background-color: #272727 !important;
+    color: white !important;
+    font-family: 'Courier New', Courier, monospace !important;
+    font-size: 2vmin !important;
+    padding: 1vmin 1vmin !important;
+    border: 0.5vmin solid #2121213a !important;
+    border-radius: 1vmin !important;
+    box-shadow: 0.5vmin 0.5vmin 2pt rgba(0, 0, 0, 0.2) !important;
+    align-items: center !important;
+    justify-content: center !important;
+    text-align: center !important;
+    white-space: pre !important;
+    max-width: none !important;
+    display: flex;
+    pointer-events: none !important;
+    user-select: none !important;
+
+    .mdc-tooltip__surface {
+        max-width: none !important;
+        white-space: pre !important;
+        pointer-events: none !important;
+        user-select: none !important;
+    }
+}
+.settings-tooltip {
+    z-index: 4;
+    background-color: #000000 !important;
+    color: #ffa500 !important;
+    font-family: 'Press Start 2P', sans-serif !important;
+    font-size: 1.5vmin !important;
+    border-radius: 1vmin !important;
+    padding: 1vmin 1vmin;
+    box-shadow: none !important;
+    position: relative !important;
+    align-items: center !important;
+    justify-content: center !important;
+    text-align: center !important;
+}
+
+:root {
+    --chat-width: 40vmin;
+    --chat-height: 20vmin;
+    --placeholder-font-size: 1vmin;
+}
+
+.label {
+    display: block;
+    width: 100%;
+    text-align: center;
+    margin-top: 8pt;
+    margin-bottom: 1pt;
+    font-size: 8pt;
+    font-weight: normal;
+    color: var(--app-primary-text);
+    text-shadow:
+        0 0 4px var(--app-primary-background),
+        0 0 8px var(--app-primary-background);
+}
+
+.blue-theme .label {
+    color: #000000;
+    font-weight: bold;
+    text-shadow:
+        0 0 4px rgba(255, 255, 255, 0.9),
+        0 0 8px rgba(255, 255, 255, 0.7),
+        0 0 12px rgba(255, 255, 255, 0.5);
+}
+
+.error-snackbar,
+.success-snackbar,
+.warning-snackbar,
+.info-snackbar {
+    font-family: 'Press Start 2P', monospace !important;
+    font-size: 1.4vmin !important;
+    padding: 2vmin 3vmin !important;
+    border-radius: 1vmin !important;
+    box-shadow: 0 0.5vmin 2vmin rgba(0, 0, 0, 0.4) !important;
+    position: relative;
+    white-space: pre-line;
+    min-width: 40vmin;
+    max-width: 60vmin;
+    justify-content: center;
+    align-items: center;
+    text-align: center;
+}
+
+.error-snackbar {
+    background-color: rgba(180, 0, 0, 0.95) !important;
+    color: #ffffff !important;
+    border: 0.3vmin solid #ff4444 !important;
+}
+
+.success-snackbar {
+    background-color: rgba(0, 120, 60, 0.95) !important;
+    color: #ffffff !important;
+    border: 0.3vmin solid #44ff88 !important;
+}
+
+.warning-snackbar {
+    background-color: rgba(180, 130, 0, 0.95) !important;
+    color: #ffffff !important;
+    border: 0.3vmin solid #ffd700 !important;
+}
+
+.info-snackbar {
+    background-color: rgba(0, 60, 140, 0.95) !important;
+    color: #ffffff !important;
+    border: 0.3vmin solid var(--app-secondary, #007bff) !important;
+}
+
+.gameInfoPopup {
+    position: fixed;
+    top: 40%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    background-color: rgba(0, 0, 0, 0.8);
+    color: white;
+    padding: 2vmin 4vmin;
+    font-size: 4vmin;
+    border-radius: 1vmin;
+    text-align: center;
+    z-index: 1100;
+    opacity: 1;
+    animation: fadeOut 3s ease-in-out forwards;
+    font-family: 'Press Start 2P', sans-serif;
+    pointer-events: none;
+}
+
+@keyframes fadeOut {
+    0% {
+        opacity: 1;
+    }
+    70% {
+        opacity: 1;
+    }
+    100% {
+        opacity: 0;
+    }
+}
+
+::-webkit-scrollbar {
+    padding-left: 0.5vmin;
+    width: 1vmin;
+}
+::-webkit-scrollbar-track {
+    background-color: #222 !important;
+}
+
+::-webkit-scrollbar-thumb {
+    background: linear-gradient(to bottom, var(--app-tertiary), var(--app-primary));
+    border-radius: 4px;
+}
+
+::-webkit-scrollbar-thumb:hover {
+    background: linear-gradient(to bottom, var(--app-secondary), var(--app-secondary-hover));
+    transform: scale(1.1);
+}
+
+/* ── Confirm Popup Dialog ──────────────────── */
+.confirm-popup-backdrop {
+    background: rgba(0, 0, 0, 0) !important;
+    backdrop-filter: blur(0vmin);
+    /* Durée alignée sur CONFIRM_POPUP_ENTER_MS (client/src/app/constants/ui-animations.constants.ts) */
+    animation: backdropFadeIn 200ms ease-out forwards;
+}
+
+@keyframes backdropFadeIn {
+    to {
+        background: rgba(0, 0, 0, 0.55) !important;
+        backdrop-filter: blur(0.4vmin);
+    }
+}
+
+.confirm-popup-panel {
+    background: transparent !important;
+    box-shadow: none !important;
+    border-radius: 1.2vmin !important;
+    overflow: visible !important;
+}
+
+/*
+ * MatDialog MDC : opacité + scale(0.8) sur la surface + pseudo ::before (border 2px).
+ * Le setProperty inline peut imposer ~150ms malgré le token CSS → flash de « ligne » (souvent teintée accent ambre).
+ * On neutralise complètement pour nos popups custom ; l’entrée est gérée par ConfirmPopupComponent.
+ */
+.confirm-popup-panel .mat-mdc-dialog-container {
+    --mat-dialog-transition-duration: 0ms !important;
+    outline: none !important;
+}
+
+.confirm-popup-panel .mat-mdc-dialog-container:focus,
+.confirm-popup-panel .mat-mdc-dialog-container:focus-visible {
+    outline: none !important;
+}
+
+.confirm-popup-panel .mat-mdc-dialog-inner-container {
+    opacity: 1 !important;
+    transition: none !important;
+}
+
+.confirm-popup-panel .mat-mdc-dialog-surface,
+.confirm-popup-panel .mdc-dialog__surface {
+    background: transparent !important;
+    box-shadow: none !important;
+    transform: none !important;
+    transition: none !important;
+    overflow: visible !important;
+}
+
+.confirm-popup-panel .mat-mdc-dialog-surface::before {
+    display: none !important;
+}
+
+/* Right-click tile info popup: remove Material white surface */
+.cdk-overlay-pane:has(app-right-click-popup) .mat-mdc-dialog-surface,
+.cdk-overlay-pane:has(app-right-click-popup) .mdc-dialog__surface {
+    background: transparent !important;
+    box-shadow: none !important;
+    padding: 0 !important;
+    overflow: visible !important;
+}
+
+@keyframes winner-glow {
+    0% {
+        text-shadow:
+            0 0 10% #00ff00,
+            0 0 20% #00ff00;
+    }
+    100% {
+        text-shadow:
+            0 0 20% #00ff00,
+            0 0 40% #00ff00;
+    }
+}

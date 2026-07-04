@@ -1,0 +1,231 @@
+.grid {
+    position: relative;
+    justify-self: center;
+    justify-content: center;
+    display: grid;
+    justify-items: center;
+    z-index: 1;
+    width: 80vmin;
+    height: 80vmin;
+}
+
+.tile {
+    position: relative;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border: 1px solid #aaa;
+    box-sizing: border-box;
+    text-align: center;
+    user-select: none;
+    overflow: visible;
+    transition:
+        filter 0.3s ease,
+        opacity 0.3s ease;
+}
+
+.tile-image {
+    pointer-events: auto;
+    display: block;
+    width: 100%;
+    height: 100%;
+    position: absolute;
+    top: 0;
+    left: 0;
+    z-index: 1;
+}
+
+.tile:hover {
+    border: 0.3vmin solid darkred;
+}
+
+.player-avatar {
+    position: absolute;
+    object-fit: contain;
+    height: 100% !important;
+    z-index: 3;
+}
+
+.item-icon {
+    width: 4vmin;
+    height: 4vmin;
+    position: absolute;
+    z-index: 2;
+    object-position: center;
+    object-fit: cover;
+}
+
+.facing-left {
+    transform: rotateY(180deg);
+}
+
+.facing-right {
+    transform: rotateY(0deg);
+}
+
+.reachable {
+    border: 0.3vmin solid #00ff7f;
+}
+
+.highlight-path {
+    position: relative;
+}
+
+.highlight-path::after {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-color: rgba(255, 196, 0, 0.5);
+    pointer-events: none;
+    z-index: 1;
+}
+
+.highlight-other-team {
+    border: 0.4vmin solid var(--team-color) !important;
+    z-index: 2;
+}
+
+.highlight-team {
+    border: 0.4vmin solid var(--team-color) !important;
+    z-index: 2;
+}
+
+.highlight-self {
+    position: relative;
+    z-index: 2;
+}
+
+.highlight-self::before {
+    content: '';
+    position: absolute;
+    inset: 0;
+    background-color: rgba(255, 196, 0, 0.5);
+    pointer-events: none;
+    z-index: 2;
+}
+
+.highlight-self.team-mode {
+    border: 0.4vmin solid var(--team-color) !important;
+}
+
+.highlight-self.highlight-path::after {
+    content: none;
+    background-color: transparent;
+}
+
+.tile.can-combat {
+    z-index: 1000;
+    position: relative;
+    cursor: pointer;
+    animation: flickerShadow 1s infinite;
+}
+
+.tile.is-door {
+    z-index: 1000;
+    cursor: pointer;
+    animation: flickerShadow 1s infinite;
+}
+
+.is-door:hover {
+    background-color: darkred;
+}
+
+@keyframes flickerShadow {
+    0% {
+        box-shadow: 0 0 0 4px red;
+    }
+    50% {
+        box-shadow: 0 0 0 2px transparent;
+    }
+    100% {
+        box-shadow: 0 0 0 4px red;
+    }
+}
+
+.can-combat:hover {
+    background-color: darkred;
+}
+
+.tile.can-trade {
+    z-index: 1000;
+    position: relative;
+    cursor: pointer;
+    animation: flickerTrade 1s infinite;
+}
+
+@keyframes flickerTrade {
+    0% {
+        box-shadow: 0 0 0 4px var(--team-color);
+    }
+    50% {
+        box-shadow: 0 0 0 2px transparent;
+    }
+    100% {
+        box-shadow: 0 0 0 4px var(--team-color);
+    }
+}
+
+.can-trade:hover {
+    background-color: rgba(0, 255, 255, 0.2);
+}
+
+.is-flag-starting-point {
+    position: absolute;
+    width: 50%;
+    height: 50%;
+    animation: pulseImage 1s infinite;
+    z-index: 4;
+    pointer-events: none;
+}
+
+.flag-holder {
+    position: absolute;
+    width: 50%;
+    height: 50%;
+    animation: pulseImage 1s infinite;
+    z-index: 4;
+    pointer-events: none;
+}
+
+@keyframes pulseImage {
+    0% {
+        transform: scale(1.5);
+        opacity: 1;
+    }
+    5% {
+        transform: scale(1.5);
+        opacity: 0.8;
+    }
+    100% {
+        transform: scale(1);
+        opacity: 0.5;
+    }
+}
+
+.fog-hidden {
+    pointer-events: none;
+    border-color: #0d0d1a !important;
+}
+
+.fog-hidden::after {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: radial-gradient(ellipse at center, rgba(10, 10, 30, 0.88) 0%, rgba(5, 5, 20, 0.95) 100%);
+    z-index: 10;
+    pointer-events: none;
+}
+
+.fog-hidden:hover {
+    border: 1px solid #0d0d1a;
+}
+
+.fog-hidden .tile-image {
+    filter: brightness(0.1);
+}

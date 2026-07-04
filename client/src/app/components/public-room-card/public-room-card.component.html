@@ -1,0 +1,24 @@
+<div class="card-wrapper">
+    <div class="card" (click)="joinRoom()">
+        <div class="card-header">
+            <span class="room-code"> {{ 'public_room.code' | translate: { id: room.roomId } }} </span>
+
+            <span class="max-players">
+                {{ room.players }}/{{ room.playerMax }}
+                <span class="icon-container">
+                    <img draggable="false" [src]="playersIcon" alt="-" class="players-icon" />
+                </span>
+            </span>
+        </div>
+
+        <h2 class="card-title">{{ 'public_room.map' | translate: { size: room.gridSize } }}</h2>
+
+        <img draggable="false" [src]="'data:image/png;base64,' + room.gridImagePayload" class="card-image" alt="Room Grid" />
+
+        <div class="room-info">
+            <div class="info">{{ 'public_room.status' | translate }} : {{ status }}</div>
+            <div class="info">{{ 'public_room.access' | translate }} : {{ accessibility }}</div>
+            <div class="info price">{{ 'public_room.price' | translate }} : {{ room.entryFee }} <app-coin-icon /></div>
+        </div>
+    </div>
+</div>

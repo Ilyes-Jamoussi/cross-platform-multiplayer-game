@@ -1,0 +1,252 @@
+@if(isVisible) {
+<div class="vs-popup-container" [style.backgroundImage]="'url(' + backgroundPath + ')'">
+
+    @if(!isTeamCombat) {
+        <app-combat-choice class="pop-up"></app-combat-choice>
+
+        <div class="player-info left-info">
+            <p>{{ rolePlayer(combatInitiator) }} {{ combatInitiator?.name }}</p>
+            <p>{{ 'vs_popup.player_stats.last_roll' | translate }}: {{ initiatorDiceRoll }}</p>
+            <p>{{ 'vs_popup.player_stats.remaining_escapes' | translate }}: {{ combatInitiator?.escapeAttempts ?? 2 }}</p>
+            <div class="stats-container">
+                <div class="stat stat-heart">
+                    <img src="./assets/player_pannel_icons/heart.png" [attr.alt]="'vs_popup.player_stats.life' | translate" />
+                    {{ combatInitiator?.stats?.life }}
+                </div>
+                @if(isInitiatorAttacker) {
+                <div class="stat stat-attack">
+                    <img src="./assets/player_pannel_icons/sword.png" [attr.alt]="'vs_popup.player_stats.attack' | translate" />
+                    +{{ combatInitiator?.stats?.attack }}
+                </div>
+                } @else {
+                <div class="stat stat-defense">
+                    <img src="./assets/player_pannel_icons/shield.png" [attr.alt]="'vs_popup.player_stats.defense' | translate" />
+                    +{{ combatInitiator?.stats?.defense }}
+                </div>
+                }
+            </div>
+        </div>
+
+        <div class="player-info right-info">
+            <p>{{ rolePlayer(attackedPlayer) }} {{ attackedPlayer?.name }}</p>
+            <p>{{ 'vs_popup.player_stats.last_roll' | translate }}: {{ attackedDiceRoll }}</p>
+            <p>{{ 'vs_popup.player_stats.remaining_escapes' | translate }}: {{ attackedPlayer?.escapeAttempts ?? 2 }}</p>
+            <div class="stats-container">
+                <div class="stat stat-heart">
+                    <img src="./assets/player_pannel_icons/heart.png" [attr.alt]="'vs_popup.player_stats.life' | translate" />
+                    {{ attackedPlayer?.stats?.life }}
+                </div>
+                @if(!isInitiatorAttacker) {
+                <div class="stat stat-attack">
+                    <img src="./assets/player_pannel_icons/sword.png" [attr.alt]="'vs_popup.player_stats.attack' | translate" />
+                    +{{ attackedPlayer?.stats?.attack }}
+                </div>
+                } @else {
+                <div class="stat stat-defense">
+                    <img src="./assets/player_pannel_icons/shield.png" [attr.alt]="'vs_popup.player_stats.defense' | translate" />
+                    +{{ attackedPlayer?.stats?.defense }}
+                </div>
+                }
+            </div>
+        </div>
+
+        <div class="vs-content">
+            <div class="fighter left">
+                @if(combatInitiator?.avatar) {
+                <img [src]="isAttacking && attacker?.id === combatInitiator?.id
+                        ? getAvatarAttackAnimation(combatInitiator?.avatar)
+                        : getAvatarIdleAnimation(combatInitiator?.avatar)"
+                    [attr.alt]="'vs_popup.alt.player1' | translate" draggable="false" class="avatar"
+                    [class.attacking]="isAttacking && attacker?.id === combatInitiator?.id" />
+                }
+            </div>
+            <div class="vs-animation">VS</div>
+            <div class="fighter right">
+                @if(attackedPlayer?.avatar) {
+                <img [src]="isAttacking && attacker?.id === attackedPlayer?.id
+                        ? getAvatarAttackAnimation(attackedPlayer?.avatar)
+                        : getAvatarIdleAnimation(attackedPlayer?.avatar)"
+                    [attr.alt]="'vs_popup.alt.player2' | translate" class="mirrored avatar" draggable="false"
+                    [class.attacking]="isAttacking && attacker?.id === attackedPlayer?.id" />
+                }
+            </div>
+        </div>
+        @if (combatInitiator?.isIceApplied || attackedPlayer?.isIceApplied) {
+        <div class="ice-malus-bar">
+            @if (combatInitiator?.isIceApplied) {
+            <div class="ice-malus-entry">
+                <img [src]="iceDebuff" draggable="false" class="ice-malus-icon" />
+                <span class="ice-malus-text">{{ combatInitiator?.name }} : {{ 'vs_popup.malus_ice' | translate }}</span>
+            </div>
+            }
+            @if (attackedPlayer?.isIceApplied) {
+            <div class="ice-malus-entry">
+                <img [src]="iceDebuff" draggable="false" class="ice-malus-icon" />
+                <span class="ice-malus-text">{{ attackedPlayer?.name }} : {{ 'vs_popup.malus_ice' | translate }}</span>
+            </div>
+            }
+        </div>
+        }
+    }
+
+    @if(isTeamCombat) {
+        <app-combat-choice class="pop-up"></app-combat-choice>
+
+        @if(selectingTarget) {
+        <div class="target-overlay">
+            <div class="target-timer" [class.target-timer-urgent]="targetTimeLeft <= 2">
+                {{ targetTimeLeft }}
+            </div>
+            <p class="target-title">{{ 'vs_popup.choose_target' | translate }}</p>
+            <div class="target-list">
+                @for(target of availableTargets; track target.id) {
+                <button class="target-btn" (click)="selectTarget(target)">
+                    <img [src]="getAvatarIdleAnimation(target.avatar)"
+                         class="target-avatar" draggable="false" />
+                    <div class="target-btn-info">
+                        <span class="target-name">{{ target.name }}</span>
+                        <span class="stat stat-heart target-hp">
+                            <img src="./assets/player_pannel_icons/heart.png" [attr.alt]="'vs_popup.player_stats.life' | translate" />
+                            {{ target.stats?.life }}
+                        </span>
+                    </div>
+                </button>
+                }
+            </div>
+        </div>
+        }
+
+        <div class="team-arena">
+
+            <div class="team-column team-column-left">
+                @for(player of teamA; track player.id) {
+                <div class="team-card"
+                     [class.card-attacking]="isCurrentAttacker(player)"
+                     [class.card-targeted]="isCurrentTarget(player)">
+
+                    <div class="card-header">
+                        <span class="card-name">{{ player.name }}</span>
+                        @if(isCurrentAttacker(player)) {
+                            <span class="role-badge role-attack">{{ 'vs_popup.badge_atq' | translate }}</span>
+                        }
+                        @if(isCurrentTarget(player)) {
+                            <span class="role-badge role-defense">{{ 'vs_popup.badge_target' | translate }}</span>
+                        }
+                    </div>
+
+                    <img [src]="isAttacking && attacker?.id === player.id
+                                ? getAvatarAttackAnimation(player.avatar)
+                                : getAvatarIdleAnimation(player.avatar)"
+                         class="card-avatar"
+                         [class.attacking]="isAttacking && attacker?.id === player.id"
+                         draggable="false" />
+
+                    <div class="stats-container">
+                        <div class="stat stat-heart">
+                            <img src="./assets/player_pannel_icons/heart.png" [attr.alt]="'vs_popup.player_stats.life' | translate" />
+                            {{ player.stats?.life }}
+                        </div>
+                        @if(isCurrentAttacker(player)) {
+                        <div class="stat stat-attack">
+                            <img src="./assets/player_pannel_icons/sword.png" [attr.alt]="'vs_popup.player_stats.attack' | translate" />
+                            +{{ player.stats?.attack }}
+                        </div>
+                        }
+                        @if(isCurrentTarget(player)) {
+                        <div class="stat stat-defense">
+                            <img src="./assets/player_pannel_icons/shield.png" [attr.alt]="'vs_popup.player_stats.defense' | translate" />
+                            +{{ player.stats?.defense }}
+                        </div>
+                        }
+                    </div>
+
+                    <div class="card-extra">
+                        @if(isDiceAttackPlayer(player) || isDiceDefensePlayer(player)) {
+                        <span>🎲 {{ getPlayerDiceRoll(player) }}</span>
+                        }
+                        <span>🏃 {{ player.escapeAttempts ?? 2 }}</span>
+                    </div>
+
+                    @if(player.isIceApplied) {
+                    <p class="card-malus">{{ 'vs_popup.malus_ice' | translate }}</p>
+                    }
+                </div>
+                }
+            </div>
+
+            <div class="team-center">
+                <div class="vs-animation">VS</div>
+                @if(currentAttackerId && currentDefenderId && !selectingTarget) {
+                <div class="attack-arrow">
+                    <span class="arrow-label">{{ 'vs_popup.attack_arrow' | translate }}</span>
+                    <span class="arrow-icon">{{ attackArrowDirection }}</span>
+                </div>
+                }
+                @if(shouldShowChoosingLabel) {
+                <div class="choosing-label">
+                    {{ 'vs_popup.choosing_line1' | translate }}<br />
+                    {{ 'vs_popup.choosing_line2' | translate }}
+                </div>
+                }
+            </div>
+
+            <div class="team-column team-column-right">
+                @for(player of teamB; track player.id) {
+                <div class="team-card"
+                     [class.card-attacking]="isCurrentAttacker(player)"
+                     [class.card-targeted]="isCurrentTarget(player)">
+
+                    <div class="card-header">
+                        <span class="card-name">{{ player.name }}</span>
+                        @if(isCurrentAttacker(player)) {
+                            <span class="role-badge role-attack">{{ 'vs_popup.badge_atq' | translate }}</span>
+                        }
+                        @if(isCurrentTarget(player)) {
+                            <span class="role-badge role-defense">{{ 'vs_popup.badge_target' | translate }}</span>
+                        }
+                    </div>
+
+                    <img [src]="isAttacking && attacker?.id === player.id
+                                ? getAvatarAttackAnimation(player.avatar)
+                                : getAvatarIdleAnimation(player.avatar)"
+                         class="card-avatar mirrored"
+                         [class.attacking]="isAttacking && attacker?.id === player.id"
+                         draggable="false" />
+
+                    <div class="stats-container">
+                        <div class="stat stat-heart">
+                            <img src="./assets/player_pannel_icons/heart.png" [attr.alt]="'vs_popup.player_stats.life' | translate" />
+                            {{ player.stats?.life }}
+                        </div>
+                        @if(isCurrentAttacker(player)) {
+                        <div class="stat stat-attack">
+                            <img src="./assets/player_pannel_icons/sword.png" [attr.alt]="'vs_popup.player_stats.attack' | translate" />
+                            +{{ player.stats?.attack }}
+                        </div>
+                        }
+                        @if(isCurrentTarget(player)) {
+                        <div class="stat stat-defense">
+                            <img src="./assets/player_pannel_icons/shield.png" [attr.alt]="'vs_popup.player_stats.defense' | translate" />
+                            +{{ player.stats?.defense }}
+                        </div>
+                        }
+                    </div>
+
+                    <div class="card-extra">
+                        @if(isDiceAttackPlayer(player) || isDiceDefensePlayer(player)) {
+                        <span>🎲 {{ getPlayerDiceRoll(player) }}</span>
+                        }
+                        <span>🏃 {{ player.escapeAttempts ?? 2 }}</span>
+                    </div>
+
+                    @if(player.isIceApplied) {
+                    <p class="card-malus">{{ 'vs_popup.malus_ice' | translate }}</p>
+                    }
+                </div>
+                }
+            </div>
+
+        </div>
+    }
+</div>
+}

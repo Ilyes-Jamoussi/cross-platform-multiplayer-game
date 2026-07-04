@@ -1,0 +1,13 @@
+@if (userProfile$ | async; as profile) {
+<button class="shop-button" (click)="goToShop()" [attr.title]="'shop_page.title' | translate">
+    <app-coin-icon class="currency-icon" size="20px" />
+    <span class="currency-amount">{{ profile.virtualCurrency || 0 }}</span>
+    @if (showAnimation) {
+    <span
+        class="currency-animation"
+        [class.gain]="animationClass === 'gain'"
+        [class.loss]="animationClass === 'loss'"
+        >{{ animationValue > 0 ? '+' : '' }}{{ animationValue }}</span>
+    }
+</button>
+}

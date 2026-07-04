@@ -1,0 +1,113 @@
+<div class="stats-container">
+    <div class="stats-bar">
+        <img draggable="false" src="assets/info_icon.png" alt="Info" class="info-icon"
+            [matTooltip]="'character_stats.tooltip.life' | translate" matTooltipClass="custom-tooltip" />
+        <label class="stat-label"> {{ 'character_stats.life' | translate }} </label>
+        <div class="bar-container" [ngClass]="{ clicked: isLifeOrSpeedMax() }" (click)="toggleStat(statsType.Life)">
+            @for (i of [1, 2, 3, 4, 5, 6]; track i) {
+            <div class="bar-square" [ngClass]="{ 'filled-life': i - 1 < stats.life, empty: i - 1 >= stats.life }"></div>
+            }
+        </div>
+    </div>
+
+    <div class="stats-bar">
+        <img draggable="false" src="assets/info_icon.png" alt="Info" class="info-icon"
+            [matTooltip]="'character_stats.tooltip.speed' | translate" matTooltipClass="custom-tooltip" />
+        <label class="stat-label"> {{ 'character_stats.speed' | translate }} </label>
+        <div class="bar-container" [ngClass]="{ clicked: isLifeOrSpeedMax() }" (click)="toggleStat(statsType.Speed)">
+            @for (i of [1, 2, 3, 4, 5, 6]; track i) {
+            <div class="bar-square" [ngClass]="{ 'filled-speed': i - 1 < stats.speed, empty: i - 1 >= stats.speed }"></div>
+            }
+        </div>
+    </div>
+
+    <div class="stats-row">
+        <div class="stats-bar">
+            <img draggable="false" src="assets/info_icon.png" alt="Info" class="info-icon"
+                [matTooltip]="'character_stats.tooltip.attack' | translate" matTooltipClass="custom-tooltip" />
+            <label class="stat-label"> {{ 'character_stats.attack' | translate }} </label>
+            <div class="bar-container" [ngClass]="{ clicked: isAttackOrDefenseMax() }" (click)="toggleStat(statsType.Attack)">
+                @for (i of [1, 2, 3, 4]; track i) {
+                <div class="bar-square" [ngClass]="{ 'filled-attack': i - 1 < stats.attack, empty: i - 1 >= stats.attack }"></div>
+                }
+                <span class="game-text"> + </span>
+                <div class="dice-wrapper" (click)="toggleStat(statsType.Attack)" style="cursor: pointer">
+                    <div class="dice-container" [class.dice-active]="stats.attack === 6">
+                        @if (stats.attack === 4) {
+                        <svg class="dice" viewBox="0 0 100 100" fill="none" xmlns="http://www.w3.org/2000/svg">
+                            <path d="M50 5L95 92H5z" stroke="currentColor" stroke-width="4" stroke-linejoin="round"/>
+                            <line x1="50" y1="5" x2="50" y2="63" stroke="currentColor" stroke-width="3"/>
+                            <line x1="5" y1="92" x2="50" y2="63" stroke="currentColor" stroke-width="3"/>
+                            <line x1="95" y1="92" x2="50" y2="63" stroke="currentColor" stroke-width="3"/>
+                            <circle cx="50" cy="79" r="4" fill="currentColor"/>
+                            <circle cx="59" cy="42" r="4" fill="currentColor"/>
+                            <circle cx="65" cy="56" r="4" fill="currentColor"/>
+                            <circle cx="40" cy="40" r="4" fill="currentColor"/>
+                            <circle cx="35" cy="54" r="4" fill="currentColor"/>
+                            <circle cx="30" cy="68" r="4" fill="currentColor"/>
+                        </svg>
+                        } @else {
+                        <svg class="dice" viewBox="0 0 100 110" fill="none" xmlns="http://www.w3.org/2000/svg">
+                            <path d="M50 5L97 28v54L50 110 3 82V28z" stroke="currentColor" stroke-width="4" stroke-linejoin="round"/>
+                            <path d="M3 28l47 27 47-27" stroke="currentColor" stroke-width="3" stroke-linejoin="round"/>
+                            <line x1="50" y1="55" x2="50" y2="110" stroke="currentColor" stroke-width="3"/>
+                            <circle cx="50" cy="30" r="5" fill="currentColor"/>
+                            <circle cx="18" cy="50" r="4.5" fill="currentColor"/>
+                            <circle cx="35" cy="88" r="4.5" fill="currentColor"/>
+                            <circle cx="82" cy="50" r="4.5" fill="currentColor"/>
+                            <circle cx="73" cy="69" r="4.5" fill="currentColor"/>
+                            <circle cx="64" cy="88" r="4.5" fill="currentColor"/>
+                        </svg>
+                        }
+                    </div>
+                    <span class="dice-label">{{ stats.attack === 6 ? 'D6' : 'D4' }}</span>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="stats-row">
+        <div class="stats-bar">
+            <img draggable="false" src="assets/info_icon.png" alt="Info" class="info-icon"
+                [matTooltip]="'character_stats.tooltip.defense' | translate" matTooltipClass="custom-tooltip" />
+            <label class="stat-label"> {{ 'character_stats.defense' | translate }} </label>
+            <div class="bar-container" [ngClass]="{ clicked: isAttackOrDefenseMax() }" (click)="toggleStat(statsType.Defense)">
+                @for (i of [1, 2, 3, 4]; track i) {
+                <div class="bar-square" [ngClass]="{ 'filled-defense': i - 1 < stats.defense, empty: i - 1 >= stats.defense }"></div>
+                }
+                <span class="game-text"> + </span>
+                <div class="dice-wrapper">
+                    <div class="dice-container" [class.dice-active]="stats.defense === 6">
+                        @if (stats.defense === 4) {
+                        <svg class="dice" viewBox="0 0 100 100" fill="none" xmlns="http://www.w3.org/2000/svg">
+                            <path d="M50 5L95 92H5z" stroke="currentColor" stroke-width="4" stroke-linejoin="round"/>
+                            <line x1="50" y1="5" x2="50" y2="63" stroke="currentColor" stroke-width="3"/>
+                            <line x1="5" y1="92" x2="50" y2="63" stroke="currentColor" stroke-width="3"/>
+                            <line x1="95" y1="92" x2="50" y2="63" stroke="currentColor" stroke-width="3"/>
+                            <circle cx="50" cy="79" r="4" fill="currentColor"/>
+                            <circle cx="59" cy="42" r="4" fill="currentColor"/>
+                            <circle cx="65" cy="56" r="4" fill="currentColor"/>
+                            <circle cx="40" cy="40" r="4" fill="currentColor"/>
+                            <circle cx="35" cy="54" r="4" fill="currentColor"/>
+                            <circle cx="30" cy="68" r="4" fill="currentColor"/>
+                        </svg>
+                        } @else {
+                        <svg class="dice" viewBox="0 0 100 110" fill="none" xmlns="http://www.w3.org/2000/svg">
+                            <path d="M50 5L97 28v54L50 110 3 82V28z" stroke="currentColor" stroke-width="4" stroke-linejoin="round"/>
+                            <path d="M3 28l47 27 47-27" stroke="currentColor" stroke-width="3" stroke-linejoin="round"/>
+                            <line x1="50" y1="55" x2="50" y2="110" stroke="currentColor" stroke-width="3"/>
+                            <circle cx="50" cy="30" r="5" fill="currentColor"/>
+                            <circle cx="18" cy="50" r="4.5" fill="currentColor"/>
+                            <circle cx="35" cy="88" r="4.5" fill="currentColor"/>
+                            <circle cx="82" cy="50" r="4.5" fill="currentColor"/>
+                            <circle cx="73" cy="69" r="4.5" fill="currentColor"/>
+                            <circle cx="64" cy="88" r="4.5" fill="currentColor"/>
+                        </svg>
+                        }
+                    </div>
+                    <span class="dice-label">{{ stats.defense === 6 ? 'D6' : 'D4' }}</span>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

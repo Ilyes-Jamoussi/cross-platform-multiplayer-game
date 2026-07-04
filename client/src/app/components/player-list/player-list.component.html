@@ -1,0 +1,66 @@
+<div class="player-list-container">
+    <div class="list-header">
+        <span>{{ 'game_page.players' | translate }}</span>
+    </div>
+    <div class="player-list">
+        @for (player of staticPlayers; track player.id;) {
+        <div
+            class="player-card-entry"
+            [ngClass]="{
+                'active-turn': player.id === currentTurn?.id,
+                barred: isPlayerDisconnected(player.id),
+                spectator: isFastElimination() && isSpectator(player)
+            }"
+        >
+            <div class="card-avatar">
+                <img
+                    class="player-avatar"
+                    [src]="getPlayerAvatar(player) || 'assets/waiting_view/player.png'"
+                    draggable="false"
+                    alt=""
+                />
+            </div>
+            @if (player.type) {
+            <span
+                class="vp-type-badge"
+                [ngClass]="{
+                    'vp-aggressive': player.type === virtualPlayerTypes.Aggressive,
+                    'vp-defensive': player.type === virtualPlayerTypes.Defensive
+                }"
+            >{{ virtualPlayerType(player) }}</span>
+            }
+            <div class="card-info">
+                <span class="card-name">{{ player.name }}</span>
+                <div class="card-badges">
+                    @if (isCtf() && player.id === flagHolderId) {
+                    <span class="flag-holder"></span>
+                    } @if (isTeamGameMode()) {
+                    <span class="badge-team" [ngStyle]="{ '--team-color': getTeamColor(player) }">
+                        {{ getTeamId(player.id) }}
+                    </span>
+                    } @if (isFastElimination() && isSpectator(player)) {
+                    <span class="spectator-label">{{ 'game_page.spectator' | translate }}</span>
+                    }
+                </div>
+            </div>
+            @if (player.isHost) {
+            <svg class="crown-icon" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                <path
+                    d="M2 20h20V10l-4 4-6-8-6 8-4-4v10z"
+                    fill="#ffd700"
+                    stroke="#b8960c"
+                    stroke-width="1.5"
+                    stroke-linejoin="round"
+                />
+                <circle cx="12" cy="6" r="1.5" fill="#ffd700" stroke="#b8960c" stroke-width="1" />
+                <circle cx="2" cy="10" r="1.5" fill="#ffd700" stroke="#b8960c" stroke-width="1" />
+                <circle cx="22" cy="10" r="1.5" fill="#ffd700" stroke="#b8960c" stroke-width="1" />
+            </svg>
+            }
+            <div class="card-stats">
+                <span class="card-victories">{{ player.victories ?? 0 }}</span>
+            </div>
+        </div>
+        }
+    </div>
+</div>

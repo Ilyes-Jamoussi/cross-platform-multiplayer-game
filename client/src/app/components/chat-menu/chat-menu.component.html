@@ -1,0 +1,112 @@
+@if (isVisible) {
+<button class="chat-button" (click)="toggleChat()" [class.active]="isOpen" [class.detached]="isChatDetached">
+    <svg class="chat-icon" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+        <path
+            d="M21 15a2 2 0 01-2 2H7l-4 4V5a2 2 0 012-2h14a2 2 0 012 2z"
+            stroke="currentColor"
+            stroke-width="2"
+            stroke-linecap="round"
+            stroke-linejoin="round"
+        />
+    </svg>
+</button>
+
+@if (isOpen && !isChatDetached) {
+<div class="chat-overlay" (click)="toggleChat()"></div>
+<div class="chat-panel">
+    <div class="chat-header">
+        <div class="main-tabs">
+            <button class="main-tab" [class.active]="mainTab === 'global'" (click)="selectMainTab('global')">
+                <svg class="tab-icon" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                    <circle cx="12" cy="12" r="10" stroke="currentColor" stroke-width="2" />
+                    <path
+                        d="M2 12h20M12 2a15.3 15.3 0 014 10 15.3 15.3 0 01-4 10 15.3 15.3 0 01-4-10A15.3 15.3 0 0112 2z"
+                        stroke="currentColor"
+                        stroke-width="2"
+                    />
+                </svg>
+                {{ 'chat_global.chat_global' | translate }}
+            </button>
+            <button class="main-tab" [class.active]="mainTab === 'channels'" (click)="selectMainTab('channels')">
+                <svg class="tab-icon" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                    <path
+                        d="M4 9h16M4 15h16M10 3L8 21M16 3l-2 18"
+                        stroke="currentColor"
+                        stroke-width="2"
+                        stroke-linecap="round"
+                        stroke-linejoin="round"
+                    />
+                </svg>
+                {{ 'channel_chat.channels' | translate }}
+            </button>
+        </div>
+        <div class="header-actions">
+            @if (isElectron) {
+            <button class="header-btn" (click)="detachChat()" title="{{ 'chat_global.detach' | translate }}">
+                <svg viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                    <rect x="2" y="3" width="20" height="14" rx="2" stroke="currentColor" stroke-width="2" />
+                    <line x1="8" y1="21" x2="16" y2="21" stroke="currentColor" stroke-width="2" stroke-linecap="round" />
+                    <line x1="12" y1="17" x2="12" y2="21" stroke="currentColor" stroke-width="2" stroke-linecap="round" />
+                </svg>
+            </button>
+            }
+            <button class="header-btn close-btn" (click)="toggleChat()">
+                <svg viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                    <line x1="18" y1="6" x2="6" y2="18" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" />
+                    <line x1="6" y1="6" x2="18" y2="18" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" />
+                </svg>
+            </button>
+        </div>
+    </div>
+
+    <div class="chat-body">
+        <!-- GLOBAL -->
+        @if (mainTab === 'global') {
+        <app-chat-message-list
+            [messages]="(messages$ | async) ?? []"
+            [currentUsername]="currentUsername"
+            [sendMessageFn]="sendGlobalMessage"
+            [initialText]="getDraft('global')"
+        ></app-chat-message-list>
+        }
+
+        <!-- CHANNELS - LIST -->
+        @if (mainTab === 'channels' && !activeChannel) {
+        <app-chat-channel-list
+            [channels]="(joinedChannels$ | async) ?? []"
+            [currentUsername]="currentUsername"
+            [initialFilter]="getDraft('_filter')"
+            (openChannel)="openChannelChat($event)"
+            (leaveChannel)="onLeaveChannel($event)"
+            (closeChannelEvent)="onCloseChannel($event)"
+        ></app-chat-channel-list>
+        }
+
+        <!-- CHANNELS - CHAT -->
+        @if (mainTab === 'channels' && activeChannel) {
+        <div class="channel-chat-header">
+            <button class="back-btn" (click)="backToChannelList()">
+                <svg viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                    <polyline points="15 18 9 12 15 6" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" />
+                </svg>
+                {{ 'channel_chat.return' | translate }}
+            </button>
+            <span class="channel-title">{{ activeChannel.name }}</span>
+            <button class="close-channel-btn" (click)="onLeaveChannel(activeChannel)" title="{{ 'channel_chat.leave_tooltip' | translate }}">
+                <svg viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                    <path d="M9 21H5a2 2 0 01-2-2V5a2 2 0 012-2h4" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" />
+                    <polyline points="16 17 21 12 16 7" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" />
+                    <line x1="21" y1="12" x2="9" y2="12" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" />
+                </svg>
+            </button>
+        </div>
+        <app-chat-message-list
+            [messages]="(messages$ | async) ?? []"
+            [currentUsername]="currentUsername"
+            [sendMessageFn]="sendChannelMessage"
+            [initialText]="getDraft(activeChannel._id)"
+        ></app-chat-message-list>
+        }
+    </div>
+</div>
+} }

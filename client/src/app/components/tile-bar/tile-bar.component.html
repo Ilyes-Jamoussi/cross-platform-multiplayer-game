@@ -1,0 +1,28 @@
+<div class="tool-container">
+    <div class="title-container">
+        <p class="game-text bar-title">{{ 'map_editor.paint_tool' | translate }}</p>
+    </div>
+    @for (tile of tiles; track tile) {
+    <ng-container>
+        <label class="game-text label">{{ tileNames.get(tile) | translate }}</label>
+        <div class="tile-container">
+            <div
+                class="tile-icon"
+                [ngClass]="{ 'selected-border': currentTileDescription === tile }"
+                (click)="onClick(tile)"
+                [matTooltip]="tileDescriptions.get(tile) | translate"
+                matTooltipClass="custom-tooltip"
+                matTooltipPosition="right"
+                type="button"
+            >
+                <img draggable="false" [src]="getTileImage(tile)" class="tile-image" alt="" />
+            </div>
+        </div>
+    </ng-container>
+    }
+</div>
+@for (tile of preloadTiles; track tile) {
+<div class="preload">
+    <img draggable="false" [src]="getTileImage(tile)" [alt]="tile" class="tile-image" height="1" width="1" />
+</div>
+}

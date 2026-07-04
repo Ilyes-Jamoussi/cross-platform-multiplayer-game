@@ -1,0 +1,109 @@
+:host {
+    display: block;
+    flex: 1;
+    min-height: 0;
+    overflow: hidden;
+}
+
+.game-creation-page {
+    display: flex;
+    flex-direction: column;
+    height: 100%;
+}
+
+.page-content {
+    display: flex;
+    flex-direction: column;
+    justify-content: flex-start;
+    align-items: center;
+    padding: 2vmin 4vmin;
+    flex: 1;
+    min-height: 0;
+    overflow-y: auto;
+}
+
+.cards-section {
+    display: grid;
+    align-items: start;
+    grid-template-columns: repeat(auto-fill, minmax(30vmin, 1fr));
+    gap: 5vmin;
+    width: 100%;
+    max-width: 120vmin;
+    padding: 2.5vmin;
+    box-sizing: border-box;
+}
+
+.card {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    border: 0.2vmin solid var(--app-primary);
+    border-radius: 2vmin;
+    box-shadow: 0 1vmin 2vmin rgba(0, 0, 0, 0.1);
+    padding: 20px;
+    background-color: var(--app-primary-background);
+    transition: transform 0.3s ease;
+    width: 100%;
+    max-width: 100vmin;
+    height: 100vmin;
+}
+
+.card:hover {
+    transform: scale(1.05);
+}
+
+.card-image {
+    max-width: 100%;
+    max-height: 60vmin;
+    object-fit: cover;
+    border-radius: 1vmin;
+    margin-bottom: 2vmin;
+}
+
+.card-title {
+    font-size: 1.5rem;
+    font-weight: bold;
+    margin-bottom: 2vmin;
+    text-align: center;
+}
+
+.card-description {
+    font-size: 1rem;
+    color: var(--app-primary-text);
+    opacity: 0.6;
+    text-align: center;
+}
+
+.no-games {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    height: 100%;
+    text-align: center;
+    background-color: transparent;
+    justify-self: center;
+}
+
+.no-games h2,
+.no-games p {
+    background-color: rgba(0, 0, 0, 0.5);
+    color: white;
+    padding: 1vmin 1.5vmin;
+    border-radius: 1vmin;
+    margin: 1vmin 0;
+    font-family: 'Press Start 2P', sans-serif;
+}
+
+@media (max-width: 1024px) {
+    .cards-section {
+        grid-template-columns: repeat(2, 1fr);
+    }
+}
+
+@media (max-width: 600px) {
+    .cards-section {
+        grid-template-columns: 1fr;
+    }
+}

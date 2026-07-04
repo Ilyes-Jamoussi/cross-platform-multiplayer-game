@@ -1,0 +1,21 @@
+@import url('https://fonts.googleapis.com/css2?family=Press+Start+2P&display=swap');
+
+.timer-container {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    width: 7vmin;
+    height: 7vmin;
+    background: #3a3a3a;
+    border: 0.6vmin solid #ffd700;
+    border-radius: 50%;
+    font-family: 'Press Start 2P', cursive;
+    color: #fff;
+    text-shadow: 0.2vmin 0.2vmin 0px #000;
+    font-size: 2.8vmin;
+    user-select: none;
+}
+
+.low-time {
+    color: red;
+}

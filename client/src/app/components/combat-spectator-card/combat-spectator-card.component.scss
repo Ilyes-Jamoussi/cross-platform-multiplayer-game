@@ -1,0 +1,251 @@
+.spectator-combat-card {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    z-index: 3;
+    pointer-events: none;
+    animation: cardFadeIn 0.4s ease-out;
+}
+
+.card-content {
+    display: flex;
+    align-items: center;
+    gap: 2vmin;
+    background: rgba(0, 0, 0, 0.88);
+    border: 0.3vmin solid rgba(255, 60, 60, 0.7);
+    border-radius: 1.5vmin;
+    padding: 2.5vmin 3vmin;
+    box-shadow:
+        0 0 2vmin rgba(255, 0, 0, 0.4),
+        inset 0 0 3vmin rgba(0, 0, 0, 0.5);
+    font-family: 'Press Start 2P', cursive;
+    color: white;
+}
+
+.card-content.team-mode {
+    gap: 2.5vmin;
+}
+
+/* ── Fighter side (1v1) ────────────────────── */
+.fighter-side {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 1vmin;
+    min-width: 14vmin;
+}
+
+.fighter-name {
+    font-size: 1.4vmin;
+    text-align: center;
+    word-break: break-word;
+    max-width: 16vmin;
+    text-shadow: 0 0 0.4vmin rgba(255, 255, 255, 0.6);
+}
+
+.fighter-avatar {
+    width: 16vmin;
+    height: 16vmin;
+    object-fit: contain;
+    image-rendering: pixelated;
+}
+
+.mirrored {
+    transform: scaleX(-1);
+}
+
+/* ── Team side ─────────────────────────────── */
+.team-side {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 0.8vmin;
+    min-width: 14vmin;
+    border-left: 0.4vmin solid transparent;
+    border-right: 0.4vmin solid transparent;
+    padding: 1vmin;
+    border-radius: 1vmin;
+    background: rgba(255, 255, 255, 0.04);
+}
+
+.team-header {
+    display: flex;
+    align-items: center;
+    gap: 0.6vmin;
+}
+
+.team-icon {
+    font-size: 2.2vmin;
+}
+
+.team-name {
+    font-size: 1.2vmin;
+    font-weight: bold;
+    text-shadow: 0 0 0.3vmin currentColor;
+}
+
+.team-fighters {
+    display: flex;
+    align-items: flex-end;
+    gap: 1.5vmin;
+}
+
+.team-fighter {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 0.5vmin;
+}
+
+.team-avatar {
+    width: 11vmin;
+    height: 11vmin;
+}
+
+/* ── Center combat animation ───────────────── */
+.combat-center {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 1vmin;
+    padding: 0 0.5vmin;
+    min-width: 10vmin;
+}
+
+/* Two swords side by side, swinging inward to clash */
+.swords-clash {
+    position: relative;
+    display: flex;
+    align-items: flex-end;
+    justify-content: center;
+    width: 10vmin;
+    height: 8vmin;
+}
+
+.sword {
+    width: 5vmin;
+    height: 7vmin;
+    color: #ff6b6b;
+    filter: drop-shadow(0 0 0.5vmin white) drop-shadow(0 0 1vmin #ff4444);
+    transform-origin: bottom center;
+}
+
+.left-sword {
+    animation: swordClashLeft 0.9s ease-in-out infinite;
+}
+
+.right-sword {
+    display: inline-block;
+    transform: scaleX(-1);
+    animation: swordClashRight 0.9s ease-in-out infinite;
+}
+
+/* Spark at impact point, synced with clash moment */
+.clash-spark {
+    width: 2.5vmin;
+    height: 2.5vmin;
+    border-radius: 50%;
+    background: radial-gradient(circle, rgba(255, 220, 100, 0.9) 0%, rgba(255, 80, 30, 0.6) 50%, transparent 70%);
+    box-shadow:
+        0 0 1vmin rgba(255, 200, 50, 0.8),
+        0 0 2.5vmin rgba(255, 100, 30, 0.5);
+    animation: sparkPulse 0.9s ease-in-out infinite;
+}
+
+.combat-label {
+    font-size: 1.1vmin;
+    color: #ffcc00;
+    text-shadow: 0 0 0.4vmin orange;
+    text-align: center;
+    white-space: nowrap;
+    animation: labelPulse 1.5s ease-in-out infinite;
+}
+
+/* ── Animations ────────────────────────────── */
+@keyframes cardFadeIn {
+    from {
+        opacity: 0;
+        transform: translate(-50%, -50%) scale(0.85);
+    }
+    to {
+        opacity: 1;
+        transform: translate(-50%, -50%) scale(1);
+    }
+}
+
+/* Left sword: rests tilted left, swings right to clash */
+@keyframes swordClashLeft {
+    0% {
+        transform: rotate(-40deg);
+    }
+    45% {
+        transform: rotate(15deg);
+    }
+    55% {
+        transform: rotate(15deg);
+    }
+    100% {
+        transform: rotate(-40deg);
+    }
+}
+
+/* Right sword: mirrored, rests tilted right, swings left to clash */
+@keyframes swordClashRight {
+    0% {
+        transform: scaleX(-1) rotate(-40deg);
+    }
+    45% {
+        transform: scaleX(-1) rotate(15deg);
+    }
+    55% {
+        transform: scaleX(-1) rotate(15deg);
+    }
+    100% {
+        transform: scaleX(-1) rotate(-40deg);
+    }
+}
+
+/* Spark flares on impact (synced at 45-55% with sword contact) */
+@keyframes sparkPulse {
+    0% {
+        transform: scale(0);
+        opacity: 0;
+    }
+    40% {
+        transform: scale(0);
+        opacity: 0;
+    }
+    50% {
+        transform: scale(1.4);
+        opacity: 1;
+        box-shadow:
+            0 0 1.5vmin rgba(255, 220, 100, 1),
+            0 0 3vmin rgba(255, 80, 30, 0.7);
+    }
+    60% {
+        transform: scale(0.8);
+        opacity: 0.6;
+    }
+    75% {
+        transform: scale(0);
+        opacity: 0;
+    }
+    100% {
+        transform: scale(0);
+        opacity: 0;
+    }
+}
+
+@keyframes labelPulse {
+    0%,
+    100% {
+        opacity: 0.7;
+    }
+    50% {
+        opacity: 1;
+        text-shadow:
+            0 0 0.5vmin orange,
+            0 0 1vmin #ffcc00;
+    }
+}

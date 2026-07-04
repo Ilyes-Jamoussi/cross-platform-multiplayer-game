@@ -1,0 +1,73 @@
+@import url('https://fonts.googleapis.com/css2?family=Press+Start+2P&display=swap');
+
+body {
+    background-color: #000116;
+}
+
+:host {
+    display: block;
+    flex: 1;
+    min-height: 0;
+    overflow: hidden;
+}
+
+.container {
+    height: 100%;
+    overflow: hidden;
+    background-image: var(--app-bg-image);
+    background-size: cover;
+    background-repeat: no-repeat;
+    background-position: center center;
+    background-color: black;
+}
+
+.justified {
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.logo {
+    width: 60vmin;
+    display: flex;
+    background-size: contain;
+    margin-bottom: 2vmin;
+}
+
+.mainPageButton {
+    width: 45vmin;
+    height: 2vmin;
+    font-size: 1vmin;
+    margin-bottom: 1vmin;
+    margin-top: 1vmin;
+}
+
+.team-name {
+    margin-top: 1vmin;
+    margin-bottom: 1vmin;
+    font-family: 'Press Start 2P', sans-serif;
+    color: #ffa500;
+    font-size: 1vmin;
+    align-items: center;
+}
+
+.header-item {
+    justify-content: center;
+    text-align: center;
+}
+
+.footer-item {
+    text-align: center;
+}
+
+.footer-item p {
+    font-family: 'Press Start 2P', sans-serif;
+    color: #ffa500;
+}
+
+.server-message {
+    justify-content: center;
+    width: 20%;
+    min-width: min-content;
+}

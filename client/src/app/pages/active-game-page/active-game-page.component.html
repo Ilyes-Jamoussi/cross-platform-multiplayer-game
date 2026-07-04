@@ -1,0 +1,71 @@
+<div class="game-layout" [class.is-spectator-mode]="isSpectator">
+    @if(isSpectator){
+    <div class="gameInfoPopup spectatorInfoPopup">{{ 'game_page.spectator' | translate }}</div>
+    } @if(isGameStart()) { @if(this.gameModeService.lobbyGameMode === LobbyGameMode.FastElimination) {
+    <div class="gameInfoPopup">{{ 'game_page.game_info_popup.fast_elimination' | translate }}</div>
+    } @else if(!isCTF()) {
+    <div class="gameInfoPopup">{{ 'game_page.game_info_popup.win_3_battles' | translate }}</div>
+    } @else {
+    <div class="gameInfoPopup">{{ 'game_page.game_info_popup.ctf_objective' | translate }}</div>
+    } } @if(isTurnPopupVisible){
+    <div class="gameInfoPopup">{{ 'game_page.game_info_popup.your_turn' | translate }}</div>
+    }
+
+    <div class="left-panel">
+        <app-game-info class="game-info"></app-game-info>
+        <app-player-panel class="player-panel"></app-player-panel>
+        <app-player-list class="player-list-left"></app-player-list>
+    </div>
+
+    <div class="main-grid">
+        <app-timer [class.transparent]="!isMyTurn" class="timer"></app-timer>
+        <app-active-grid></app-active-grid>
+        @if (isFogOfWar() || isDropInDropOut()) {
+        <div class="mode-indicators">
+            @if (isFogOfWar()) {
+            <div class="mode-indicator fog-enabled">
+                <span class="mode-label">{{ 'loading_page.fog_of_war_enabled' | translate }}</span>
+            </div>
+            }
+            @if (isDropInDropOut()) {
+            <div class="mode-indicator drop-enabled">
+                <span class="mode-label">{{ 'loading_page.drop_in_enabled' | translate }}</span>
+            </div>
+            }
+        </div>
+        }
+        <app-vs-pop-up #vsPopup></app-vs-pop-up>
+        <app-combat-spectator-card></app-combat-spectator-card>
+        <app-inventory-popup></app-inventory-popup>
+        <app-inventory-trade-popup></app-inventory-trade-popup>
+    </div>
+
+    <div class="right-panel">
+        <app-log-chat class="chat-panel" [isTeamGame]="this.gameModeService.lobbyGameMode === LobbyGameMode.Teams"></app-log-chat>
+        <div class="action-buttons">
+            <button
+                class="button active-game"
+                id="action"
+                (click)="isAction()"
+                [class.pressed]="isActionClicked"
+                [disabled]="isSpectator || !isMyTurn || !getAdjacentPlayerOrDoor() || !hasActionLeft() || isMoving"
+                [class.transparent]="!isMyTurn || !getAdjacentPlayerOrDoor() || !hasActionLeft() || isMoving"
+                [matTooltip]="actionButtonTooltip"
+                matTooltipClass="custom-tooltip"
+                [matTooltipPosition]="'above'"
+            >
+                {{ 'game_page.action' | translate }}
+            </button>
+            <button
+                class="button active-game"
+                id="finish"
+                (click)="nextTurn()"
+                [disabled]="isSpectator || !isMyTurn || isCombatStarted || isMoving"
+                [class.transparent]="!isMyTurn || isCombatStarted || isMoving"
+            >
+                {{ 'game_page.end_turn' | translate }}
+            </button>
+            <button class="button active-game" id="quit" (click)="quitGame()">{{ 'game_page.abandon' | translate }}</button>
+        </div>
+    </div>
+</div>

@@ -1,0 +1,23 @@
+<div class="app-background" [class.custom-bg]="hasCustomBackground" [style.background-image]="isChatExternal ? '' : activeBackground">
+    @if (showHeader && !isChatExternal) {
+    <app-header></app-header>
+    }
+    <router-outlet></router-outlet>
+    @if (!isChatExternal) {
+    <div class="floating-buttons">
+        @if (isMainPage) {
+        <app-shop-menu></app-shop-menu>
+        }
+        <app-music-menu></app-music-menu>
+        @if (isLoginPage) {
+        <button class="lang-button" (click)="toggleLanguage()" title="{{ isFr ? 'Français' : 'English' }}">
+            {{ isFr ? 'FR' : 'EN' }}
+        </button>
+        }
+        <app-chat-menu></app-chat-menu>
+        @if (isMainPage) {
+        <app-profile-menu></app-profile-menu>
+        }
+    </div>
+    }
+</div>

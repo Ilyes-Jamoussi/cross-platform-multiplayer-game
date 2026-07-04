@@ -1,0 +1,46 @@
+.menu-container {
+    width: 150vmin;
+    justify-content: center;
+    align-items: center;
+}
+
+.menu-toggle {
+    display: block;
+    width: 100%;
+    background-color: var(--app-secondary);
+    color: white;
+    cursor: pointer;
+    border: 2px solid var(--app-primary);
+    border-radius: 3vmin;
+    padding: 2vmin;
+    font-family: 'Press Start 2P', sans-serif;
+    font-weight: bold;
+    font-size: 3vmin;
+    text-align: left;
+    justify-content: center;
+}
+
+.menu {
+    overflow: hidden;
+    height: 0;
+    transition: height 0.3s ease-out;
+    justify-content: center;
+    text-align: center;
+    display: flex;
+}
+
+.menu.open {
+    height: auto;
+    display: flex;
+    justify-content: center;
+    text-align: center;
+}
+
+.arrow {
+    display: inline-block;
+    transition: transform 0.3s ease;
+}
+
+.arrow.open {
+    transform: rotate(90deg);
+}

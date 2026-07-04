@@ -1,0 +1,219 @@
+:host {
+    display: block;
+    /* Durée alignée sur ConfirmPopupComponent (fallback si host non appliqué). */
+    --popup-enter-duration: 200ms;
+}
+
+/* Coque animée seule : évite d’animer opacité/transform sur la bordure colorée du panneau (artefacts GPU). */
+.popup-shell {
+    display: block;
+}
+
+/* ── Container ────────────────────────────── */
+.popup-container {
+    font-family: 'Press Start 2P', monospace;
+    background: linear-gradient(155deg, #16171f 0%, #0d0e14 48%, #12131a 100%);
+    border-radius: 1.2vmin;
+    padding: 3vmin 4vmin 2.5vmin;
+    text-align: center;
+    min-width: 32vmin;
+    max-width: 50vmin;
+    position: relative;
+    overflow: hidden;
+
+    &.confirm {
+        border: 0.25vmin solid #e67e22;
+        box-shadow:
+            0 0 2.5vmin rgba(230, 126, 34, 0.18),
+            0 0.85vmin 3.5vmin rgba(0, 0, 0, 0.55),
+            inset 0 1px 0 rgba(255, 255, 255, 0.04);
+    }
+
+    &.success {
+        border: 0.25vmin solid #44ff88;
+        box-shadow:
+            0 0 2.5vmin rgba(68, 255, 136, 0.16),
+            0 0.85vmin 3.5vmin rgba(0, 0, 0, 0.55),
+            inset 0 1px 0 rgba(255, 255, 255, 0.04);
+    }
+
+    &.info {
+        border: 0.25vmin solid var(--app-secondary, #007bff);
+        box-shadow:
+            0 0 2.5vmin rgba(0, 123, 255, 0.16),
+            0 0.85vmin 3.5vmin rgba(0, 0, 0, 0.55),
+            inset 0 1px 0 rgba(255, 255, 255, 0.04);
+    }
+}
+
+/* ── Icon circle ───────────────────────────── */
+.popup-icon-wrapper {
+    width: 7vmin;
+    height: 7vmin;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    margin: 0 auto 2vmin;
+    position: relative;
+    z-index: 1;
+
+    &.confirm {
+        background: rgba(230, 126, 34, 0.12);
+        border: 0.25vmin solid #e67e22;
+        box-shadow: 0 0 0.85vmin rgba(230, 126, 34, 0.2);
+    }
+
+    &.success {
+        background: rgba(68, 255, 136, 0.12);
+        border: 0.25vmin solid #44ff88;
+        box-shadow: 0 0 0.85vmin rgba(68, 255, 136, 0.2);
+    }
+
+    &.info {
+        background: rgba(0, 123, 255, 0.12);
+        border: 0.25vmin solid var(--app-secondary, #007bff);
+        box-shadow: 0 0 0.85vmin rgba(0, 123, 255, 0.2);
+    }
+}
+
+.popup-icon {
+    font-size: 2.8vmin;
+    font-weight: bold;
+    line-height: 1;
+    display: inline-block;
+    will-change: transform;
+
+    .confirm & {
+        color: #e67e22;
+    }
+
+    .success & {
+        color: #44ff88;
+    }
+
+    .info & {
+        color: var(--app-secondary, #007bff);
+    }
+}
+
+/*
+ * ?, i et ✓ : même mouvement haut → bas en boucle tant que la popup est ouverte.
+ */
+.popup-icon-wrapper.confirm .popup-icon,
+.popup-icon-wrapper.info .popup-icon,
+.popup-icon-wrapper.success .popup-icon {
+    animation: popupIconFloatLoop 1.2s ease-in-out infinite;
+    animation-delay: calc(var(--popup-enter-duration) + 60ms);
+}
+
+@keyframes popupIconFloatLoop {
+    0%,
+    100% {
+        transform: translateY(0);
+    }
+    50% {
+        transform: translateY(-0.42rem);
+    }
+}
+
+@media (prefers-reduced-motion: reduce) {
+    .popup-icon-wrapper.confirm .popup-icon,
+    .popup-icon-wrapper.info .popup-icon,
+    .popup-icon-wrapper.success .popup-icon {
+        animation: none;
+    }
+}
+
+/* ── Text ──────────────────────────────────── */
+.popup-title {
+    color: white;
+    font-size: 1.4vmin;
+    margin: 0 0 1.2vmin;
+    letter-spacing: 0.05vmin;
+    position: relative;
+    z-index: 1;
+}
+
+.popup-message {
+    color: #aab0bc;
+    font-size: 1vmin;
+    line-height: 1.6;
+    margin: 0 0 2.5vmin;
+    position: relative;
+    z-index: 1;
+    white-space: pre-line;
+}
+
+/* ── Buttons ───────────────────────────────── */
+.popup-actions {
+    display: flex;
+    gap: 1.5vmin;
+    justify-content: center;
+    position: relative;
+    z-index: 1;
+}
+
+.popup-btn {
+    font-family: 'Press Start 2P', monospace;
+    font-size: 0.9vmin;
+    padding: 1vmin 2.5vmin;
+    border-radius: 0.6vmin;
+    border: 0.2vmin solid transparent;
+    cursor: pointer;
+    transition:
+        background 0.2s ease,
+        border-color 0.2s ease,
+        box-shadow 0.2s ease,
+        transform 0.2s ease;
+    letter-spacing: 0.05vmin;
+
+    &.confirm {
+        background: #e67e22;
+        color: white;
+        border-color: #cf6d17;
+
+        &:hover {
+            background: #cf6d17;
+            box-shadow: 0 0 1.5vmin rgba(230, 126, 34, 0.5);
+            transform: translateY(-0.2vmin);
+        }
+
+        &:active {
+            transform: translateY(0);
+            box-shadow: 0 0 0.5vmin rgba(230, 126, 34, 0.3);
+        }
+    }
+
+    &.cancel {
+        background: rgba(255, 255, 255, 0.06);
+        color: #aab0bc;
+        border-color: rgba(255, 255, 255, 0.12);
+
+        &:hover {
+            background: rgba(255, 255, 255, 0.1);
+            color: white;
+            transform: translateY(-0.2vmin);
+        }
+
+        &:active {
+            transform: translateY(0);
+        }
+    }
+
+    &.ok {
+        background: rgba(255, 255, 255, 0.06);
+        color: white;
+        border-color: rgba(255, 255, 255, 0.12);
+        min-width: 10vmin;
+
+        &:hover {
+            background: rgba(255, 255, 255, 0.1);
+            transform: translateY(-0.2vmin);
+        }
+
+        &:active {
+            transform: translateY(0);
+        }
+    }
+}

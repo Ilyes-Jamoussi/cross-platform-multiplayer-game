@@ -1,0 +1,85 @@
+.map-settings-container {
+    width: 90vmin;
+    max-height: 100%;
+    display: flex;
+    flex-direction: column;
+    justify-self: center;
+    justify-content: center;
+    align-items: center;
+    gap: 4vmin;
+    padding: 60px;
+    box-sizing: border-box;
+    background-color: rgba(0, 0, 0, 0.8);
+    border-radius: 15pt;
+    border: (2pt solid var(--app-primary));
+}
+
+.map-settings-form {
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
+    width: 40%;
+}
+
+.form-group {
+    display: flex;
+    flex-direction: column;
+}
+
+label {
+    font-weight: bold;
+    margin-bottom: 5px;
+}
+
+input {
+    padding: 10px;
+    font-size: 16px;
+    border: 1px solid var(--app-primary);
+    border-radius: 4pt;
+}
+
+.button-group {
+    display: flex;
+    gap: 20pt;
+    justify-content: center;
+}
+
+.button-group button {
+    padding: 2vmin 4vmin;
+    font-size: 10pt;
+    background-color: #ccc;
+    color: black;
+    border: 2pt solid white;
+    border-radius: 15pt;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+}
+
+.button-group button.selected {
+    color: white;
+    background-color: var(--app-primary);
+}
+
+.button-group button:hover {
+    background-color: var(--app-primary);
+    color: var(--app-primary-hover-text);
+}
+
+.button-group button:disabled {
+    background-color: #ccc;
+    cursor: not-allowed;
+}
+
+.form-actions {
+    display: flex;
+    justify-content: center;
+}
+
+.form-actions .button {
+    max-width: 100%;
+}
+
+.small-text {
+    font-size: 16px;
+    white-space: nowrap;
+}

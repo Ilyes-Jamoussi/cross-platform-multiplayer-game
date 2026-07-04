@@ -1,0 +1,91 @@
+@defer {
+<div class="save-container">
+    <button class="button back" (click)="back()">{{ 'map_editor.back' | translate }}</button>
+    <form class="map-settings-form" (ngSubmit)="onSubmit()">
+        <div class="form-group">
+            <div class="name-container">
+                <label class="game-text small-text">{{ 'map_editor.map_name' | translate }}</label>
+                <input
+                    name="name"
+                    placeholder="{{ 'map_editor.name_placeholder' | translate }}"
+                    id="name"
+                    maxlength="20"
+                    [(ngModel)]="gameObject.name"
+                    (click)="reset($event)"
+                />
+            </div>
+        </div>
+
+        <div class="form-group">
+            <label class="game-text small-text">{{ 'map_editor.map_description' | translate }}</label>
+            <div class="description-container">
+                <textarea
+                    class="game-text black"
+                    name="description"
+                    placeholder="{{ 'map_editor.description_placeholder' | translate }}"
+                    maxlength="250"
+                    id="description"
+                    [(ngModel)]="gameObject.description"
+                    (focus)="reset($event)"
+                ></textarea>
+            </div>
+        </div>
+
+        <div class="form-group">
+            <label class="game-text small-text">{{ 'map_editor.game_state' | translate }}</label>
+            <div class="state-container">
+                <button
+                    type="button"
+                    class="state-btn"
+                    [class.state-selected]="gameObject.state === 'public'"
+                    (click)="gameObject.state = 'public'"
+                    [matTooltip]="'admin_page.state_tooltip_public' | translate"
+                    matTooltipClass="custom-tooltip"
+                >
+                    {{ 'admin_page.state_public' | translate }}
+                </button>
+                <button
+                    type="button"
+                    class="state-btn"
+                    [class.state-selected]="gameObject.state === 'private'"
+                    (click)="gameObject.state = 'private'"
+                    [matTooltip]="'admin_page.state_tooltip_private' | translate"
+                    matTooltipClass="custom-tooltip"
+                >
+                    {{ 'admin_page.state_private' | translate }}
+                </button>
+                <button
+                    type="button"
+                    class="state-btn"
+                    [class.state-selected]="gameObject.state === 'private-shared'"
+                    (click)="gameObject.state = 'private-shared'"
+                    [matTooltip]="'admin_page.state_tooltip_private_shared' | translate"
+                    matTooltipClass="custom-tooltip"
+                >
+                    {{ 'admin_page.state_private_shared' | translate }}
+                </button>
+            </div>
+        </div>
+
+        <div class="form-group">
+            <label class="game-text small-text">{{ 'map_editor.nb_actions' | translate }}</label>
+            <div class="nb-actions-container">
+                @for (num of [1, 2, 3, 4, 5]; track num) {
+                <button
+                    type="button"
+                    class="nb-actions-btn"
+                    [class.nb-actions-selected]="gameObject.nbActions === num"
+                    (click)="gameObject.nbActions = num"
+                >
+                    {{ num }}
+                </button>
+                }
+            </div>
+        </div>
+
+        <div class="form-actions">
+            <button type="submit" class="button action-game-btn">{{ 'map_editor.save_informations' | translate }}</button>
+        </div>
+    </form>
+</div>
+}

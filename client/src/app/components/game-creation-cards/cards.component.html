@@ -1,0 +1,55 @@
+<div class="card-wrapper">
+    <div
+        class="card"
+        matTooltip="{{ gameData.description }}"
+        matTooltipPosition="above"
+        [style.backgroundImage]="'url(' + cardBackGround + ')'"
+        matTooltipClass="custom-tooltip"
+        (click)="onCardClick()"
+    >
+        <div class="card-header">
+            <img
+                draggable="false"
+                [src]="this.getGameModeImage(this.gameData.gameMode)"
+                alt="Game Mode"
+                class="game-mode-image"
+                [id]="'game-mode-' + gameData.gameMode"
+            />
+            <span class="max-players">
+                0/{{ this.getMaxPlayers(this.gameData.gridSize) }}
+                <span class="icon-container">
+                    <img draggable="false" [src]="playersIcon" alt="-" class="players-icon" />
+                </span>
+            </span>
+        </div>
+        <h2 class="card-title">{{ gameData.name }}</h2>
+        <img draggable="false" [src]="'data:image/png;base64,' + gameData.imagePayload" alt="cardImageTest" class="card-image" />
+    </div>
+
+    @if (showEntryFeeInput) {
+    <div class="entry-fee-overlay" (click)="$event.stopPropagation()">
+        <div class="overlay-content">
+            <h3>{{ 'game_creation.card.price' | translate }}</h3>
+
+            <div class="input-group">
+                <input type="number" [(ngModel)]="entryFee" min="0" [max]="userCurrency" class="entry-fee-input" />
+            </div>
+
+            @if (entryFee > userCurrency) {
+            <div class="error-message">{{ 'game_creation.card.insufficient' | translate }}</div>
+            }
+
+            <div class="currency-display new-balance">
+                <span class="label">{{ 'game_creation.card.new_balance' | translate }}</span>
+                <span class="amount">{{ userCurrency - entryFee }} <app-coin-icon /></span>
+            </div>
+
+            <div class="button-group">
+                <button class="pixel-button primary" (click)="confirmCreateGame()" [disabled]="!isEntryFeeValid">
+                    {{ 'game_creation.card.create' | translate }}
+                </button>
+            </div>
+        </div>
+    </div>
+    }
+</div>

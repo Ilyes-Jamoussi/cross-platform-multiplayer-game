@@ -1,0 +1,28 @@
+@if (isLoadingGames) {
+<app-page-loading messageKey="game_creation.loading_games" />
+} @else if (gamesLoadError) {
+<div class="no-games">
+    <h2>{{ 'game_creation.load_error' | translate }}</h2>
+    <p>
+        <button type="button" class="button" (click)="loadGames()">{{ 'game_creation.retry' | translate }}</button>
+    </p>
+</div>
+} @else if (cards.length > 0) {
+<div class="game-creation-page">
+    <main class="page-content">
+        <section class="cards-section">
+            @for (card of cards; track $index) {
+            <app-cards #cardRef [gameData]="card" (gameUpdated)="loadGames({ silent: true })" (overlayOpened)="closeOtherCards(cardRef)"></app-cards>
+            }
+        </section>
+    </main>
+</div>
+} @else {
+<div class="no-games">
+    <h2>{{ 'game_creation.aucun_jeu' | translate }}</h2>
+    <p>
+        {{ 'game_creation.revenez_plus_tard' | translate }}
+        <button class="button" routerLink="/admin">{{ 'game_creation.ici' | translate }}</button>
+    </p>
+</div>
+}

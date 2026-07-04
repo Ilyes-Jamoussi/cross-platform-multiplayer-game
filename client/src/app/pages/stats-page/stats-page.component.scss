@@ -1,0 +1,142 @@
+:host {
+    display: block;
+    flex: 1;
+    min-height: 0;
+    overflow: hidden;
+}
+
+.main-container {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: flex-start;
+    height: 100%;
+    background-image: var(--app-bg-image);
+    background-color: black;
+    background-size: cover;
+    background-position: center;
+    background-repeat: no-repeat;
+    overflow: hidden;
+}
+
+.page-title {
+    font-family: 'Press Start 2P', sans-serif;
+    font-size: 3vmin;
+    color: white;
+    text-align: center;
+    margin-top: 2vmin;
+    margin-bottom: 0;
+    letter-spacing: 2px;
+    font-weight: bold;
+    text-shadow: 2px 2px 8px rgba(0, 0, 0, 0.5);
+    flex-shrink: 0;
+}
+
+.arrow {
+    position: absolute;
+    top: 7vmin;
+    left: 3vmin;
+    width: 8vmin;
+    height: auto;
+    cursor: pointer;
+    transition: transform 0.2s;
+}
+
+.arrow:hover {
+    transform: scale(1.1);
+}
+
+.validate-btn {
+    font-family: 'Press Start 2P', sans-serif;
+    position: absolute;
+    bottom: 3vmin;
+    right: 4vmin;
+    background-color: var(--app-primary);
+    color: white;
+    font-size: 2vmin;
+    padding: 1.5vmin 3vmin;
+    border: none;
+    border-radius: 2vmin;
+    cursor: pointer;
+    transition: background 0.3s;
+    z-index: 5;
+}
+
+.validate-btn:disabled {
+    opacity: 0.7;
+    cursor: not-allowed;
+}
+
+.validate-btn:not(:disabled):hover {
+    background-color: var(--app-secondary-disabled);
+}
+
+.content {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    width: 90vmin;
+    margin-top: 2vmin;
+}
+
+.image-container {
+    position: relative;
+    top: 8vmin;
+    width: 35vmin;
+    height: 35vmin;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.character-image {
+    position: absolute;
+    width: 50vmin;
+    z-index: 2;
+    top: -17vmin;
+}
+
+.pedestal {
+    position: absolute;
+    width: 38vmin;
+    top: 24vmin;
+    z-index: 1;
+    overflow: hidden;
+}
+
+.avatars-container {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    grid-template-rows: repeat(4, 1fr);
+    grid-auto-flow: column;
+    gap: 1vmin;
+    position: relative;
+    left: 25vmin;
+    bottom: 1vmin;
+    margin-left: 3vmin;
+    margin-right: auto;
+    background-color: rgba(0, 0, 0, 0.75);
+    padding: 1.5vmin;
+    border-radius: 1vmin;
+    box-shadow:
+        0 0 0 0.3vmin var(--app-primary),
+        0 0 0 0.5vmin var(--app-secondary),
+        0 0 0 0.7vmin var(--app-tertiary),
+        0 0 0 0.9vmin var(--app-secondary-disabled);
+}
+
+.stats-container {
+    position: relative;
+    bottom: 6vmin;
+    z-index: 3;
+    border-radius: 1.5vmin;
+    box-shadow:
+        0 0 0 0.3vmin var(--app-primary),
+        0 0 0 0.5vmin var(--app-secondary),
+        0 0 0 0.7vmin var(--app-tertiary),
+        0 0 0 0.9vmin var(--app-secondary-disabled);
+}
+
+.username {
+    z-index: 4;
+}

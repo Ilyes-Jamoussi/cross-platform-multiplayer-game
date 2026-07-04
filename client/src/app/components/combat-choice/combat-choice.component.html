@@ -1,0 +1,12 @@
+@if(isVisible) {
+<div class="combat-choice-popup">
+    <h2>{{ 'vs_popup.title' | translate }}</h2>
+
+    <div class="progress-container">
+        <div class="progress-bar" [style.width.%]="timeLeftPercentage"></div>
+    </div>
+
+    <button (click)="attack()">{{ 'vs_popup.attack' | translate }}</button>
+    <button (click)="flee()" [disabled]="isFleeDisabled">{{ 'vs_popup.flee' | translate }}</button>
+</div>
+}

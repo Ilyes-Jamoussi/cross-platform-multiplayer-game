@@ -1,0 +1,338 @@
+<div class="loading-page">
+    <!-- ── Left Panel: Settings ─────────────────── -->
+    <div class="left-panel">
+        <div class="panel-section">
+            <div class="access-code game-text">
+                {{ 'loading_page.access_code' | translate }}: <span>{{ getRoomId() }}</span>
+            </div>
+
+            @if (entryFee > 0) {
+            <div class="entry-fee-banner">
+                <app-coin-icon /> {{ 'loading_page.entry_fee' | translate }}: {{ entryFee }} {{ 'loading_page.coins' | translate }}
+            </div>
+            }
+        </div>
+
+        <div class="panel-divider"></div>
+
+        <div class="panel-section">
+            <div class="lobby-header">
+                <h3 class="game-text">
+                    {{ 'loading_page.players' | translate }}
+                    <span
+                        [ngClass]="{
+                            'below-min-players': players.length < minPlayers,
+                            'above-min-players': players.length >= minPlayers
+                        }"
+                    >
+                        ({{ players.length }}/{{ maxPlayers }})</span
+                    >
+                </h3>
+                @if (isHost()) {
+                <button
+                    class="lock-button"
+                    (click)="onLock()"
+                    [ngClass]="{
+                        locked: isLocked,
+                        unlocked: !isLocked
+                    }"
+                    [disabled]="players.length >= maxPlayers"
+                    [matTooltip]="isLocked ? ('loading_page.lock.locked' | translate) : ('loading_page.lock.unlocked' | translate)"
+                    matTooltipClass="custom-tooltip"
+                    [matTooltipPosition]="'right'"
+                >
+                    <img
+                        [src]="isLocked ? 'assets/waiting_view/lock.png' : 'assets/waiting_view/unlock.png'"
+                        [attr.alt]="'loading_page.lock_icon_alt' | translate"
+                        draggable="false"
+                    />
+                </button>
+                }
+            </div>
+        </div>
+
+        <div class="panel-divider"></div>
+
+        <div class="panel-section">
+            <div class="mode-selector game-text">
+                <label class="mode-label">{{ 'loading_page.game_mode_label' | translate }}</label>
+                <div class="custom-select" [class.disabled]="!isHost()" (click)="isHost() && (dropdownOpen = !dropdownOpen)">
+                    <div class="custom-select-value">
+                        {{ getModeLabel(lobbyGameMode) }}
+                        <span class="custom-select-arrow">▼</span>
+                    </div>
+                    @if (dropdownOpen) {
+                    <div class="custom-select-dropdown">
+                        <div
+                            class="custom-select-option"
+                            [class.selected]="lobbyGameMode === 'classic'"
+                            (click)="selectMode('classic'); $event.stopPropagation()"
+                        >
+                            {{ classicModeTranslationKey | translate }}
+                        </div>
+                        @if (!isSmallGame) {
+                        <div
+                            class="custom-select-option"
+                            [class.selected]="lobbyGameMode === 'teams'"
+                            [class.option-disabled]="players.length < 4"
+                            (click)="players.length >= 4 && selectMode('teams'); $event.stopPropagation()"
+                        >
+                            {{ 'loading_page.modes.teams' | translate }}
+                        </div>
+                        }
+                        <div
+                            class="custom-select-option"
+                            [class.selected]="lobbyGameMode === 'fastElimination'"
+                            (click)="selectMode('fastElimination'); $event.stopPropagation()"
+                        >
+                            {{ 'loading_page.modes.fast_elimination' | translate }}
+                        </div>
+                    </div>
+                    }
+                </div>
+            </div>
+        </div>
+
+        @if (lobbyGameMode === 'teams' && unassignedPlayers.length > 0) {
+        <div class="panel-divider"></div>
+
+        <div class="unassigned-section">
+            <label class="unassigned-label game-text">{{ 'loading_page.unassigned_label' | translate }}</label>
+            <div class="unassigned-grid">
+                @for (player of unassignedPlayers; track player.id) {
+                <div class="unassigned-card-wrapper">
+                    <app-player-card class="player-card-container" [player]="player" (kick)="onKick(player)"></app-player-card>
+                </div>
+                }
+            </div>
+        </div>
+        }
+
+        @if (isHost()) {
+        <div class="panel-bottom">
+            <div class="panel-divider"></div>
+
+            <div class="mode-buttons">
+                <button
+                    (click)="onFriendOnly()"
+                    [disabled]="isLocked"
+                    [ngClass]="{
+                        'friends-only': isFriendsOnly,
+                        public: !isFriendsOnly
+                    }"
+                    [matTooltip]="
+                        isLocked
+                            ? ('loading_page.lock.locked' | translate)
+                            : isFriendsOnly
+                              ? ('loading_page.tooltip.friends_only' | translate)
+                              : ('loading_page.tooltip.public' | translate)
+                    "
+                    matTooltipClass="custom-tooltip"
+                    [matTooltipPosition]="'right'"
+                >
+                    <span class="mode-icon">{{
+                        isLocked
+                            ? ('loading_page.lock.locked' | translate)
+                            : isFriendsOnly
+                              ? ('loading_page.mode.friends_only' | translate)
+                              : ('loading_page.mode.public' | translate)
+                    }}</span>
+                </button>
+
+                @if (!isSmallGame) {
+                <button
+                    (click)="onToggleDropInDropOut()"
+                    [ngClass]="{
+                        'drop-enabled': gameModeService.isDropInDropOut,
+                        'drop-disabled': !gameModeService.isDropInDropOut
+                    }"
+                    [matTooltip]="'loading_page.tooltip.drop_in_out' | translate"
+                    matTooltipClass="custom-tooltip"
+                    [matTooltipPosition]="'right'"
+                >
+                    <span class="mode-icon">
+                        {{ gameModeService.isDropInDropOut ? ('loading_page.drop_in_enabled' | translate) : ('loading_page.drop_in_disabled' | translate) }}
+                    </span>
+                </button>
+                }
+
+                <button
+                    (click)="onToggleFogOfWar()"
+                    [ngClass]="{
+                        'fog-enabled': isFogOfWar,
+                        'fog-disabled': !isFogOfWar
+                    }"
+                    [matTooltip]="'loading_page.tooltip.fog_of_war' | translate"
+                    matTooltipClass="custom-tooltip"
+                    [matTooltipPosition]="'right'"
+                >
+                    <span class="mode-icon">{{
+                        isFogOfWar ? ('loading_page.fog_of_war_enabled' | translate) : ('loading_page.fog_of_war_disabled' | translate)
+                    }}</span>
+                </button>
+            </div>
+        </div>
+        }
+    </div>
+
+    <!-- ── Center Panel: Players ────────────────── -->
+    <div class="center-panel">
+        <div [class.hidden]="!isLoading" class="loading-container">
+            <div class="loading-text game-text">
+                {{ 'loading_page.waiting_players' | translate }}<span class="loading-dots">{{ loadingDots }}</span>
+            </div>
+        </div>
+
+        <div class="team-headers-row" [class.teams-visible]="lobbyGameMode === 'teams'"
+             [style.gridTemplateColumns]="'repeat(' + teamCount + ', 1fr)'">
+            @for (team of visibleTeams; track team.id) {
+            <div class="team-title" [style.borderColor]="team.color">
+                <div class="team-header">
+                    <span class="team-icon">{{ team.icon }}</span>
+                    <span [style.color]="team.color">{{ 'loading_page.team_label' | translate: { id: team.id } }}</span>
+
+                    @if (!team.isOwnTeam) {
+                    <button
+                        class="join-team-button"
+                        [disabled]="isTeamFull(team)"
+                        (click)="selectTeam(team.id)"
+                        [matTooltip]="isTeamFull(team) ? ('loading_page.team_full' | translate) : ''"
+                        [matTooltipDisabled]="!isTeamFull(team)"
+                        matTooltipClass="custom-tooltip"
+                    >
+                        {{ 'loading_page.join_team' | translate }}
+                    </button>
+                    } @if (team.isOwnTeam) {
+                    <button class="leave-team-button" (click)="leaveTeam()">{{ 'loading_page.leave_team' | translate }}</button>
+                    }
+                </div>
+            </div>
+            }
+        </div>
+
+        @if (lobbyGameMode !== 'teams') {
+        <div class="player-grid" [style.gridTemplateColumns]="'repeat(' + gridColumns + ', 1fr)'">
+            @for (player of players; track player.id) {
+            <div class="player-card-wrapper">
+                <app-player-card class="player-card-container" [player]="player" (kick)="onKick(player)"> </app-player-card>
+            </div>
+            }
+            @for (slot of emptySlots; track $index) {
+            <div class="player-card-wrapper">
+                <div class="empty-slot">
+                    <span class="empty-slot-icon">?</span>
+                </div>
+            </div>
+            }
+        </div>
+        } @if (lobbyGameMode === 'teams') {
+        <div class="teams-container" [style.gridTemplateColumns]="'repeat(' + teamCount + ', 1fr)'">
+            @for (team of visibleTeams; track team.id) {
+            <div
+                class="team-column"
+                [class.team-column-full]="isTeamFull(team)"
+                cdkDropList
+                [id]="'team-' + team.id"
+                [cdkDropListData]="team.players"
+                [cdkDropListConnectedTo]="getConnectedDropLists(team.id)"
+                [cdkDropListSortingDisabled]="true"
+                (cdkDropListDropped)="drop($event, team.id)"
+            >
+                @for (player of team.players; track player.id) {
+                <div
+                    class="team-card-slot"
+                    cdkDrag
+                    [cdkDragData]="player"
+                    [cdkDragDisabled]="!isHost() || !isVirtualPlayer(player)"
+                >
+                    <div class="card-scale-inner">
+                        <app-player-card class="player-card-container" [player]="player" (kick)="onKick(player)"></app-player-card>
+                    </div>
+                    <div *cdkDragPlaceholder class="drag-placeholder"></div>
+                    <div *cdkDragPreview>
+                        <div class="card-scale-inner">
+                            <app-player-card class="player-card-container" [player]="player"></app-player-card>
+                        </div>
+                    </div>
+                </div>
+                }
+                @for (slot of teamEmptySlotsMap.get(team.id); track $index) {
+                <div class="team-card-slot">
+                    <div class="card-scale-inner">
+                        <div class="empty-slot" [style.borderColor]="team.color">
+                            <span class="empty-slot-icon">?</span>
+                        </div>
+                    </div>
+                </div>
+                }
+            </div>
+            }
+        </div>
+        }
+    </div>
+
+    <!-- ── Right Panel: Chat + Actions ──────────── -->
+    <div class="right-panel">
+        <div class="chat-wrapper">
+            <div class="chat-tab-header">
+                <span class="chat-tab">
+                    <svg class="chat-tab-icon" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                        <path
+                            d="M21 15a2 2 0 01-2 2H7l-4 4V5a2 2 0 012-2h14a2 2 0 012 2z"
+                            stroke="currentColor"
+                            stroke-width="2"
+                            stroke-linecap="round"
+                            stroke-linejoin="round"
+                        />
+                    </svg>
+                    {{ 'game_chat.tab_chat' | translate }}
+                </span>
+            </div>
+            <app-game-chat class="chat-panel"></app-game-chat>
+        </div>
+
+        <div class="action-buttons">
+            @if (isHost()) {
+            <div class="add-player-wrapper">
+                <button
+                    class="action-btn add-player"
+                    (click)="addVirtualPlayer()"
+                    [disabled]="isLocked || players.length >= maxPlayers"
+                    [matTooltip]="getVirtualPlayerText() | translate"
+                    [matTooltipDisabled]="!isLocked && players.length < maxPlayers"
+                    matTooltipClass="custom-tooltip"
+                    [matTooltipPosition]="'left'"
+                >
+                    {{ 'loading_page.add_virtual_player' | translate }}
+                </button>
+                @if (isVirtualPlayerTypeVisible) {
+                <div class="type-prompt game-text" (click)="$event.stopPropagation()">
+                    <p>{{ 'loading_page.choose_virtual_type' | translate }}</p>
+                    <div class="type-prompt-buttons">
+                        <button class="aggressive-button game-text" (click)="onChooseVirtualPlayerType('Aggressif'); $event.stopPropagation()">
+                            {{ 'loading_page.virtual_type.aggressive' | translate }}
+                        </button>
+                        <button class="defensive-button game-text" (click)="onChooseVirtualPlayerType('Défensif'); $event.stopPropagation()">
+                            {{ 'loading_page.virtual_type.defensive' | translate }}
+                        </button>
+                    </div>
+                </div>
+                }
+            </div>
+
+            <button
+                class="action-btn start-game"
+                (click)="startGame()"
+                [disabled]="players.length < minPlayers || !isLocked || !canStartGame()"
+                [matTooltip]="getTranslatedStartText()"
+                matTooltipClass="custom-tooltip"
+                [matTooltipPosition]="'left'"
+            >
+                {{ 'loading_page.start_game' | translate }}
+            </button>
+            }
+
+            <button class="action-btn leave-game" (click)="leaveGame()">{{ 'loading_page.leave_game' | translate }}</button>
+        </div>
+    </div>
+</div>

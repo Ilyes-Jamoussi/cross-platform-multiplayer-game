@@ -1,0 +1,206 @@
+.popup-overlay {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    justify-self: center;
+    justify-content: center;
+    display: grid;
+    justify-items: center;
+    align-items: center;
+    background: rgba(0, 0, 0, 0.5);
+    z-index: 10000;
+}
+
+.popup-container {
+    background: linear-gradient(155deg, #16171f 0%, #0d0e14 48%, #12131a 100%);
+    border: 0.25vmin solid var(--app-secondary);
+    padding: 3vmin;
+    border-radius: 1.2vmin;
+    width: 70vmin;
+    text-align: center;
+    box-shadow:
+        0 0 2.5vmin rgba(0, 0, 0, 0.4),
+        0 0.85vmin 3.5vmin rgba(0, 0, 0, 0.55);
+}
+
+h2 {
+    font-family: 'Press Start 2P';
+    font-size: 3vmin;
+    color: white;
+}
+
+h3 {
+    font-family: 'Press Start 2P';
+    font-size: 1.5vmin;
+    color: var(--app-text-muted);
+}
+
+.trade-layout {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    gap: 3vmin;
+    margin: 3vmin 0;
+}
+
+.inventory-column {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+.inventory-list {
+    display: flex;
+    gap: 2vmin;
+}
+
+.inventory-item {
+    position: relative;
+    background: var(--app-surface-alt);
+    padding: 2vmin;
+    border-radius: 1vmin;
+    width: 10vmin;
+    height: 12vmin;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    cursor: pointer;
+    border: 0.15vmin solid rgba(255, 255, 255, 0.08);
+    transition: border-color 0.2s ease;
+
+    &:hover {
+        border-color: var(--app-secondary);
+    }
+}
+
+.item-icon {
+    width: 7vmin;
+    height: 7vmin;
+}
+
+.selected-overlay {
+    position: absolute;
+    inset: 0;
+    background: rgba(255, 255, 0, 0.4);
+    border-radius: 1vmin;
+}
+
+.trade-middle {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 2vmin;
+}
+
+.trade-slot {
+    position: relative;
+    width: 10vmin;
+    height: 10vmin;
+    background: var(--app-surface-alt);
+    border: 0.15vmin solid rgba(255, 255, 255, 0.08);
+    border-radius: 1vmin;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    animation: popIn 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+
+    &.accepted {
+        background: rgba(76, 175, 80, 0.15);
+        border: 0.5vmin solid var(--app-success);
+        box-shadow: 0 0 2vmin rgba(76, 175, 80, 0.4);
+        transition: all 0.3s ease;
+    }
+}
+
+@keyframes popIn {
+    0% {
+        transform: scale(0);
+        opacity: 0;
+    }
+    100% {
+        transform: scale(1);
+        opacity: 1;
+    }
+}
+
+button.btn-accept.is-accepted {
+    cursor: default;
+    transform: scale(0.95);
+    filter: brightness(0.8);
+}
+
+.status-badge {
+    position: absolute;
+    bottom: -1.5vmin;
+    right: -1.5vmin;
+    font-size: 3vmin;
+    background: var(--app-surface);
+    border-radius: 50%;
+    width: 3.5vmin;
+    height: 3.5vmin;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    box-shadow: 0 0 1vmin rgba(0, 0, 0, 0.5);
+}
+
+.action-buttons {
+    display: flex;
+    gap: 3vmin;
+    justify-content: center;
+    margin-top: 4vmin;
+}
+
+.trade-arrow {
+    font-size: 4vmin;
+    color: white;
+}
+
+button {
+    font-family: 'Press Start 2P';
+    padding: 1.5vmin 3vmin;
+    font-size: 2.5vmin;
+    border: 0.2vmin solid transparent;
+    border-radius: 0.6vmin;
+    cursor: pointer;
+    color: white;
+    transition:
+        background-color 0.2s ease,
+        box-shadow 0.2s ease,
+        transform 0.2s ease;
+
+    &.btn-accept {
+        background-color: var(--app-success);
+
+        &:hover:not(:disabled) {
+            background-color: var(--app-success-hover);
+            box-shadow: 0 0 1.5vmin rgba(76, 175, 80, 0.4);
+            transform: translateY(-0.2vmin);
+        }
+
+        &.is-accepted {
+            background-color: #2e7d32;
+        }
+    }
+
+    &.btn-cancel {
+        background-color: var(--app-error);
+
+        &:hover {
+            background-color: var(--app-error-hover);
+            box-shadow: 0 0 1.5vmin rgba(244, 67, 54, 0.4);
+            transform: translateY(-0.2vmin);
+        }
+    }
+
+    &:active {
+        transform: translateY(0);
+    }
+
+    &:disabled {
+        cursor: not-allowed;
+        opacity: 0.8;
+    }
+}

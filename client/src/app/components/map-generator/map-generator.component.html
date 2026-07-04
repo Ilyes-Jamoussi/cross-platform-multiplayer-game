@@ -1,0 +1,42 @@
+@if (isModalOpen) {
+<div class="modal-overlay">
+    <div class="modal-content" (click)="$event.stopPropagation()">
+        <div class="modal-header">
+            <h2>{{ 'map_generator.title' | translate }}</h2>
+            <button class="close-button" (click)="onCloseModal()">✕</button>
+        </div>
+
+        <div class="modal-body">
+            <div class="form-group">
+                <label>{{ 'map_generator.water_percentage' | translate }} : {{ waterPercentage }}%</label>
+                <input type="range" [(ngModel)]="waterPercentage" min="0" max="30" step="1" class="slider"
+                    [style.background]="sliderGradient(waterPercentage, 30)" />
+                <span class="range-labels">
+                    <span>0%</span>
+                    <span>30%</span>
+                </span>
+            </div>
+
+            <div class="form-group">
+                <label>{{ 'map_generator.ice_percentage' | translate }} : {{ icePercentage }}%</label>
+                <input type="range" [(ngModel)]="icePercentage" min="0" max="30" step="1" class="slider"
+                    [style.background]="sliderGradient(icePercentage, 30)" />
+                <span class="range-labels">
+                    <span>0%</span>
+                    <span>30%</span>
+                </span>
+            </div>
+        </div>
+
+        <div class="modal-footer">
+            <button class="button action-game-btn" (click)="onGenerate()" [disabled]="isGenerating">
+                @if (isGenerating) {
+                {{ 'map_generator.generating' | translate }}
+                } @else {
+                {{ 'map_generator.generate_button' | translate }}
+                }
+            </button>
+        </div>
+    </div>
+</div>
+}

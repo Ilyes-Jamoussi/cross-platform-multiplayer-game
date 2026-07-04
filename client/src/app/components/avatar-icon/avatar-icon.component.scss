@@ -1,0 +1,63 @@
+.avatar-container {
+    width: 7vmin;
+    height: 7vmin;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border: 0.5vmin solid white;
+    background: rgba(0, 0, 0, 0.3);
+    box-shadow: 0.5vmin 0.5vmin 1.5vmin rgba(0, 0, 0, 0.2);
+    transition: transform 0.2s ease-in-out;
+    cursor: pointer;
+    position: relative;
+
+    &:hover:not(.unavailable):not(.locked) {
+        transform: scale(1.1);
+    }
+
+    &.unavailable {
+        opacity: 0.5;
+        cursor: not-allowed;
+        border-color: #7f8c8d;
+    }
+
+    &.locked {
+        opacity: 0.7;
+        cursor: not-allowed;
+        border-color: var(--app-secondary);
+
+        &:hover {
+            transform: none;
+        }
+    }
+
+    &.isSelected {
+        border-color: var(--app-secondary);
+        transform: scale(1.15);
+        box-shadow: 0 0 1.2vmin var(--app-secondary), inset 0 0 0.5vmin var(--app-secondary-disabled);
+    }
+}
+
+.avatar-icon {
+    width: 7vmin;
+    height: 7vmin;
+    position: relative;
+    object-fit: contain;
+}
+
+.lock-overlay {
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background: rgba(0, 0, 0, 0.7);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.lock-icon {
+    font-size: 3vmin;
+    color: var(--app-secondary);
+}

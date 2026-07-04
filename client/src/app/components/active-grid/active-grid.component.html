@@ -1,0 +1,66 @@
+@if (isDefined()) {
+<div #gridContainer class="grid" [style.gridTemplateColumns]="'repeat(' + grid.gridSize + ', ' + getTileSize() + ')'">
+    @for (row of grid.board; track rowIndex; let rowIndex = $index) {
+    <div class="row">
+        @for (tile of row; track tile; let colIndex = $index) {
+        <div
+            class="tile"
+            [ngStyle]="{
+                width: getTileSize(),
+                height: getTileSize(),
+                '--team-color': getTeamColor(rowIndex, colIndex)
+            }"
+            [attr.data-row]="rowIndex"
+            [attr.data-col]="colIndex"
+            [ngClass]="{
+                tile: true,
+                reachable: isTileVisible(rowIndex, colIndex) && getReachableTile({ x: rowIndex, y: colIndex }),
+                'highlight-path': isTileVisible(rowIndex, colIndex) && getHighlightedTile({ x: rowIndex, y: colIndex }),
+                'highlight-other-team':
+                    isTileVisible(rowIndex, colIndex) && grid.board[rowIndex][colIndex].player && isTeamGame() && !isTeamMember(rowIndex, colIndex),
+                'highlight-team':
+                    isTileVisible(rowIndex, colIndex) && isTeamGame() && !isCurrentUserPlayer(rowIndex, colIndex) && isTeamMember(rowIndex, colIndex),
+                'highlight-self': isCurrentUserPlayer(rowIndex, colIndex),
+                'team-mode': isCurrentUserPlayer(rowIndex, colIndex) && isTeamGame(),
+                'can-combat':
+                    isTileVisible(rowIndex, colIndex) && canCombat(rowIndex, colIndex) && isActionClicked && !isTeamMember(rowIndex, colIndex),
+                'is-door': isTileVisible(rowIndex, colIndex) && isDoor(rowIndex, colIndex),
+                'can-trade': isTileVisible(rowIndex, colIndex) && canTrade(rowIndex, colIndex),
+                'fog-hidden': !isTileVisible(rowIndex, colIndex)
+            }"
+            (click)="tileClick($event, { x: rowIndex, y: colIndex })"
+            (contextmenu)="onRightClick($event, { x: rowIndex, y: colIndex })"
+            (dblclick)="onTileDoubleClick({ x: rowIndex, y: colIndex })"
+            (mouseenter)="onTileHovered({ x: rowIndex, y: colIndex })"
+            (mouseleave)="onTileUnhovered()"
+        >
+            <img class="tile-image" alt="" [src]="getTileImage(rowIndex, colIndex)" draggable="false" />
+            @if (isTileVisible(rowIndex, colIndex)) { @if (grid.board[rowIndex][colIndex].item.name !== '' &&
+            !grid.board[rowIndex][colIndex].item.name.includes('UnusedSpawnPoint')) {
+            @if(grid.board[rowIndex][colIndex].item.name.includes('StartingPoint')) {
+            <img class="item-icon" alt="" draggable="false" [src]="getItemImage(grid.board[rowIndex][colIndex].item.name)" />
+            @if (makeStartingPointGlow(rowIndex, colIndex)) {
+            <img class="is-flag-starting-point" alt="" [src]="'./assets/items/flag.png'" draggable="false" />
+            } } @else if (!grid.board[rowIndex][colIndex].player) {
+            <img class="item-icon" alt="" draggable="false" [src]="getItemImage(grid.board[rowIndex][colIndex].item.name)" />
+
+            } } @if (grid.board[rowIndex][colIndex].player) {
+            <img
+                class="player-avatar"
+                alt=""
+                [src]="getPlayerAvatar(rowIndex, colIndex)"
+                [ngClass]="{
+                    'facing-left': getPlayerLastDirection(rowIndex, colIndex) === 'left',
+                    'facing-right': getPlayerLastDirection(rowIndex, colIndex) === 'right'
+                }"
+                draggable="false"
+            />
+            @if (showFlagHolder(grid.board[rowIndex][colIndex].player)){
+            <img class="flag-holder" alt="" [src]="'./assets/items/flag.png'" draggable="false" />
+            } } }
+        </div>
+        }
+    </div>
+    }
+</div>
+}

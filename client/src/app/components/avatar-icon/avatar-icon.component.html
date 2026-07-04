@@ -1,0 +1,15 @@
+<div
+    class="avatar-container"
+    [class.isSelected]="isSelected"
+    [class.unavailable]="!isAvailable"
+    [class.locked]="isLocked"
+    (click)="onSelect()"
+    [style.cursor]="isClickable ? 'pointer' : 'not-allowed'"
+>
+    <img draggable="false" [src]="avatar.icon" [alt]="avatar.name" class="avatar-icon" />
+    @if (isLocked) {
+    <div class="lock-overlay">
+        <span class="lock-icon"><app-coin-icon /></span>
+    </div>
+    }
+</div>

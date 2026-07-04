@@ -1,0 +1,34 @@
+@if (isLoadingGames) {
+<app-page-loading messageKey="admin_page.loading_games" />
+} @else {
+<div class="container">
+    <button type="button" class="button action-game-btn" routerLink="/settings-editor">{{ 'admin_page.creer_jeu' | translate }}</button>
+
+    <div class="tab-buttons">
+        <button class="tab-btn" [class.active]="activeTab === gameModes.Classic" (click)="activeTab = gameModes.Classic">
+            {{ 'admin_page.classique' | translate }} ({{ filteredGames(gameModes.Classic).length }})
+        </button>
+        <button class="tab-btn" [class.active]="activeTab === gameModes.CTF" (click)="activeTab = gameModes.CTF">
+            {{ 'admin_page.ctf' | translate }} ({{ filteredGames(gameModes.CTF).length }})
+        </button>
+    </div>
+
+    <div class="game-list">
+        @for (game of filteredGames(activeTab); track game) {
+        <app-game-card
+            [game]="formatGame(game)"
+            [isOwner]="isOwner(game)"
+            [canEdit]="canEdit(game)"
+            [canDelete]="canDelete(game)"
+            [canDuplicate]="canDuplicate(game)"
+            (edit)="onEditGame(game._id)"
+            (stateChange)="onStateChange(game._id, $event)"
+            (duplicate)="onDuplicateGame(game._id)"
+            (delete)="onDeleteGame(game._id)"
+        ></app-game-card>
+        } @empty {
+        <p class="empty-msg">{{ 'admin_page.vide' | translate }}</p>
+        }
+    </div>
+</div>
+}

@@ -1,0 +1,47 @@
+.popup-content {
+    background: rgba(10, 10, 30, 0.95) !important;
+    color: #fff !important;
+    font-family: 'Press Start 2P', sans-serif !important;
+    font-size: 1.2vmin !important;
+    border: 0.2vmin solid var(--app-primary, #0056b3) !important;
+    border-radius: 0.6vmin !important;
+    box-shadow: 0 0.4vmin 1.5vmin rgba(0, 0, 0, 0.6) !important;
+    position: relative !important;
+    display: flex !important;
+    flex-direction: column !important;
+    align-items: center !important;
+    justify-content: center !important;
+    text-align: left !important;
+    white-space: pre-wrap;
+    width: fit-content !important;
+    max-width: 50vmin !important;
+    padding: 1.5vmin !important;
+    line-height: 1.6;
+    gap: 0.8vmin;
+}
+
+.player-avatar {
+    width: 6vmin;
+    height: 6vmin;
+    object-fit: contain;
+    border: 0.2vmin solid var(--app-primary, #0056b3);
+    border-radius: 0.4vmin;
+    background: rgba(0, 0, 0, 0.4);
+}
+
+.close-btn {
+    font-family: 'Press Start 2P', sans-serif;
+    font-size: 1vmin;
+    padding: 0.5vmin 1.5vmin;
+    margin-top: 0.3vmin;
+    background: var(--app-primary, #0056b3);
+    color: white;
+    border: 0.15vmin solid var(--app-secondary, #007bff);
+    border-radius: 0.4vmin;
+    cursor: pointer;
+    transition: background 0.2s;
+
+    &:hover {
+        background: var(--app-secondary-hover, #003d80);
+    }
+}

@@ -1,0 +1,101 @@
+$background-color: #2b2b2b;
+$border-color: #fff;
+$progress-bg: #555;
+$progress-fill: #00ff00;
+$button-bg: #ffcc00;
+$button-hover: #ffaa00;
+$button-active: #ff8800;
+$shadow-color: black;
+$button-hover-border: #fff;
+
+@mixin pixel-border($size) {
+    border: $size solid $border-color;
+    image-rendering: pixelated;
+}
+
+.combat-choice-popup {
+    z-index: 10;
+    position: fixed;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    background: rgba($background-color, 0.95);
+    padding: 2vmin;
+    text-align: center;
+    box-shadow:
+        0 0.5vmin 2vmin rgba(0, 0, 0, 0.7),
+        0 0 1vmin rgba(255, 255, 255, 0.3);
+    width: 35vmin;
+    height: auto;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    gap: 0.8vmin;
+    @include pixel-border(0.6vmin);
+    animation: popupFadeIn 0.3s ease-out;
+}
+
+@keyframes popupFadeIn {
+    from {
+        opacity: 0;
+        transform: translate(-50%, -55%);
+    }
+    to {
+        opacity: 1;
+        transform: translate(-50%, -50%);
+    }
+}
+
+h2 {
+    font-family: 'Press Start 2P', cursive;
+    font-size: 2vmin;
+    color: white;
+    margin-bottom: 1.5vmin;
+}
+
+.progress-container {
+    width: 80%;
+    background: $progress-bg;
+    height: 2vmin;
+    @include pixel-border(0.4vmin);
+    margin-bottom: 1.5vmin;
+    overflow: hidden;
+
+    .progress-bar {
+        height: 2vmin;
+        background: $progress-fill;
+        transition: width 0.1s linear;
+    }
+}
+
+button {
+    font-family: 'Press Start 2P', cursive;
+    font-size: 1.4vmin;
+    background: $button-bg;
+    border: 0.4vmin solid $shadow-color;
+    padding: 1.2vmin;
+    cursor: pointer;
+    color: black;
+    margin: 0.5vmin;
+    box-shadow: 0.4vmin 0.4vmin $shadow-color;
+    width: 80%;
+    transition: all 0.2s ease-in-out;
+
+    &:hover {
+        background: $button-hover;
+        box-shadow: 0.2vmin 0.2vmin $shadow-color;
+        border-color: $button-hover-border;
+        color: white;
+    }
+
+    &:active {
+        background: $button-active;
+        box-shadow: none;
+    }
+
+    &:disabled {
+        background: #555;
+        cursor: not-allowed;
+    }
+}

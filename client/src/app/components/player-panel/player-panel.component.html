@@ -1,0 +1,146 @@
+@if (player) {
+<div class="player-panel">
+    <div class="player-card">
+        <div class="name-container">
+            <h3>{{ player.name }}</h3>
+        </div>
+
+        <div class="top-section">
+            <div class="stats-section">
+                <div class="stat-line">
+                    <div class="stat-label">
+                        <span>{{ 'game_page.life' | translate }}</span>
+                    </div>
+                    <div class="stat-bar-container">
+                        @for (seg of lifeSegments; track $index) {
+                        <div class="stat-segment" [class.filled]="seg" [class.life-color]="seg"></div>
+                        }
+                    </div>
+                    <span class="stat-value life-text">{{ player.stats?.life }}/{{ player.stats?.maxLife }}</span>
+                </div>
+
+                <div class="stat-line">
+                    <div class="stat-label">
+                        <span>{{ 'game_page.speed' | translate }}</span>
+                    </div>
+                    <div class="stat-bar-container">
+                        @for (seg of speedSegments; track $index) {
+                        <div class="stat-segment" [class.filled]="seg" [class.speed-color]="seg"></div>
+                        }
+                    </div>
+                    <span class="stat-value speed-text">{{ player.stats?.speed }}/{{ player.stats?.maxSpeed }}</span>
+                </div>
+
+                <div class="stat-line">
+                    <div class="stat-label">
+                        <span>{{ 'game_page.attack' | translate }}</span>
+                    </div>
+                    <div class="stat-bar-container">
+                        @for (seg of attackSegments; track $index) {
+                        <div class="stat-segment" [class.filled]="seg" [class.attack-color]="seg"></div>
+                        }
+                    </div>
+                    <span class="stat-value attack-text"
+                        >{{ buffedStats.attack }} +
+                        @if (player.stats?.attack === 4) {
+                        <svg class="dice-icon" viewBox="0 0 100 100" fill="none" xmlns="http://www.w3.org/2000/svg">
+                            <path d="M50 5L95 92H5z" stroke="currentColor" stroke-width="4" stroke-linejoin="round"/>
+                            <line x1="50" y1="5" x2="50" y2="63" stroke="currentColor" stroke-width="3"/>
+                            <line x1="5" y1="92" x2="50" y2="63" stroke="currentColor" stroke-width="3"/>
+                            <line x1="95" y1="92" x2="50" y2="63" stroke="currentColor" stroke-width="3"/>
+                            <circle cx="50" cy="79" r="4" fill="currentColor"/>
+                            <circle cx="59" cy="42" r="4" fill="currentColor"/>
+                            <circle cx="65" cy="56" r="4" fill="currentColor"/>
+                            <circle cx="40" cy="40" r="4" fill="currentColor"/>
+                            <circle cx="35" cy="54" r="4" fill="currentColor"/>
+                            <circle cx="30" cy="68" r="4" fill="currentColor"/>
+                        </svg>
+                        } @else {
+                        <svg class="dice-icon" viewBox="0 0 100 110" fill="none" xmlns="http://www.w3.org/2000/svg">
+                            <path d="M50 5L97 28v54L50 110 3 82V28z" stroke="currentColor" stroke-width="4" stroke-linejoin="round"/>
+                            <path d="M3 28l47 27 47-27" stroke="currentColor" stroke-width="3" stroke-linejoin="round"/>
+                            <line x1="50" y1="55" x2="50" y2="110" stroke="currentColor" stroke-width="3"/>
+                            <circle cx="50" cy="30" r="5" fill="currentColor"/>
+                            <circle cx="18" cy="50" r="4.5" fill="currentColor"/>
+                            <circle cx="35" cy="88" r="4.5" fill="currentColor"/>
+                            <circle cx="82" cy="50" r="4.5" fill="currentColor"/>
+                            <circle cx="73" cy="69" r="4.5" fill="currentColor"/>
+                            <circle cx="64" cy="88" r="4.5" fill="currentColor"/>
+                        </svg>
+                        }
+                    </span>
+                </div>
+
+                <div class="stat-line">
+                    <div class="stat-label">
+                        <span>{{ 'game_page.defense' | translate }}</span>
+                    </div>
+                    <div class="stat-bar-container">
+                        @for (seg of defenseSegments; track $index) {
+                        <div class="stat-segment" [class.filled]="seg" [class.defense-color]="seg"></div>
+                        }
+                    </div>
+                    <span class="stat-value defense-text"
+                        >{{ buffedStats.defense }} +
+                        @if (player.stats?.defense === 4) {
+                        <svg class="dice-icon" viewBox="0 0 100 100" fill="none" xmlns="http://www.w3.org/2000/svg">
+                            <path d="M50 5L95 92H5z" stroke="currentColor" stroke-width="4" stroke-linejoin="round"/>
+                            <line x1="50" y1="5" x2="50" y2="63" stroke="currentColor" stroke-width="3"/>
+                            <line x1="5" y1="92" x2="50" y2="63" stroke="currentColor" stroke-width="3"/>
+                            <line x1="95" y1="92" x2="50" y2="63" stroke="currentColor" stroke-width="3"/>
+                            <circle cx="50" cy="79" r="4" fill="currentColor"/>
+                            <circle cx="59" cy="42" r="4" fill="currentColor"/>
+                            <circle cx="65" cy="56" r="4" fill="currentColor"/>
+                            <circle cx="40" cy="40" r="4" fill="currentColor"/>
+                            <circle cx="35" cy="54" r="4" fill="currentColor"/>
+                            <circle cx="30" cy="68" r="4" fill="currentColor"/>
+                        </svg>
+                        } @else {
+                        <svg class="dice-icon" viewBox="0 0 100 110" fill="none" xmlns="http://www.w3.org/2000/svg">
+                            <path d="M50 5L97 28v54L50 110 3 82V28z" stroke="currentColor" stroke-width="4" stroke-linejoin="round"/>
+                            <path d="M3 28l47 27 47-27" stroke="currentColor" stroke-width="3" stroke-linejoin="round"/>
+                            <line x1="50" y1="55" x2="50" y2="110" stroke="currentColor" stroke-width="3"/>
+                            <circle cx="50" cy="30" r="5" fill="currentColor"/>
+                            <circle cx="18" cy="50" r="4.5" fill="currentColor"/>
+                            <circle cx="35" cy="88" r="4.5" fill="currentColor"/>
+                            <circle cx="82" cy="50" r="4.5" fill="currentColor"/>
+                            <circle cx="73" cy="69" r="4.5" fill="currentColor"/>
+                            <circle cx="64" cy="88" r="4.5" fill="currentColor"/>
+                        </svg>
+                        }
+                    </span>
+                </div>
+
+                <div class="stat-line">
+                    <div class="stat-label">
+                        <span>{{ 'game_page.action_left' | translate }}</span>
+                    </div>
+                    <div class="stat-bar-container">
+                        @for (seg of actionSegments; track $index) {
+                        <div class="stat-segment" [class.filled]="seg" [class.action-color]="seg"></div>
+                        }
+                    </div>
+                    <span class="stat-value action-text">{{ actionsLeft }}</span>
+                </div>
+            </div>
+
+            <div class="avatar-container">
+                <img [src]="playerAvatar" alt="{{ player.name }}'s avatar" class="avatar" draggable="false" />
+            </div>
+        </div>
+
+        @if (inventory && inventory.length > 0) {
+        <div class="inventory-section">
+            <div class="inventory-container">
+                @for (item of inventory; track item.uniqueId) {
+                <div class="inventory-item">
+                    <img [src]="getItemImage(item)" [alt]="getItemTooltip(item)" class="inventory-icon" draggable="false" />
+                    <span class="tooltip">{{ getItemTooltip(item) }}</span>
+                </div>
+                }
+            </div>
+        </div>
+        }
+    </div>
+</div>
+}

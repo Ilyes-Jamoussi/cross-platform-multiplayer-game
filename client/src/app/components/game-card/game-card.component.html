@@ -1,0 +1,51 @@
+<div class="game-card">
+    <div class="map-image" [matTooltip]="game.description" matTooltipClass="custom-tooltip">
+        <img [src]="'data:image/png;base64,' + game.imagePayload" draggable="false" />
+    </div>
+    <div class="game-details">
+        <h2>{{ game.name }}</h2>
+        <p id="map-size">{{ game.gridSize }}x{{ game.gridSize }}</p>
+        <p id="owner-name">{{ 'admin_page.owner' | translate }}: {{ game.ownerName }}</p>
+        <p id="last-modified">{{ game.lastModified }}</p>
+    </div>
+    <div class="game-state">
+        @if (isOwner) {
+        <button class="state-btn" [class.state-active]="game.state === 'public'" [disabled]="!isOwner" (click)="onStateSelect('public')">
+            {{ 'admin_page.state_public' | translate }}
+        </button>
+        <button class="state-btn" [class.state-active]="game.state === 'private'" [disabled]="!isOwner" (click)="onStateSelect('private')">
+            {{ 'admin_page.state_private' | translate }}
+        </button>
+        <button
+            class="state-btn"
+            [class.state-active]="game.state === 'private-shared'"
+            [disabled]="!isOwner"
+            (click)="onStateSelect('private-shared')"
+        >
+            {{ 'admin_page.state_private_shared' | translate }}
+        </button>
+        } @else {
+        <span class="state-label">{{ 'admin_page.state_public' | translate }}</span>
+        }
+    </div>
+    <div class="game-actions">
+        <button (click)="onEdit()" [disabled]="!canEdit">
+            <img src="assets/edit.png" [attr.alt]="'admin_page.alt_edit' | translate" draggable="false" [class.disabled-icon]="!canEdit" />
+        </button>
+    </div>
+    <div class="game-actions">
+        <button (click)="onDuplicate()" [disabled]="!canDuplicate">
+            <img
+                src="assets/duplicate.svg"
+                [attr.alt]="'admin_page.alt_duplicate' | translate"
+                draggable="false"
+                [class.disabled-icon]="!canDuplicate"
+            />
+        </button>
+    </div>
+    <div class="game-actions">
+        <button (click)="onDelete()" [disabled]="!canDelete">
+            <img src="assets/delete.png" [attr.alt]="'admin_page.alt_delete' | translate" draggable="false" [class.disabled-icon]="!canDelete" />
+        </button>
+    </div>
+</div>

@@ -1,0 +1,63 @@
+.tool-container {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    height: 100%;
+    justify-content: space-evenly;
+}
+
+.tile-container {
+    display: flex;
+    gap: 4vmin;
+    align-items: center;
+    border: 0.4vmin solid var(--app-secondary);
+    padding: 0.4vmin;
+    box-sizing: border-box;
+    background-color: var(--app-primary-background);
+    border-radius: 2vmin;
+    width: 12vmin;
+    height: 12vmin;
+    flex-direction: column;
+    justify-content: center;
+}
+
+.tile-icon {
+    cursor: pointer;
+    border: 0.2vmin solid var(--app-tertiary);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    background-color: var(--app-primary-background);
+    transition:
+        transform 0.2s,
+        background-color 0.2s;
+    border-radius: 1vmin;
+    width: 90%;
+    height: 90%;
+}
+
+.tile-name {
+    font-family: 'Press Start 2P', sans-serif;
+}
+
+.selected-border {
+    border: 1pt solid var(--app-tertiary);
+    box-shadow: 0 0 10pt 4pt var(--app-secondary-disabled);
+    background-color: var(--app-highlight-bg);
+    transform: scale(1.3);
+}
+
+.preload {
+    z-index: -1;
+    height: 1pt;
+    width: 1pt;
+    left: 0;
+    top: 0;
+}
+
+.tile-image {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    border-radius: 1vmin;
+}

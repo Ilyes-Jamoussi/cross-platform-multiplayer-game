@@ -1,0 +1,454 @@
+.pop-up {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    z-index: 999;
+    pointer-events: auto;
+}
+
+.vs-popup-container {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    color: white;
+    background-color: black;
+    box-shadow: 0 0 1.5vmin rgba(255, 0, 0, 0.8);
+    font-family: 'Press Start 2P', cursive;
+    image-rendering: pixelated;
+    background-position: center;
+    background-repeat: no-repeat;
+    background-size: cover;
+    z-index: 3;
+    overflow: hidden;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    font-size: 2vmin;
+    font-weight: bold;
+    flex-direction: column;
+}
+
+.left {
+    position: relative;
+    left: 17vmin;
+    z-index: 3;
+}
+
+.right {
+    position: relative;
+    right: 17.5vmin;
+    top: 2vmin;
+    z-index: 2;
+}
+
+.player-info {
+    z-index: 6;
+    position: absolute;
+    width: auto;
+    max-width: 40vmin;
+    background: rgba(0, 0, 0, 0.75);
+    color: white;
+    text-align: left;
+    font-size: 1.4vmin;
+    font-weight: bold;
+    border-radius: 1vmin;
+    border: 0.3vmin solid white;
+    box-shadow: 0 0 1vmin rgba(255, 255, 255, 0.5);
+    font-family: 'Press Start 2P', cursive;
+    padding: 1.5vmin 1.5vmin;
+    box-sizing: border-box;
+
+    p {
+        margin: 0.6vmin 0;
+        line-height: 1.4;
+        white-space: nowrap;
+    }
+}
+
+.left-info {
+    top: 2vmin;
+    left: 2vmin;
+}
+
+.right-info {
+    top: 2vmin;
+    right: 2vmin;
+}
+
+.stats-container {
+    display: flex !important;
+    flex-direction: row !important;
+    justify-content: center;
+    align-items: center;
+    gap: 2vmin;
+    margin-top: 1vmin;
+    flex-wrap: nowrap;
+}
+
+.stat {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 0.8vmin;
+    font-size: 2.2vmin;
+    font-weight: bold;
+    font-family: 'Press Start 2P', cursive;
+    text-shadow:
+        0 0 0.4vmin white,
+        0 0 0.8vmin black;
+    white-space: nowrap;
+}
+
+.stat img {
+    width: 4vmin;
+    height: 3.5vmin;
+    image-rendering: pixelated;
+}
+
+.stat-heart {
+    color: #5aff5a;
+    text-shadow:
+        0 0 0.2vmin white,
+        0 0 0.4vmin #5aff5a;
+}
+
+.stat-attack {
+    color: #ff6b6b;
+    text-shadow:
+        0 0 0.2vmin white,
+        0 0 0.4vmin #ff4c4c;
+}
+
+.stat-defense {
+    color: #6cbaff;
+    text-shadow:
+        0 0 0.2vmin white,
+        0 0 0.4vmin #4a9fe7;
+}
+
+.team-arena {
+    position: absolute;
+    inset: 0;
+    display: grid;
+    grid-template-columns: 1fr 10vmin 1fr;
+    padding: 1.5vmin;
+    gap: 0.5vmin;
+    overflow-y: auto;
+}
+
+.team-column {
+    display: flex;
+    flex-direction: column;
+    gap: 1vmin;
+    z-index: 4;
+    min-width: 0;
+}
+
+.team-card {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 0.6vmin;
+    background: rgba(0, 0, 0, 0.78);
+    border: 0.3vmin solid rgba(255, 255, 255, 0.35);
+    border-radius: 1.2vmin;
+    padding: 0.8vmin;
+    font-family: 'Press Start 2P', cursive;
+    font-size: 1.1vmin;
+    color: white;
+    transition: border-color 0.2s, box-shadow 0.2s;
+    flex: 1;
+    min-height: 0;
+    overflow: hidden;
+}
+
+.card-attacking {
+    border-color: #ff6b6b;
+    box-shadow: 0 0 2.5vmin rgba(255, 60, 60, 0.95);
+}
+
+.card-targeted {
+    border-color: #6cbaff;
+    box-shadow: 0 0 2.5vmin rgba(108, 186, 255, 0.95);
+}
+
+.card-header {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 0.8vmin;
+    width: 100%;
+}
+
+.card-name {
+    font-size: 1.3vmin;
+    text-align: center;
+    word-break: break-all;
+}
+
+.role-badge {
+    font-size: 1vmin;
+    padding: 0.3vmin 0.7vmin;
+    border-radius: 0.4vmin;
+    white-space: nowrap;
+}
+
+.role-attack  { background: rgba(255, 60,  60,  0.85); color: white; }
+.role-defense { background: rgba(60,  120, 255, 0.85); color: white; }
+
+.card-avatar {
+    flex: 1;
+    min-height: 0;
+    width: 100%;
+    object-fit: contain;
+    image-rendering: pixelated;
+}
+
+.vs-content {
+    flex: 1;
+    display: flex;
+    align-items: flex-end;
+    justify-content: center;
+    position: relative;
+    padding: 0 2vmin 2vmin;
+    box-sizing: border-box;
+}
+
+.fighter {
+    flex: 1;
+    display: flex;
+    align-items: flex-end;
+    justify-content: center;
+    position: relative;
+    max-width: 45%;
+    height: 100%;
+    font-size: 2vmin;
+    text-shadow:
+        0 0 0.4vmin white,
+        0 0 0.8vmin blue;
+}
+
+.fighter .avatar {
+    width: 70vmin;
+    height: 70vmin;
+    max-width: 100%;
+    max-height: 95%;
+    object-fit: contain;
+    image-rendering: pixelated;
+}
+
+.card-extra {
+    display: flex;
+    gap: 2vmin;
+    font-size: 1.2vmin;
+    color: #ccc;
+    margin-top: 0.4vmin;
+}
+
+.card-malus {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.3vmin;
+    background: rgba(0, 180, 255, 0.15);
+    border: 0.15vmin solid #00b4ff;
+    border-radius: 0.4vmin;
+    color: #00d4ff;
+    font-size: 0.9vmin;
+    padding: 0.2vmin 0.6vmin;
+    margin: 0;
+
+    &::before {
+        content: '❄';
+        font-size: 1.1vmin;
+    }
+}
+
+.team-center {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    gap: 2vmin;
+    z-index: 5;
+}
+
+.attack-arrow {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 0.8vmin;
+    color: #ff6b6b;
+    font-family: 'Press Start 2P', cursive;
+    text-shadow: 0 0 0.5vmin darkred;
+    animation: pulse 0.8s infinite alternate;
+    z-index: 1;
+}
+
+.arrow-label { font-size: 1.2vmin; text-align: center; }
+.arrow-icon  { font-size: 5vmin; line-height: 1; }
+
+.choosing-label {
+    font-family: 'Press Start 2P', cursive;
+    font-size: 1.4vmin;
+    color: yellow;
+    text-shadow: 0 0 0.5vmin orange;
+    text-align: center;
+    animation: pulse 0.6s infinite alternate;
+}
+
+.target-overlay {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    z-index: 10;
+    background: rgba(0, 0, 0, 0.93);
+    border: 0.3vmin solid red;
+    box-shadow: 0 0 2vmin rgba(255, 0, 0, 0.7);
+    border-radius: 1vmin;
+    padding: 2vmin 3vmin;
+    text-align: center;
+    min-width: 30vmin;
+}
+
+.mirrored {
+    transform: scaleX(-1);
+}
+
+.vs-animation {
+    z-index: 4;
+    font-size: 10vmin;
+    font-weight: bold;
+    color: red;
+    animation: pulse 0.8s 6 alternate;
+    text-shadow:
+        0 0 0.4vmin white,
+        0 0 0.8vmin red;
+    letter-spacing: 0.2vmin;
+    animation-fill-mode: forwards;
+    flex-shrink: 0;
+    padding: 0 1vmin;
+    align-self: center;
+}
+
+@keyframes pulse {
+    from {
+        transform: scale(1);
+        text-shadow:
+            0 0 0.5vmin white,
+            0 0 1.5vmin red;
+    }
+    to {
+        transform: scale(1.3);
+        text-shadow:
+            0 0 1vmin white,
+            0 0 2vmin red;
+    }
+}
+
+.ice-malus-bar {
+    display: flex;
+    justify-content: center;
+    gap: 4vmin;
+    padding: 0.6vmin 1vmin;
+    z-index: 5;
+}
+
+.ice-malus-entry {
+    display: flex;
+    align-items: center;
+    gap: 0.6vmin;
+    background: rgba(0, 20, 40, 0.85);
+    border: 0.15vmin solid #00b4ff;
+    border-radius: 0.5vmin;
+    padding: 0.3vmin 0.8vmin;
+}
+
+.ice-malus-icon {
+    width: 3vmin;
+    height: 3vmin;
+    object-fit: contain;
+}
+
+.ice-malus-text {
+    font-family: 'Press Start 2P', cursive;
+    font-size: 1vmin;
+    color: #00d4ff;
+}
+
+.target-timer {
+    font-family: 'Press Start 2P', cursive;
+    font-size: 4vmin;
+    color: white;
+    text-shadow: 0 0 0.8vmin white;
+    margin-bottom: 0.5vmin;
+    transition: color 0.3s;
+}
+
+.target-timer-urgent {
+    color: red;
+    text-shadow: 0 0 1vmin red;
+    animation: pulse 0.4s infinite alternate;
+}
+
+.target-title {
+    font-family: 'Press Start 2P', cursive;
+    font-size: 1.5vmin;
+    color: red;
+    text-shadow: 0 0 0.5vmin darkred;
+    margin-bottom: 2vmin;
+}
+
+.target-list {
+    display: flex;
+    flex-direction: column;
+    gap: 1.2vmin;
+}
+
+.target-btn {
+    display: flex;
+    align-items: center;
+    gap: 1.5vmin;
+    background: rgba(255, 255, 255, 0.06);
+    border: 0.2vmin solid white;
+    border-radius: 0.8vmin;
+    padding: 1vmin 1.5vmin;
+    cursor: pointer;
+    color: white;
+    font-family: 'Press Start 2P', cursive;
+    font-size: 1.3vmin;
+    transition: background 0.15s, border-color 0.15s;
+    width: 100%;
+
+    &:hover {
+        background: rgba(255, 60, 60, 0.3);
+        border-color: red;
+    }
+}
+
+.target-avatar {
+    width: 6vmin;
+    height: 6vmin;
+    image-rendering: pixelated;
+    flex-shrink: 0;
+}
+
+.target-btn-info {
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 0.5vmin;
+    flex: 1;
+}
+
+.target-name { text-align: left; }
+
+.target-hp {
+    display: flex;
+    align-items: center;
+    gap: 0.5vmin;
+    img { width: 2vmin; height: 2vmin; }
+}

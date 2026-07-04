@@ -1,0 +1,195 @@
+@if (userProfile$ | async; as profile) {
+<div class="profile-container">
+    <div class="profile-main">
+        <div class="profile-left">
+            <div class="currency-banner">
+                <app-coin-icon class="currency-icon" size="24px" />
+                <span class="currency-amount">{{ profile.virtualCurrency || 0 }}</span>
+            </div>
+
+            <div class="cosmetics-panel">
+                <div class="tab-buttons">
+                    <button class="tab-btn" [class.active]="activeTab === 'avatars'" (click)="activeTab = 'avatars'">
+                        {{ 'profile_page.my_avatars' | translate }}
+                    </button>
+                    <button class="tab-btn" [class.active]="activeTab === 'backgrounds'" (click)="activeTab = 'backgrounds'">
+                        {{ 'profile_page.my_backgrounds' | translate }}
+                    </button>
+                    <button class="tab-btn" [class.active]="activeTab === 'musics'" (click)="activeTab = 'musics'">
+                        {{ 'profile_page.my_musics' | translate }}
+                    </button>
+                </div>
+                <div class="tab-content">
+                    @if (activeTab === 'avatars') {
+                    <div class="cosmetic-row-items">
+                        @for (avatar of ownedFeaturedAvatars; track avatar.id) {
+                        <div class="cosmetic-item-mini">
+                            <img [src]="getAvatarIcon(avatar)" [alt]="avatar.name" class="cosmetic-thumb" />
+                            <span class="cosmetic-name-mini">{{ avatar.name }}</span>
+                        </div>
+                        } @empty {
+                        <span class="empty-msg">—</span>
+                        }
+                    </div>
+                    } @if (activeTab === 'backgrounds') {
+                    <div class="cosmetic-row-items">
+                        @for (background of ownedBackgrounds; track background.id) {
+                        <div
+                            class="cosmetic-item-mini"
+                            [class.selected]="selectedBackgroundId === background.id"
+                            (click)="selectBackground(background.id)"
+                        >
+                            <div class="cosmetic-thumb bg-thumb" [style.background-image]="getBackgroundPreview(background)"></div>
+                            <span class="cosmetic-name-mini">{{ background.name | translate }}</span>
+                        </div>
+                        }
+                    </div>
+                    } @if (activeTab === 'musics') {
+                    <div class="cosmetic-row-items">
+                        <div class="cosmetic-item-mini" [class.selected]="selectedMusicId === musicOffId" (click)="selectMusic(musicOffId)">
+                            <div class="cosmetic-thumb music-off-thumb">
+                                <svg viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                                    <path d="M9 18V5l12-2v13" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" />
+                                    <circle cx="6" cy="18" r="3" stroke="currentColor" stroke-width="2" />
+                                    <circle cx="18" cy="16" r="3" stroke="currentColor" stroke-width="2" />
+                                    <line x1="2" y1="2" x2="22" y2="22" stroke="#ff4444" stroke-width="2.5" stroke-linecap="round" />
+                                </svg>
+                            </div>
+                            <span class="cosmetic-name-mini">{{ 'profile_page.music_off' | translate }}</span>
+                        </div>
+                        @for (music of ownedMusics; track music.id) {
+                        <div class="cosmetic-item-mini" [class.selected]="selectedMusicId === music.id" (click)="selectMusic(music.id)">
+                            <img [src]="music.cover" [alt]="music.name" class="cosmetic-thumb" />
+                            <span class="cosmetic-name-mini">{{ music.name | translate }}</span>
+                        </div>
+                        }
+                    </div>
+                    }
+                </div>
+            </div>
+
+            <div class="stats-card">
+                <h2 class="stats-title">{{ 'profile_page.statistics' | translate }}</h2>
+                <div class="stats-list">
+                    <div class="stats-row">
+                        <span class="stats-label">{{ 'profile_page.games_classic' | translate }}</span>
+                        <span class="stats-value">{{ profile.gamesPlayedClassic || 0 }}</span>
+                    </div>
+                    <div class="stats-row">
+                        <span class="stats-label">{{ 'profile_page.games_ctf' | translate }}</span>
+                        <span class="stats-value">{{ profile.gamesPlayedCTF || 0 }}</span>
+                    </div>
+                    <div class="stats-row">
+                        <span class="stats-label">{{ 'profile_page.games_won' | translate }}</span>
+                        <span class="stats-value">{{ profile.gamesWon || 0 }}</span>
+                    </div>
+                    <div class="stats-row">
+                        <span class="stats-label">{{ 'profile_page.avg_time' | translate }}</span>
+                        <span class="stats-value">{{ averageGameTime }}</span>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="profile-right">
+            <div class="info-card">
+                <div class="info-item">
+                    <span class="info-label">{{ 'profile_page.pseudo' | translate }}</span>
+                    @if (!isEditingUsername) {
+                    <div class="info-value-row">
+                        <span class="info-value">{{ profile.username }}</span>
+                        <button class="pixel-button small" (click)="toggleEditUsername(profile.username)">
+                            {{ 'profile_page.modifier' | translate }}
+                        </button>
+                    </div>
+                    } @else {
+                    <div class="edit-field">
+                        <input type="text" [(ngModel)]="editUsername" maxlength="10" class="confirm-input" />
+                        @if (usernameError) {
+                        <p class="field-error">{{ usernameError }}</p>
+                        }
+                        <div class="edit-actions">
+                            <button class="pixel-button" (click)="isEditingUsername = false">{{ 'profile_page.annuler' | translate }}</button>
+                            <button class="pixel-button primary" (click)="saveUsername()">{{ 'profile_page.enregistrer' | translate }}</button>
+                        </div>
+                    </div>
+                    }
+                </div>
+                <div class="info-item">
+                    <span class="info-label">{{ 'profile_page.email' | translate }}</span>
+                    @if (!isEditingEmail) {
+                    <div class="info-value-row">
+                        <span class="info-value">{{ profile.email }}</span>
+                        <button class="pixel-button small" (click)="toggleEditEmail(profile.email)">{{ 'profile_page.modifier' | translate }}</button>
+                    </div>
+                    } @else {
+                    <div class="edit-field">
+                        <input type="email" [(ngModel)]="editEmail" class="confirm-input" />
+                        @if (emailError) {
+                        <p class="field-error">{{ emailError }}</p>
+                        }
+                        <div class="edit-actions">
+                            <button class="pixel-button" (click)="isEditingEmail = false">{{ 'profile_page.annuler' | translate }}</button>
+                            <button class="pixel-button primary" (click)="saveEmail()">{{ 'profile_page.enregistrer' | translate }}</button>
+                        </div>
+                    </div>
+                    }
+                </div>
+                <div class="info-item">
+                    <span class="info-label">{{ 'profile_page.membre_depuis' | translate }}</span>
+                    <span class="info-value">{{ profile.createdAt | date: 'dd/MM/yyyy' }}</span>
+                </div>
+                <div class="danger-section">
+                    <button class="pixel-button danger" (click)="deleteAccount()">{{ 'profile_page.supprimer' | translate }}</button>
+                </div>
+            </div>
+
+            @if (!isEditingAvatar) {
+            <div class="avatar-card">
+                <img [src]="getAvatarPath(profile.avatar)" alt="Avatar" class="profile-avatar" />
+                <button class="pixel-button" (click)="toggleEditAvatar(profile.avatar)">{{ 'profile_page.modifier_avatar' | translate }}</button>
+            </div>
+            } @else {
+            <div class="avatar-card">
+                <p class="selector-title">{{ 'profile_page.choisir_avatar' | translate }}</p>
+                <div class="avatar-grid">
+                    @for (avatar of avatars; track avatar) {
+                    <img
+                        [src]="avatar"
+                        [class.selected]="selectedAvatar === avatar"
+                        (click)="selectedAvatar = avatar"
+                        class="avatar-option"
+                        alt="Avatar"
+                    />
+                    }
+                </div>
+                <div class="upload-row">
+                    @if (uploadedAvatar) {
+                    <img
+                        [src]="uploadedAvatar"
+                        class="avatar-option"
+                        [class.selected]="selectedAvatar === uploadedAvatar"
+                        [class.isDashed]="selectedAvatar !== uploadedAvatar"
+                        (click)="selectUploadedAvatar()"
+                        alt="Uploaded avatar"
+                    />
+                    } @else {
+                    <div class="avatar-option upload-placeholder" (click)="fileInputProfile.click()">
+                        <span class="upload-icon">+</span>
+                    </div>
+                    }
+                </div>
+                <input class="hidden-input" type="file" #fileInputProfile (change)="onFileSelected($event)" accept="image/png, image/jpeg" />
+                <button class="pixel-button small upload-btn" (click)="fileInputProfile.click()">
+                    {{ 'profile_page.upload_image' | translate }}
+                </button>
+                <div class="avatar-actions">
+                    <button class="pixel-button" (click)="isEditingAvatar = false">{{ 'profile_page.annuler' | translate }}</button>
+                    <button class="pixel-button primary" (click)="saveAvatar()">{{ 'profile_page.enregistrer' | translate }}</button>
+                </div>
+            </div>
+            }
+        </div>
+    </div>
+</div>
+}

@@ -1,0 +1,145 @@
+/*
+ * Marge interne + overflow visible : le scale au survol et les box-shadow en « anneaux »
+ * dépassent la boîte du .card — sans buffer, un parent en overflow:auto rogne (surtout en haut).
+ */
+.card-wrapper {
+    position: relative;
+    z-index: 0;
+    width: 100%;
+    min-height: 30vmin;
+    overflow: visible;
+    padding: clamp(0.45rem, 1.35vmin, 1rem);
+    box-sizing: border-box;
+}
+
+.card-wrapper:hover {
+    z-index: 3;
+}
+
+.card {
+    background-color: var(--app-primary-background);
+    padding: 1.5vmin;
+    text-align: center;
+    width: 100%;
+    height: 100%;
+    min-height: 0;
+    position: relative;
+    transform-origin: center center;
+    transition:
+        transform 0.3s ease,
+        box-shadow 0.3s ease;
+    box-sizing: border-box;
+    box-shadow:
+        0px 0px 0px 0.5vmin var(--app-primary),
+        0px 0px 0px 1vmin var(--app-secondary),
+        0px 0px 0px 1.5vmin var(--app-tertiary);
+    cursor: pointer;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    border-radius: 2vmin;
+    overflow: hidden;
+    will-change: transform;
+}
+
+.card:hover {
+    transform: scale(1.03);
+    box-shadow:
+        0px 0px 0px 0.6vmin var(--app-primary),
+        0px 0px 0px 1.2vmin var(--app-secondary),
+        0px 0px 0px 2.1vmin var(--app-tertiary);
+}
+
+@media (prefers-reduced-motion: reduce) {
+    .card {
+        transition: box-shadow 0.2s ease;
+    }
+
+    .card:hover {
+        transform: none;
+    }
+}
+
+.card-header {
+    width: 100%;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 0.5vmin 0;
+    flex-shrink: 0;
+}
+
+.room-code {
+    font-family: 'Press Start 2P', sans-serif;
+    font-size: 1.3vmin;
+    color: var(--app-primary);
+}
+
+.max-players {
+    font-size: 1.3vmin;
+    color: black;
+    font-weight: bold;
+    font-family: 'Press Start 2P', sans-serif;
+    display: flex;
+    align-items: center;
+    gap: 0.5vmin;
+}
+
+.icon-container {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.players-icon {
+    width: 3vmin;
+    height: 3vmin;
+}
+
+.card-title {
+    width: 100%;
+    font-family: 'Press Start 2P', sans-serif;
+    text-align: center;
+    font-size: 1.5vmin;
+    white-space: nowrap;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    margin: 1vmin 0;
+    flex-shrink: 0;
+}
+
+.card-image {
+    width: 100%;
+    flex: 1;
+    min-height: 0;
+    object-fit: contain;
+    border-radius: 1vmin;
+    margin-bottom: 1vmin;
+}
+
+.room-info {
+    display: flex;
+    flex-direction: column;
+    gap: 0.6vmin;
+    font-family: 'Press Start 2P', sans-serif;
+    font-size: 1.1vmin;
+    width: 100%;
+    flex-shrink: 0;
+}
+
+.info {
+    text-align: center;
+    color: var(--app-primary-text);
+}
+
+.info.price {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 0.5vmin;
+    color: #ffb700;
+    font-weight: bold;
+    margin-top: 0.3vmin;
+    text-shadow: 1px 1px 0px rgba(0, 0, 0, 0.2);
+}

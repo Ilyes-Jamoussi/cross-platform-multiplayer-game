@@ -1,0 +1,39 @@
+<div
+    class="page-loading"
+    [class.page-loading--full]="layout === 'full'"
+    [class.page-loading--inline]="layout === 'inline'"
+    role="status"
+    aria-live="polite"
+    aria-busy="true"
+>
+    <div class="page-loading__panel">
+        <div class="page-loading__ambient" aria-hidden="true"></div>
+        <div class="page-loading__scanlines" aria-hidden="true"></div>
+
+        <!--
+          Anneau : 8 bras ancrés au centre (bottom:50% + transform-origin bottom center).
+          L’orbite tourne en continu (linear) — les pixels décrivent un cercle lisible.
+        -->
+        <div class="page-loading__spinner" aria-hidden="true">
+            <div class="page-loading__spinner-halo"></div>
+            <div class="page-loading__spinner-frame">
+                <div class="page-loading__orbit">
+                    @for (slot of orbitSlots; track slot) {
+                    <span class="page-loading__orbit-arm">
+                        <span class="page-loading__orbit-pixel"></span>
+                    </span>
+                    }
+                </div>
+            </div>
+        </div>
+
+        <p class="page-loading__text">
+            <span class="page-loading__label">{{ messageKey | translate }}</span>
+            <span class="page-loading__dots" aria-hidden="true">
+                <span class="page-loading__dot">.</span>
+                <span class="page-loading__dot">.</span>
+                <span class="page-loading__dot">.</span>
+            </span>
+        </p>
+    </div>
+</div>

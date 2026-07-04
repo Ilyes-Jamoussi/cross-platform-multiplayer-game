@@ -1,0 +1,162 @@
+<h3 class="game-text">{{ 'end_page.title' | translate }}</h3>
+<div class="end-game-container">
+    <div class="left-panel">
+        <div class="top-cards">
+            @if (userProfile$ | async; as profile) {
+            <div class="balance-summary">
+                <div class="balance-header">
+                    <app-coin-icon size="1.8vmin" />
+                    <span>{{ 'end_page.balance.title' | translate }}</span>
+                </div>
+
+                <div class="balance-row">
+                    <span class="balance-label">{{ 'end_page.balance.previous' | translate }}</span>
+                    <span class="balance-value">{{ getPreviousBalance(profile.virtualCurrency || 0) }} <app-coin-icon /></span>
+                </div>
+
+                @if (myRewardAmount > 0) {
+                <div class="balance-row reward-row">
+                    <span class="balance-label">{{ 'end_page.balance.reward' | translate }}</span>
+                    <span class="balance-value reward-value">+{{ myRewardAmount }} <app-coin-icon /></span>
+                </div>
+                }
+
+                <div class="balance-divider"></div>
+
+                <div class="balance-row new-balance-row">
+                    <span class="balance-label new-balance-label">{{ 'end_page.balance.new' | translate }}</span>
+                    <span class="balance-value new-balance-value">{{ profile.virtualCurrency || 0 }} <app-coin-icon /></span>
+                </div>
+            </div>
+            }
+
+            <div class="global-stats game-text">
+                <p>
+                    <strong>{{ 'end_page.global_stats.duration' | translate }}</strong> <span>{{ formattedDuration }}</span>
+                </p>
+                <p>
+                    <strong>{{ 'end_page.global_stats.total_turns' | translate }}</strong> <span>{{ globalStats.totalTurns }}</span>
+                </p>
+                <p>
+                    <strong>{{ 'end_page.global_stats.tiles_visited' | translate }}</strong>
+                    <span>{{ globalStats.tilesVisitedPercentage }}%</span>
+                </p>
+                <p>
+                    <strong>{{ 'end_page.global_stats.doors_used' | translate }}</strong> <span>{{ globalStats.doorsUsedPercent | number:'1.0-2' }}%</span>
+                </p>
+                @if(isCTF) {
+                <p>
+                    <strong>{{ 'end_page.global_stats.flag_holders' | translate }}</strong> <span>{{ globalStats.flagHolders.length }}</span>
+                </p>
+                }
+            </div>
+        </div>
+
+        <div class="table-wrapper">
+            <table>
+                <thead>
+                    <tr>
+                        <th (click)="sortTable('name')">
+                            <div class="header-container">
+                                {{ 'end_page.table.name' | translate }} @if(sortedColumn === 'name') {
+                                <span>{{ isAscending ? '▲' : '▼' }}</span>
+                                }
+                            </div>
+                        </th>
+                        <th (click)="sortTable('nCombats')">
+                            <div class="header-container">
+                                {{ 'end_page.table.nCombats' | translate }} @if(sortedColumn === 'nCombats') {
+                                <span>{{ isAscending ? '▲' : '▼' }}</span>
+                                }
+                            </div>
+                        </th>
+                        <th (click)="sortTable('nEvasions')">
+                            <div class="header-container">
+                                {{ 'end_page.table.nEvasions' | translate }} @if(sortedColumn === 'nEvasions') {
+                                <span>{{ isAscending ? '▲' : '▼' }}</span>
+                                }
+                            </div>
+                        </th>
+                        <th (click)="sortTable('nVictories')">
+                            <div class="header-container">
+                                {{ 'end_page.table.nVictories' | translate }} @if(sortedColumn === 'nVictories') {
+                                <span>{{ isAscending ? '▲' : '▼' }}</span>
+                                }
+                            </div>
+                        </th>
+                        <th (click)="sortTable('nDefeats')">
+                            <div class="header-container">
+                                {{ 'end_page.table.nDefeats' | translate }} @if(sortedColumn === 'nDefeats') {
+                                <span>{{ isAscending ? '▲' : '▼' }}</span>
+                                }
+                            </div>
+                        </th>
+                        <th (click)="sortTable('hpLost')">
+                            <div class="header-container">
+                                {{ 'end_page.table.hpLost' | translate }} @if(sortedColumn === 'hpLost') {
+                                <span>{{ isAscending ? '▲' : '▼' }}</span>
+                                }
+                            </div>
+                        </th>
+                        <th (click)="sortTable('hpDealt')">
+                            <div class="header-container">
+                                {{ 'end_page.table.hpDealt' | translate }} @if(sortedColumn === 'hpDealt') {
+                                <span>{{ isAscending ? '▲' : '▼' }}</span>
+                                }
+                            </div>
+                        </th>
+                        <th (click)="sortTable('nItemsCollected')">
+                            <div class="header-container">
+                                {{ 'end_page.table.nItemsCollected' | translate }} @if(sortedColumn === 'nItemsCollected') {
+                                <span>{{ isAscending ? '▲' : '▼' }}</span>
+                                }
+                            </div>
+                        </th>
+                        <th (click)="sortTable('tilesVisitedPercentage')">
+                            <div class="header-container">
+                                {{ 'end_page.table.tilesVisitedPercentage' | translate }} @if(sortedColumn === 'tilesVisitedPercentage') {
+                                <span>{{ isAscending ? '▲' : '▼' }}</span>
+                                }
+                            </div>
+                        </th>
+                    </tr>
+                </thead>
+                <tbody>
+                    @for (player of players; track player.id) {
+                    <tr [ngClass]="{ 'highlight-player': isCurrentUser(player) }">
+                        <td>{{ player.name || ('end_page.unknown' | translate) }}</td>
+                        <td>{{ player.playerStats?.nCombats ?? 0 }}</td>
+                        <td>{{ player.playerStats?.nEvasions ?? 0 }}</td>
+                        <td>{{ player.playerStats?.nVictories ?? 0 }}</td>
+                        <td>{{ player.playerStats?.nDefeats ?? 0 }}</td>
+                        <td>{{ player.playerStats?.hpLost ?? 0 }}</td>
+                        <td>{{ player.playerStats?.hpDealt ?? 0 }}</td>
+                        <td>{{ player.playerStats?.nItemsCollected ?? 0 }}</td>
+                        <td>{{ player.playerStats?.tilesVisitedPercentage ?? 0 }}%</td>
+                    </tr>
+                    }
+                </tbody>
+            </table>
+        </div>
+    </div>
+
+    <div class="right-container">
+        <div class="chat-wrapper">
+            <div class="chat-tab-header">
+                <span class="chat-tab">
+                    <svg class="chat-tab-icon" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                        <path
+                            d="M21 15a2 2 0 01-2 2H7l-4 4V5a2 2 0 012-2h14a2 2 0 012 2z"
+                            stroke="currentColor"
+                            stroke-width="2"
+                            stroke-linecap="round"
+                            stroke-linejoin="round"
+                        />
+                    </svg>
+                    {{ 'game_chat.tab_chat' | translate }}
+                </span>
+            </div>
+            <app-game-chat class="chat-panel"></app-game-chat>
+        </div>
+    </div>
+</div>

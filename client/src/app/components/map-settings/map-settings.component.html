@@ -1,0 +1,70 @@
+<div class="map-settings-container">
+    <h2 class="game-text">{{ 'settings_editor.reglages' | translate }}</h2>
+
+    <form class="map-settings-form" (ngSubmit)="onSubmit()">
+        <div class="form-group">
+            <label class="game-text small-text">{{ 'settings_editor.mode' | translate }}</label>
+            <div class="button-group">
+                <button
+                    class="button"
+                    type="button"
+                    [class.selected]="gameMode === gameModes.Classic"
+                    (click)="gameMode = gameModes.Classic"
+                    [matTooltip]="'settings_editor.classique_tooltip' | translate"
+                    matTooltipClass="custom-tooltip"
+                >
+                    {{ 'settings_editor.classique' | translate }}
+                </button>
+                <button
+                    class="button"
+                    type="button"
+                    [class.selected]="gameMode === gameModes.CTF"
+                    (click)="gameMode = gameModes.CTF"
+                    [matTooltip]="'settings_editor.ctf_tooltip' | translate"
+                    matTooltipClass="custom-tooltip"
+                >
+                    {{ 'settings_editor.ctf' | translate }}
+                </button>
+            </div>
+        </div>
+
+        <div class="form-group">
+            <label class="game-text small-text">{{ 'settings_editor.grandeur' | translate }}</label>
+            <div class="button-group">
+                <button
+                    class="button"
+                    type="button"
+                    [class.selected]="mapSize === gameSizes.Small"
+                    (click)="mapSize = gameSizes.Small"
+                    [matTooltip]="'settings_editor.2_joueurs' | translate"
+                    matTooltipClass="custom-tooltip"
+                >
+                    10x10
+                </button>
+                <button
+                    class="button"
+                    type="button"
+                    [class.selected]="mapSize === gameSizes.Medium"
+                    (click)="mapSize = gameSizes.Medium"
+                    [matTooltip]="'settings_editor.2_4_joueurs' | translate"
+                    matTooltipClass="custom-tooltip"
+                >
+                    15x15
+                </button>
+                <button
+                    class="button"
+                    type="button"
+                    [class.selected]="mapSize === gameSizes.Big"
+                    (click)="mapSize = gameSizes.Big"
+                    [matTooltip]="'settings_editor.2_6_joueurs' | translate"
+                    matTooltipClass="custom-tooltip"
+                >
+                    20x20
+                </button>
+            </div>
+        </div>
+        <div class="form-actions">
+            <button class="button action-game-btn" type="submit">{{ 'settings_editor.editer' | translate }}</button>
+        </div>
+    </form>
+</div>

@@ -1,0 +1,112 @@
+<div class="container justified">
+    <img src="assets/logo.png" alt="Logo PolyArena" class="logo" draggable="false" />
+    @if (isRegistering){
+    <div class="login-container login-container-create">
+        <div class="create-row">
+            <div class="create-inputs">
+                <input
+                    class="login-input"
+                    type="email"
+                    autocomplete="email"
+                    placeholder="{{ 'login_page.email' | translate }}"
+                    [(ngModel)]="email"
+                />
+                <input
+                    class="login-input"
+                    type="text"
+                    placeholder="{{ 'login_page.pseudonyme' | translate }}"
+                    [(ngModel)]="username"
+                    maxlength="10"
+                    (input)="onUsernameInput($event)"
+                    (keydown)="onUsernameKeydown($event)"
+                    autocorrect="off"
+                    autocapitalize="off"
+                />
+                <input
+                    class="login-input"
+                    type="password"
+                    autocomplete="new-password"
+                    placeholder="{{ 'login_page.mot_de_passe' | translate }}"
+                    [(ngModel)]="password"
+                />
+                @if (errorMessage) {
+                <p class="error-message">{{ errorMessage | translate }}</p>
+                }
+            </div>
+            <div class="create-avatars">
+                <p class="avatar-title">{{ 'login_page.choisir_avatar' | translate }}</p>
+                <div class="avatar-select-container">
+                    @for( avatar of avatars; track avatar){
+                    <img
+                        class="avatar-select"
+                        src="{{ avatar }}"
+                        (click)="setSelectedAvatar(avatar)"
+                        [class.isSelected]="avatar === selectedAvatar"
+                    />
+                    } @if (uploadedAvatar) {
+                    <img
+                        [src]="uploadedAvatar"
+                        class="avatar-select"
+                        [class.isSelected]="selectedAvatar === uploadedAvatar"
+                        [class.isDashed]="selectedAvatar !== uploadedAvatar"
+                        (click)="selectUploadedAvatar()"
+                    />
+                    } @else {
+                    <div class="avatar-select upload-placeholder" (click)="fileInput.click()">
+                        <span class="upload-icon">+</span>
+                    </div>
+                    }
+                </div>
+                <input class="hidden-input" type="file" #fileInput (change)="onFileSelected($event)" accept="image/png, image/jpeg" />
+                <button class="login-button button upload-btn" (click)="fileInput.click()">{{ 'login_page.ou_televerser' | translate }}</button>
+            </div>
+            <button class="login-button button" type="button" [disabled]="loading" (click)="handleLoginButton()">
+                @if (loading) {
+                {{ 'login_page.loading' | translate }}
+                } @else {
+                {{ 'login_page.creer_compte' | translate }}
+                }
+            </button>
+            <div class="spacer"></div>
+            <p class="create-title" (click)="setIsRegistering(!isRegistering)">{{ 'login_page.deja_compte' | translate }}</p>
+            <div class="spacer"></div>
+        </div>
+    </div>
+    } @else {
+    <div class="justified login-container">
+        <input
+            class="login-input"
+            type="email"
+            autocomplete="email"
+            placeholder="{{ 'login_page.email' | translate }}"
+            [(ngModel)]="email"
+        />
+        <input
+            class="login-input"
+            type="password"
+            autocomplete="current-password"
+            placeholder="{{ 'login_page.mot_de_passe' | translate }}"
+            [(ngModel)]="password"
+        />
+        @if (errorMessage) {
+        <p class="error-message">{{ errorMessage | translate }}</p>
+        }
+        <button class="login-button button" type="button" [disabled]="loading" (click)="handleLoginButton()">
+            @if (loading) {
+            {{ 'login_page.loading' | translate }}
+            } @else {
+            {{ 'login_page.se_connecter' | translate }}
+            }
+        </button>
+        <p class="create-title" (click)="setIsRegistering(!isRegistering)">{{ 'login_page.nouveau' | translate }}</p>
+    </div>
+    }
+
+    <footer class="footer-item">
+        <h4 class="team-name">{{ 'home_page.equipe' | translate }} 206</h4>
+        <p class="team-name">
+            <span>Brière Simon</span>, <span>Faraoni William</span>, <span>Chauret-Decoste Scotty</span>, <span>Jaures Kanga</span>,
+            <span>Rafai Adam</span>, <span>Jamoussi Ilyes</span>
+        </p>
+    </footer>
+</div>

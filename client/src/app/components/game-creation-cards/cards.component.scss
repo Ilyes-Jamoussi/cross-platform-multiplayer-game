@@ -1,0 +1,238 @@
+.card-wrapper {
+    position: relative;
+    width: 100%;
+}
+
+.card {
+    background-color: var(--app-primary-background);
+    box-shadow: 0px 0.5vmin 1vmin rgba(0, 0, 0, 0.1);
+    padding: 1rem;
+    text-align: center;
+    width: 100%;
+    position: relative;
+    transition:
+        transform 0.3s ease,
+        box-shadow 0.3s ease;
+    box-sizing: border-box;
+    box-shadow:
+        0px 0px 0px 0.5vmin var(--app-primary),
+        0px 0px 0px 1vmin var(--app-secondary),
+        0px 0px 0px 1.5vmin var(--app-tertiary);
+    justify-self: center;
+    cursor: pointer;
+}
+
+.entry-fee-overlay {
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background: rgba(0, 0, 0, 0.95);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    z-index: 10;
+    border-radius: 0.5vmin;
+}
+
+.overlay-content {
+    background: white;
+    padding: 2vmin;
+    border: 3px solid var(--app-primary);
+    border-radius: 0.5vmin;
+    width: 85%;
+    max-height: 90%;
+    overflow-y: auto;
+    font-family: 'Press Start 2P', monospace;
+}
+
+.overlay-content h3 {
+    color: var(--app-primary);
+    font-size: 1.5vmin;
+    margin: 0 0 1.5vmin 0;
+    text-align: center;
+}
+
+.currency-display {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    gap: 0.5vmin;
+    background: linear-gradient(135deg, var(--app-secondary), var(--app-secondary-hover));
+    padding: 1vmin;
+    border-radius: 0.5vmin;
+    margin-bottom: 1.5vmin;
+}
+
+.currency-display .label {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    width: 100%;
+    color: white;
+    font-size: 1.2vmin;
+    font-weight: bold;
+    text-shadow: none;
+}
+
+.currency-display .amount {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    width: 100%;
+    gap: 0.4vmin;
+    color: white;
+    font-size: 1.2vmin;
+    font-weight: bold;
+}
+
+.input-group {
+    margin-bottom: 1.5vmin;
+}
+
+.new-balance {
+    margin-top: 1.5vmin;
+    margin-bottom: 1.5vmin;
+}
+
+.entry-fee-input {
+    width: 100%;
+    padding: 1vmin;
+    font-size: 1.2vmin;
+    border: 2px solid var(--app-primary);
+    border-radius: 0.5vmin;
+    font-family: 'Press Start 2P', monospace;
+    box-sizing: border-box;
+}
+
+.entry-fee-input:focus {
+    outline: none;
+    border-color: var(--app-secondary);
+}
+
+.error-message {
+    color: #dc3545;
+    font-size: 1vmin;
+    margin-bottom: 1.5vmin;
+    text-align: center;
+}
+
+.button-group {
+    display: flex;
+    gap: 1vmin;
+    justify-content: center;
+}
+
+.pixel-button {
+    padding: 1vmin 2vmin;
+    font-family: 'Press Start 2P', monospace;
+    font-size: 1vmin;
+    border: 2px solid var(--app-primary);
+    background: white;
+    color: var(--app-primary);
+    cursor: pointer;
+    transition: all 0.3s;
+
+    &:hover:not(:disabled) {
+        background: var(--app-primary);
+        color: white;
+    }
+
+    &.primary {
+        background: var(--app-primary);
+        color: white;
+
+        &:hover:not(:disabled) {
+            background: var(--app-secondary-hover);
+        }
+    }
+
+    &:disabled {
+        opacity: 0.5;
+        cursor: not-allowed;
+        background: #ccc;
+        border-color: #999;
+        color: #666;
+    }
+}
+
+.card:hover {
+    transform: scale(1.05);
+    box-shadow:
+        0px 0px 0px 0.6vmin var(--app-primary),
+        0px 0px 0px 1.2vmin var(--app-secondary),
+        0px 0px 0px 2.1vmin var(--app-tertiary);
+}
+
+.card img {
+    max-width: 100%;
+    margin-bottom: 1rem;
+}
+
+.card .game-mode-image {
+    margin-top: 1vmin;
+    margin-left: 2vmin;
+    position: absolute;
+    height: 5vmin;
+    width: 5vmin;
+    object-fit: cover;
+}
+
+.card #game-mode-Classic {
+    width: 7vmin;
+    top: 1vmin;
+    left: -1vmin;
+}
+.card #game-mode-CTF {
+    top: -0.1vmin;
+    left: -1vmin;
+    width: 7vmin;
+}
+
+.card .max-players {
+    position: absolute;
+    top: 1vmin;
+    right: 3vmin;
+    font-size: 2vmin;
+    color: black;
+    padding: 0.5vmin 1vmin;
+    border-radius: 1vmin;
+    font-weight: bold;
+    font-family: 'Press Start 2P', sans-serif;
+    font-size: 1.5vmin;
+}
+
+.card .players-icon {
+    width: 4vmin;
+    height: 4vmin;
+    left: 6vmin;
+    bottom: -1vmin;
+    position: absolute;
+}
+.icon-container {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 4vmin;
+    height: 2vmin;
+}
+
+.card-title {
+    position: relative;
+    width: 100%;
+    height: 10vmin;
+    font-family: 'Press Start 2P', sans-serif;
+    text-align: center;
+    font-size: 3vmin;
+    white-space: normal;
+    word-break: break-word;
+    display: flex;
+    right: 1vmin;
+    justify-content: center;
+    align-items: center;
+    text-align: center;
+    line-height: 1.2;
+    padding: 0 2vmin;
+}

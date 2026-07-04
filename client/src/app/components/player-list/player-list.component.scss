@@ -1,0 +1,231 @@
+.player-list-container {
+    font-family: 'Press Start 2P', sans-serif !important;
+    text-align: center;
+    color: white;
+    width: 100%;
+    margin: 0 auto;
+    overflow: hidden;
+    padding: 0;
+    box-sizing: border-box;
+    display: flex;
+    flex-direction: column;
+    min-height: 0;
+    border: 0.15vmin solid var(--app-primary, #0056b3);
+    border-radius: 1vmin;
+    background: rgba(0, 0, 0, 0.6);
+    backdrop-filter: blur(12px);
+    -webkit-backdrop-filter: blur(12px);
+}
+
+/* ── Header ────────────────────────────────── */
+.list-header {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 1.1vmin;
+    padding: 0.8vmin 1vmin;
+    background: var(--app-primary, #0056b3);
+    color: white;
+    letter-spacing: 0.15vmin;
+}
+
+/* ── List body ─────────────────────────────── */
+.player-list {
+    padding: 0.5vmin;
+    width: 100%;
+    overflow-y: auto;
+    overflow-x: hidden;
+    max-height: 100%;
+    box-sizing: border-box;
+    display: flex;
+    flex-direction: column;
+    gap: 0.4vmin;
+}
+
+/* ── Player card ───────────────────────────── */
+.player-card-entry {
+    position: relative;
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    gap: 0.6vmin;
+    padding: 0.5vmin 0.6vmin;
+    border-radius: 0.5vmin;
+    border: 0.15vmin solid rgba(255, 255, 255, 0.06);
+    background: rgba(255, 255, 255, 0.04);
+    transition:
+        background 0.2s ease,
+        border-color 0.2s ease,
+        box-shadow 0.2s ease;
+
+    &:hover {
+        background: rgba(255, 255, 255, 0.07);
+    }
+}
+
+/* ── Active turn glow ──────────────────────── */
+.player-card-entry.active-turn {
+    border-color: var(--app-secondary, #007bff);
+    background: rgba(var(--app-primary-rgb, 0, 86, 179), 0.15);
+    box-shadow:
+        0 0 0.8vmin var(--app-secondary, #007bff),
+        inset 0 0 0.5vmin rgba(var(--app-primary-rgb, 0, 86, 179), 0.1);
+}
+
+/* ── Disconnected ──────────────────────────── */
+.player-card-entry.barred {
+    opacity: 0.5;
+
+    .card-name {
+        text-decoration: line-through;
+        text-decoration-thickness: 30%;
+    }
+}
+
+/* ── Spectator ─────────────────────────────── */
+.player-card-entry.spectator {
+    opacity: 0.6;
+    background-color: rgba(128, 128, 128, 0.1) !important;
+}
+
+/* ── Avatar zone ───────────────────────────── */
+.card-avatar {
+    width: 4.5vmin;
+    height: 4.5vmin;
+    flex-shrink: 0;
+    border-radius: 0.6vmin;
+    overflow: hidden;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background: rgba(255, 255, 255, 0.06);
+}
+
+.player-avatar {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    image-rendering: pixelated;
+}
+
+/* ── Virtual player type badge ────────────── */
+.vp-type-badge {
+    position: absolute;
+    top: 0;
+    right: 0;
+    font-size: 0.55vmin;
+    font-weight: bold;
+    line-height: 1;
+    padding: 0.2vmin 0.35vmin;
+    border-radius: 0 0.5vmin 0 0.4vmin;
+    color: white;
+    text-transform: uppercase;
+    letter-spacing: 0.05vmin;
+    pointer-events: none;
+}
+
+.vp-aggressive {
+    background-color: rgba(220, 38, 38, 0.85);
+}
+
+.vp-defensive {
+    background-color: rgba(37, 99, 235, 0.85);
+}
+
+/* ── Info zone ─────────────────────────────── */
+.card-info {
+    flex: 1;
+    min-width: 0;
+    display: flex;
+    flex-direction: column;
+    gap: 0.2vmin;
+}
+
+.card-name {
+    font-size: 0.85vmin;
+    font-weight: bold;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+}
+
+/* ── Badges row ────────────────────────────── */
+.card-badges {
+    display: flex;
+    align-items: center;
+    gap: 0.4vmin;
+    flex-wrap: wrap;
+    min-height: 1.5vmin;
+}
+
+.crown-icon {
+    width: 2vmin;
+    height: 2vmin;
+    flex-shrink: 0;
+    filter: drop-shadow(0 0.05vmin 0.15vmin rgba(0, 0, 0, 0.5));
+}
+
+.flag-holder {
+    display: inline-flex;
+    align-items: center;
+    width: 1vmin;
+    height: 1.5vmin;
+    position: relative;
+    vertical-align: middle;
+    flex-shrink: 0;
+
+    &::before {
+        content: '';
+        position: absolute;
+        top: 0;
+        left: 0.12vmin;
+        width: 0.8vmin;
+        height: 0.65vmin;
+        background: var(--app-primary, #0056b3);
+        clip-path: polygon(0 0, 100% 25%, 100% 75%, 0 100%);
+    }
+
+    &::after {
+        content: '';
+        position: absolute;
+        top: 0;
+        left: 0;
+        width: 0.12vmin;
+        height: 100%;
+        background: white;
+        border-radius: 0.05vmin;
+    }
+}
+
+.badge-team {
+    font-size: 0.6vmin;
+    font-weight: bold;
+    color: var(--team-color);
+    text-shadow: 0 0 0.5vmin var(--team-color);
+    padding: 0.1vmin 0.4vmin;
+    border: 0.1vmin solid var(--team-color);
+    border-radius: 0.8vmin;
+    background: rgba(0, 0, 0, 0.3);
+    line-height: 1;
+}
+
+.spectator-label {
+    color: #ffcc00;
+    font-style: italic;
+    font-size: 0.6vmin !important;
+}
+
+/* ── Stats zone ────────────────────────────── */
+.card-stats {
+    flex-shrink: 0;
+    display: flex;
+    align-items: center;
+    padding-right: 0.3vmin;
+}
+
+.card-victories {
+    font-size: 0.9vmin;
+    font-weight: bold;
+    color: var(--app-tertiary, #33afff);
+    text-shadow: 0 0 0.5vmin rgba(var(--app-tertiary-rgb, 51, 175, 255), 0.3);
+}

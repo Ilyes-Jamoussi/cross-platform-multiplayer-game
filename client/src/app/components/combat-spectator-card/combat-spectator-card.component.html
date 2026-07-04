@@ -1,0 +1,79 @@
+@if (isVisible) {
+<div class="spectator-combat-card">
+    @if (!isTeamCombat) {
+    <div class="card-content">
+        <div class="fighter-side">
+            <span class="fighter-name">{{ attacker?.name }}</span>
+            <img class="fighter-avatar" [src]="getAvatarIdle(attacker?.avatar)" [alt]="attacker?.name" />
+        </div>
+        <div class="combat-center">
+            <div class="swords-clash">
+                <svg class="sword left-sword" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+                    <line x1="12" y1="2" x2="12" y2="18" stroke="currentColor" stroke-width="2" stroke-linecap="round"/>
+                    <line x1="7" y1="16" x2="17" y2="16" stroke="currentColor" stroke-width="2" stroke-linecap="round"/>
+                    <line x1="10" y1="20" x2="14" y2="20" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/>
+                </svg>
+                <svg class="sword right-sword" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+                    <line x1="12" y1="2" x2="12" y2="18" stroke="currentColor" stroke-width="2" stroke-linecap="round"/>
+                    <line x1="7" y1="16" x2="17" y2="16" stroke="currentColor" stroke-width="2" stroke-linecap="round"/>
+                    <line x1="10" y1="20" x2="14" y2="20" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/>
+                </svg>
+            </div>
+            <div class="clash-spark"></div>
+            <span class="combat-label">{{ 'combat.spectator_ongoing' | translate }}</span>
+        </div>
+        <div class="fighter-side">
+            <span class="fighter-name">{{ defender?.name }}</span>
+            <img class="fighter-avatar mirrored" [src]="getAvatarIdle(defender?.avatar)" [alt]="defender?.name" />
+        </div>
+    </div>
+    } @else {
+    <div class="card-content team-mode">
+        <div class="team-side" [style.border-color]="teamAColor">
+            <div class="team-header">
+                <span class="team-icon">{{ teamAIcon }}</span>
+                <span class="team-name" [style.color]="teamAColor">{{ 'combat.spectator_team' | translate }} {{ teamAId }}</span>
+            </div>
+            <div class="team-fighters">
+                @for (player of teamAPlayers; track player.id) {
+                <div class="team-fighter">
+                    <img class="fighter-avatar team-avatar" [src]="getAvatarIdle(player.avatar)" [alt]="player.name" />
+                    <span class="fighter-name">{{ player.name }}</span>
+                </div>
+                }
+            </div>
+        </div>
+        <div class="combat-center">
+            <div class="swords-clash">
+                <svg class="sword left-sword" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+                    <line x1="12" y1="2" x2="12" y2="18" stroke="currentColor" stroke-width="2" stroke-linecap="round"/>
+                    <line x1="7" y1="16" x2="17" y2="16" stroke="currentColor" stroke-width="2" stroke-linecap="round"/>
+                    <line x1="10" y1="20" x2="14" y2="20" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/>
+                </svg>
+                <svg class="sword right-sword" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+                    <line x1="12" y1="2" x2="12" y2="18" stroke="currentColor" stroke-width="2" stroke-linecap="round"/>
+                    <line x1="7" y1="16" x2="17" y2="16" stroke="currentColor" stroke-width="2" stroke-linecap="round"/>
+                    <line x1="10" y1="20" x2="14" y2="20" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/>
+                </svg>
+            </div>
+            <div class="clash-spark"></div>
+            <span class="combat-label">{{ 'combat.spectator_ongoing' | translate }}</span>
+        </div>
+        <div class="team-side" [style.border-color]="teamBColor">
+            <div class="team-header">
+                <span class="team-icon">{{ teamBIcon }}</span>
+                <span class="team-name" [style.color]="teamBColor">{{ 'combat.spectator_team' | translate }} {{ teamBId }}</span>
+            </div>
+            <div class="team-fighters">
+                @for (player of teamBPlayers; track player.id) {
+                <div class="team-fighter">
+                    <img class="fighter-avatar team-avatar mirrored" [src]="getAvatarIdle(player.avatar)" [alt]="player.name" />
+                    <span class="fighter-name">{{ player.name }}</span>
+                </div>
+                }
+            </div>
+        </div>
+    </div>
+    }
+</div>
+}

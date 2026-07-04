@@ -1,0 +1,75 @@
+:host {
+    display: block;
+    flex: 1;
+    min-height: 0;
+    overflow: hidden;
+}
+
+.container {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    height: 100%;
+    padding: 2vmin 4vmin;
+    box-sizing: border-box;
+    color: #fff;
+    font-family: 'Press Start 2P', cursive;
+    gap: 1.5vmin;
+    overflow: hidden;
+}
+
+.tab-buttons {
+    display: flex;
+    gap: 0;
+    flex-shrink: 0;
+    width: 100%;
+}
+
+.tab-btn {
+    flex: 1;
+    padding: 1.2vmin 2vmin;
+    background: #1a1a2e;
+    border: 0.4vmin solid var(--app-primary);
+    border-right: none;
+    color: #888;
+    font-family: 'Press Start 2P', cursive;
+    font-size: 1.5vmin;
+    cursor: pointer;
+    transition: all 0.2s;
+
+    &:last-child {
+        border-right: 0.4vmin solid var(--app-primary);
+    }
+
+    &.active {
+        background: var(--app-primary);
+        color: white;
+    }
+
+    &:hover:not(.active) {
+        background: #2a2a4e;
+        color: #ccc;
+    }
+}
+
+.game-list {
+    flex: 1;
+    min-height: 0;
+    overflow-y: auto;
+    width: 100%;
+    display: flex;
+    flex-direction: column;
+    gap: 1vmin;
+}
+
+.empty-msg {
+    text-align: center;
+    font-family: 'Press Start 2P', cursive;
+    font-size: 1.5vmin;
+    color: rgba(255, 255, 255, 0.6);
+    padding: 4vmin;
+}
+
+.action-game-btn {
+    flex-shrink: 0;
+}

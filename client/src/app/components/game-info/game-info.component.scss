@@ -1,0 +1,81 @@
+.game-info {
+    color: white;
+    width: 100%;
+    border-radius: 1vmin;
+    border: 0.15vmin solid var(--app-primary, #0056b3);
+    background: rgba(0, 0, 0, 0.6);
+    backdrop-filter: blur(12px);
+    -webkit-backdrop-filter: blur(12px);
+    font-family: 'Press Start 2P', sans-serif !important;
+    box-sizing: border-box;
+    overflow: hidden;
+}
+
+/* ── Header ─────────────────────────────────── */
+.info-header {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 0.8vmin 1.5vmin;
+    background: var(--app-primary, #0056b3);
+}
+
+h2 {
+    margin: 0;
+    font-size: 1.1vmin;
+    color: white;
+    text-align: center;
+    letter-spacing: 0.15vmin;
+}
+
+/* ── Body ───────────────────────────────────── */
+.info-body {
+    display: flex;
+    flex-direction: column;
+}
+
+.info-row {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 0.7vmin 1.2vmin;
+    border-bottom: 0.1vmin solid rgba(255, 255, 255, 0.06);
+    transition: background 0.15s ease;
+
+    &:last-child {
+        border-bottom: none;
+    }
+
+    &:hover {
+        background: rgba(255, 255, 255, 0.03);
+    }
+
+    &.highlight {
+        background: rgba(var(--app-primary-rgb, 0, 86, 179), 0.08);
+    }
+}
+
+.info-label {
+    font-size: 0.85vmin;
+    color: #aab0bc;
+}
+
+.info-value {
+    font-size: 0.9vmin;
+    color: var(--app-tertiary, #33afff);
+    font-weight: bold;
+    text-align: right;
+}
+
+.turn-name {
+    color: var(--app-tertiary, #33afff);
+    text-shadow: 0 0 0.8vmin var(--app-tertiary, #33afff);
+}
+
+/* ── Debug ──────────────────────────────────── */
+.debug {
+    font-size: 0.9vmin;
+    text-align: center;
+    padding: 0.4vmin;
+    border-top: 0.1vmin solid rgba(255, 255, 255, 0.06);
+}

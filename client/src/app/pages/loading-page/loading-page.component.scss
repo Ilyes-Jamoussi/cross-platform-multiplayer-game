@@ -1,0 +1,811 @@
+/* ────────────────────────────────────────────────
+   Loading Page — 3-column layout
+   Left:   Settings (code, players, mode, options)
+   Center: Waiting + Player list
+   Right:  Chat + Action buttons
+   ──────────────────────────────────────────────── */
+
+:host {
+    display: block;
+    flex: 1;
+    min-height: 0;
+}
+
+.loading-page {
+    display: grid;
+    grid-template-columns: 1fr auto 1fr;
+    align-items: center;
+    height: 100%;
+    width: 100%;
+    color: #fff;
+    font-family: 'Arial', sans-serif;
+}
+
+/* ── Left Panel ────────────────────────────────── */
+
+.left-panel {
+    grid-column: 1;
+    align-self: center;
+    height: 80vmin;
+    min-width: 30vmin;
+    display: flex;
+    flex-direction: column;
+    gap: 0.8vmin;
+    padding: 1.5vmin;
+    box-sizing: border-box;
+    overflow-y: auto;
+    overflow-x: hidden;
+    background: rgba(0, 0, 0, 0.5);
+    border: 0.3vmin solid var(--app-primary);
+    border-radius: 1vmin;
+}
+
+.panel-section {
+    display: flex;
+    flex-direction: column;
+    gap: 1vmin;
+    flex-shrink: 0;
+}
+
+.panel-divider {
+    width: 100%;
+    height: 0.2vmin;
+    background: rgba(255, 255, 255, 0.15);
+    flex-shrink: 0;
+}
+
+.access-code {
+    font-size: 2vmin;
+    text-align: center;
+    word-break: break-all;
+}
+
+.entry-fee-banner {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 0.8vmin;
+    background: linear-gradient(135deg, var(--app-secondary), var(--app-secondary-hover));
+    border: 0.2vmin solid var(--app-secondary);
+    padding: 1vmin 1.5vmin;
+    border-radius: 1vmin;
+    font-family: 'Press Start 2P', monospace;
+    font-size: 1.2vmin;
+    color: white;
+    text-shadow: 2px 2px 0 rgba(0, 0, 0, 0.3);
+}
+
+/* Lobby header: player count + lock */
+
+.lobby-header {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 1vmin;
+}
+
+.lobby-header h3 {
+    font-size: 1.8vmin;
+    margin: 0;
+}
+
+.lock-button {
+    height: 4.5vmin;
+    width: 4.5vmin;
+    border: none;
+    border-radius: 100%;
+    cursor: pointer;
+    padding: 0.4vmin;
+    transition: transform 0.2s;
+    flex-shrink: 0;
+
+    &.locked {
+        background-color: red;
+    }
+
+    &.unlocked {
+        background-color: green;
+    }
+
+    img {
+        width: 3.2vmin;
+        display: block;
+    }
+
+    &:disabled {
+        opacity: 0.6;
+        cursor: not-allowed;
+        transform: none;
+    }
+
+    &:hover:not(:disabled) {
+        transform: scale(1.07);
+    }
+
+    &:active:not(:disabled) {
+        transform: scale(1);
+    }
+}
+
+.below-min-players {
+    color: red;
+}
+
+.above-min-players {
+    color: green;
+}
+
+/* Mode selector */
+
+.mode-selector {
+    display: flex;
+    flex-direction: column;
+    align-items: stretch;
+    gap: 0.8vmin;
+    position: relative;
+    z-index: 10;
+}
+
+.mode-label {
+    font-size: 1.5vmin;
+    font-weight: bold;
+    color: white;
+    text-align: center;
+}
+
+.custom-select {
+    position: relative;
+    width: 100%;
+    cursor: pointer;
+    user-select: none;
+
+    &.disabled {
+        opacity: 0.5;
+        pointer-events: none;
+    }
+}
+
+.custom-select-value {
+    background-color: rgba(0, 0, 0, 0.4);
+    color: white;
+    border: 0.2vmin solid rgba(255, 255, 255, 0.3);
+    padding: 0.8vmin 3vmin 0.8vmin 1vmin;
+    font-size: 1.4vmin;
+    font-family: inherit;
+    font-weight: bold;
+    border-radius: 0.8vmin;
+    transition: all 0.2s ease;
+
+    &:hover {
+        border-color: var(--app-secondary);
+        background-color: rgba(255, 255, 255, 0.1);
+    }
+}
+
+.custom-select-arrow {
+    position: absolute;
+    right: 1vmin;
+    top: 50%;
+    transform: translateY(-50%);
+    font-size: 1.2vmin;
+    color: white;
+    pointer-events: none;
+}
+
+.custom-select-dropdown {
+    position: absolute;
+    top: 100%;
+    left: 0;
+    right: 0;
+    z-index: 100;
+    background: #1a1a2e;
+    border: 0.2vmin solid var(--app-secondary);
+    border-radius: 0 0 0.8vmin 0.8vmin;
+    overflow: hidden;
+    box-shadow: 0 0.5vmin 1.5vmin rgba(0, 0, 0, 0.5);
+}
+
+.custom-select-option {
+    padding: 0.8vmin 1vmin;
+    font-size: 1.2vmin;
+    font-family: 'Press Start 2P', cursive;
+    color: white;
+    cursor: pointer;
+    transition: background 0.15s;
+
+    &:hover:not(.selected) {
+        background: var(--app-secondary);
+        color: white;
+    }
+
+    &.selected {
+        background: rgba(255, 255, 255, 0.1);
+        color: #ffcc00;
+        border-left: 0.4vmin solid #ffcc00;
+    }
+
+    &.option-disabled {
+        opacity: 0.35;
+        cursor: not-allowed;
+
+        &:hover {
+            background: transparent;
+        }
+    }
+}
+
+/* Bottom-aligned options (mirrors right panel action-buttons) */
+
+.panel-bottom {
+    margin-top: auto;
+    display: flex;
+    flex-direction: column;
+    gap: 0.8vmin;
+    flex-shrink: 0;
+}
+
+/* Unassigned players (teams mode) */
+
+.unassigned-section {
+    flex: 1;
+    min-height: 0;
+    display: flex;
+    flex-direction: column;
+    gap: 0.8vmin;
+    overflow-y: auto;
+}
+
+.unassigned-label {
+    font-size: 1.3vmin;
+    text-align: center;
+    color: rgba(255, 255, 255, 0.6);
+    flex-shrink: 0;
+    letter-spacing: 0.1vmin;
+}
+
+.unassigned-grid {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+    align-content: flex-start;
+    gap: 1vmin;
+    flex: 1;
+    min-height: 0;
+}
+
+.unassigned-card-wrapper {
+    --card-scale: 0.5;
+    transform: scale(var(--card-scale));
+    transform-origin: top center;
+    margin-bottom: calc(-25vmin * (1 - var(--card-scale)));
+    margin-left: calc(-21vmin * (1 - var(--card-scale)) / 2);
+    margin-right: calc(-21vmin * (1 - var(--card-scale)) / 2);
+}
+
+/* Mode option buttons */
+
+.mode-buttons {
+    display: flex;
+    gap: 0.6vmin;
+    flex-direction: column;
+}
+
+.mode-buttons button {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    width: 100%;
+    height: 4.5vmin;
+    border: 0.3vmin solid transparent;
+    border-radius: 5vmin;
+    cursor: pointer;
+    padding: 0.5vmin 1vmin;
+    transition: all 0.2s;
+}
+
+.mode-icon {
+    color: white;
+    font-family: 'Press Start 2P', monospace;
+    font-size: 1.1vmin;
+    white-space: nowrap;
+}
+
+.mode-buttons button:disabled {
+    opacity: 0.6;
+    cursor: not-allowed;
+    transform: none;
+    background-color: #555;
+    border: none;
+    color: white;
+}
+
+.mode-buttons button:hover:not(:disabled) {
+    transform: scale(1.05);
+}
+
+.mode-buttons button:active:not(:disabled) {
+    transform: scale(1);
+}
+
+.mode-buttons button.friends-only {
+    background-color: #d39e00;
+}
+
+.mode-buttons button.public {
+    background-color: var(--app-primary);
+}
+
+.mode-buttons button.drop-enabled {
+    background-color: #4caf50;
+}
+
+.mode-buttons button.drop-disabled {
+    background-color: #555;
+}
+
+.mode-buttons button.fog-enabled {
+    background-color: #5c4d9a;
+}
+
+.mode-buttons button.fog-disabled {
+    background-color: #555;
+}
+
+/* ── Center Panel ──────────────────────────────── */
+
+.center-panel {
+    grid-column: 2;
+    align-self: center;
+    width: 80vmin;
+    height: 80vmin;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: flex-start;
+    padding: 2vmin 3vmin;
+    box-sizing: border-box;
+    overflow: visible;
+
+    --card-scale: 0.84;
+}
+
+.loading-container {
+    text-align: center;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    opacity: 1;
+    transition: opacity 0.3s ease;
+    visibility: visible;
+    margin-bottom: 2vmin;
+}
+
+.loading-container.hidden {
+    visibility: hidden;
+    margin-bottom: 2vmin;
+}
+
+.loading-text {
+    font-size: 2.2vmin;
+    color: #ffffff;
+    white-space: nowrap;
+    position: relative;
+}
+
+.loading-dots {
+    position: absolute;
+    left: 100%;
+    white-space: nowrap;
+}
+
+/* Team headers — always in DOM, visible only in teams mode */
+
+.team-headers-row {
+    display: grid;
+    gap: 2vmin;
+    width: 100%;
+    justify-items: center;
+    min-height: 5vmin;
+    margin-bottom: 1vmin;
+    visibility: hidden;
+
+    &.teams-visible {
+        visibility: visible;
+    }
+}
+
+/* Player grid (classic mode) */
+
+.player-grid {
+    display: grid;
+    gap: 1.5vmin;
+    justify-content: center;
+    justify-items: center;
+    align-items: start;
+}
+
+.player-card-container {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.player-card-wrapper {
+    position: relative;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    transform: scale(var(--card-scale));
+    transform-origin: top center;
+    margin-bottom: calc(-25vmin * (1 - var(--card-scale)));
+    margin-left: calc(-21vmin * (1 - var(--card-scale)) / 2);
+    margin-right: calc(-21vmin * (1 - var(--card-scale)) / 2);
+}
+
+/* Empty placeholder slot */
+
+.empty-slot {
+    width: 21vmin;
+    height: 25vmin;
+    border: 0.3vmin dashed rgba(255, 255, 255, 0.25);
+    border-radius: 0.8vmin;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background: rgba(255, 255, 255, 0.03);
+}
+
+.empty-slot-icon {
+    font-size: 4vmin;
+    color: rgba(255, 255, 255, 0.15);
+    font-family: 'Press Start 2P', monospace;
+    user-select: none;
+}
+
+/* Team headers (in .team-headers-row) */
+
+.team-title {
+    padding: 0.8vmin 1.5vmin;
+    border: 0.4vmin solid;
+    border-radius: 2vmin;
+    font-size: 1.8vmin;
+    font-weight: bold;
+    cursor: pointer;
+    transition: all 0.2s ease;
+}
+
+.team-title:hover {
+    transform: scale(1.05);
+}
+
+.team-title.own-team {
+    background: rgba(255, 215, 0, 0.2);
+    box-shadow: 0 0 1.5vmin gold;
+}
+
+.team-header {
+    display: flex;
+    align-items: center;
+    gap: 1vmin;
+    font-family: 'Press Start 2P', monospace;
+    font-size: 1.2vmin;
+}
+
+/* Teams card grid */
+
+.teams-container {
+    width: 100%;
+    display: grid;
+    gap: 1.5vmin;
+    justify-items: center;
+    align-items: start;
+}
+
+.team-column {
+    display: flex;
+    flex-direction: column;
+    gap: 1.5vmin;
+    align-items: center;
+    min-height: 10vmin;
+    padding: 0.5vmin;
+    border-radius: 1vmin;
+    transition: background 0.2s ease, box-shadow 0.2s ease;
+}
+
+/* Join / Leave team buttons — theme-aligned */
+
+.join-team-button {
+    margin-left: 1vmin;
+    background: var(--app-primary);
+    color: var(--app-primary-hover-text);
+    border: none;
+    padding: 0.5vmin 1vmin;
+    border-radius: 1vmin;
+    font-weight: bold;
+    cursor: pointer;
+    transition: all 0.2s;
+    font-size: 1vmin;
+
+    &:hover:not(:disabled) {
+        background: var(--app-secondary-hover);
+        transform: scale(1.1);
+    }
+
+    &:disabled {
+        opacity: 0.45;
+        cursor: not-allowed;
+        transform: none;
+        background: #555;
+        color: #999;
+    }
+}
+
+.leave-team-button {
+    margin-left: 1vmin;
+    background: var(--app-error);
+    color: white;
+    border: none;
+    padding: 0.5vmin 1vmin;
+    border-radius: 1vmin;
+    font-weight: bold;
+    cursor: pointer;
+    transition: all 0.2s;
+    font-size: 1vmin;
+
+    &:hover {
+        background: var(--app-error-hover);
+        transform: scale(1.1);
+    }
+}
+
+/* ── Drag and drop ──────────────────────────────── */
+
+/* cdkDrag element — NO transform so CDK measures coordinates correctly */
+.team-card-slot {
+    position: relative;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+/* Grab cursor on draggable cards */
+.team-card-slot:not(.cdk-drag-disabled) {
+    cursor: grab;
+}
+
+/* Scaling applied to inner child, isolated from cdkDrag */
+.card-scale-inner {
+    transform: scale(var(--card-scale));
+    transform-origin: top center;
+    margin-bottom: calc(-25vmin * (1 - var(--card-scale)));
+    margin-left: calc(-21vmin * (1 - var(--card-scale)) / 2);
+    margin-right: calc(-21vmin * (1 - var(--card-scale)) / 2);
+}
+
+/* Source card fades while being dragged */
+.team-card-slot.cdk-drag-dragging .card-scale-inner {
+    opacity: 0.4;
+}
+
+/* Drop zone feedback */
+.team-column.cdk-drop-list-dragging {
+    background: rgba(255, 255, 255, 0.08);
+    border: 0.2vmin dashed rgba(255, 255, 255, 0.3);
+}
+
+.team-column-full.cdk-drop-list-dragging {
+    background: rgba(255, 60, 60, 0.08);
+    border: 0.2vmin dashed rgba(255, 60, 60, 0.3);
+}
+
+/* Placeholder hidden — no ghost card in destination */
+.drag-placeholder {
+    display: none;
+}
+
+/* ── Right Panel ───────────────────────────────── */
+
+.right-panel {
+    grid-column: 3;
+    align-self: center;
+    height: 80vmin;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 1vmin;
+    padding: 1.5vmin;
+    box-sizing: border-box;
+    overflow: hidden;
+
+    --chat-width: 100%;
+    --chat-height: 100%;
+    --placeholder-font-size: 1.5vmin;
+}
+
+/* Chat wrapper — mirrors log-chat container */
+
+.chat-wrapper {
+    width: 100%;
+    flex: 1;
+    min-height: 0;
+    display: flex;
+    flex-direction: column;
+    border: 0.3vmin solid var(--app-primary);
+    border-radius: 1vmin;
+    overflow: hidden;
+    background-color: rgba(0, 0, 0, 0.9);
+}
+
+.chat-tab-header {
+    display: flex;
+    background: white;
+    border-bottom: 0.3vmin solid var(--app-primary);
+    flex-shrink: 0;
+}
+
+.chat-tab {
+    flex: 1;
+    padding: 1vmin 0.8vmin;
+    color: var(--app-primary);
+    border-bottom: 0.3vmin solid var(--app-primary);
+    font-size: 1vmin;
+    font-family: 'Press Start 2P', monospace;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 0.5vmin;
+}
+
+.chat-tab-icon {
+    width: 1.6vmin;
+    height: 1.6vmin;
+    flex-shrink: 0;
+}
+
+.chat-panel {
+    width: 100%;
+    flex: 1;
+    min-height: 0;
+    display: flex;
+    flex-direction: column;
+}
+
+/* Override game-chat internal border (wrapper provides it) */
+:host ::ng-deep .chat-wrapper app-game-chat .chat {
+    width: 100% !important;
+    height: 100% !important;
+    flex: 1;
+    min-height: 0;
+    border: none;
+    border-radius: 0;
+}
+
+/* Action buttons at bottom of right panel */
+
+.action-buttons {
+    width: 100%;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 0.6vmin;
+    flex-shrink: 0;
+}
+
+.action-btn {
+    width: 100%;
+    height: 4.5vmin;
+    font-family: 'Press Start 2P', monospace;
+    font-size: 1.1vmin;
+    padding: 0.5vmin 1vmin;
+    border: 0.3vmin solid var(--app-primary);
+    border-radius: 5vmin;
+    cursor: pointer;
+    transition: all 0.2s;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.action-btn.add-player {
+    background-color: var(--app-primary);
+    color: var(--app-primary-hover-text);
+
+    &:hover:not(:disabled) {
+        background-color: var(--app-secondary-hover);
+    }
+}
+
+.action-btn.start-game {
+    background-color: var(--app-primary);
+    color: var(--app-primary-hover-text);
+
+    &:hover:not(:disabled) {
+        background-color: var(--app-secondary-hover);
+    }
+}
+
+.action-btn.leave-game {
+    background-color: var(--app-primary-background);
+    color: var(--app-primary-text);
+    border: 0.3vmin solid var(--app-primary);
+
+    &:hover {
+        background-color: var(--app-primary);
+        color: var(--app-primary-hover-text);
+    }
+}
+
+.action-btn:disabled {
+    opacity: 0.5;
+    cursor: not-allowed;
+    background-color: #333;
+    color: #666;
+    border-color: #444;
+}
+
+/* Virtual player type prompt */
+
+.add-player-wrapper {
+    position: relative;
+    width: 100%;
+}
+
+.type-prompt {
+    position: absolute;
+    width: 90%;
+    left: 5%;
+    bottom: calc(100% + 0.5vmin);
+    background-color: rgba(255, 255, 255, 0.95);
+    color: black;
+    padding: 1vmin;
+    border-radius: 0.8vmin;
+    box-shadow: 0 0 1.5vmin rgba(0, 0, 0, 0.4);
+    z-index: 9999;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    font-size: 1.2vmin;
+
+    p {
+        margin: 0 0 0.5vmin;
+    }
+}
+
+.type-prompt-buttons {
+    display: flex;
+    justify-content: center;
+    gap: 0.5vmin;
+    width: 100%;
+}
+
+.aggressive-button {
+    background-color: red;
+    border: none;
+    padding: 0.5vmin 1vmin;
+    color: white;
+    border-radius: 0.5vmin;
+    flex: 1;
+    font-size: 1.1vmin;
+    cursor: pointer;
+    transition: transform 0.2s;
+}
+
+.defensive-button {
+    background-color: blue;
+    border: none;
+    padding: 0.5vmin 1vmin;
+    color: white;
+    border-radius: 0.5vmin;
+    flex: 1;
+    font-size: 1.1vmin;
+    cursor: pointer;
+    transition: transform 0.2s;
+}
+
+.type-prompt-buttons button:hover {
+    transform: scale(1.07);
+}
+
+.type-prompt-buttons button:active {
+    transform: scale(1);
+}

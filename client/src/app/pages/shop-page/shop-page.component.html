@@ -1,0 +1,169 @@
+@if (userProfile$ | async; as profile) { @if (previewAvatar; as detail) {
+<div class="avatar-detail-backdrop" role="dialog" aria-modal="true" aria-labelledby="avatar-detail-heading" aria-describedby="avatar-detail-desc">
+    <div #avatarDetailCard class="avatar-detail-card">
+        <div class="avatar-detail-chrome">
+            <button
+                type="button"
+                class="avatar-detail-close"
+                (click)="closeAvatarDetail()"
+                [attr.aria-label]="'shop_page.avatar_detail.close_alt' | translate"
+            >
+                <span aria-hidden="true">×</span>
+            </button>
+        </div>
+
+        <div class="avatar-detail-main">
+            <div class="avatar-detail-visual">
+                <h2 id="avatar-detail-heading" class="avatar-detail-title">{{ detail.name }}</h2>
+                <div class="avatar-detail-stage">
+                    @if (isAvatarOwned(detail.name)) {
+                    <span class="avatar-detail-status avatar-detail-status--owned" aria-hidden="true">{{
+                        'shop_page.avatar_detail.owned_badge' | translate
+                    }}</span>
+                    }
+                    <img [src]="getAvatarDetailAnimation(detail)" [alt]="detail.name" class="avatar-detail-anim" decoding="async" />
+                </div>
+            </div>
+
+            <div class="avatar-detail-side">
+                <div id="avatar-detail-desc" class="avatar-detail-desc">
+                    <p class="avatar-detail-story-label">{{ 'shop_page.avatar_detail.story_heading' | translate }}</p>
+                    <p class="avatar-detail-story">{{ avatarStoryKey(detail) | translate }}</p>
+                </div>
+
+                @if (isAvatarOwned(detail.name)) {
+                <p class="avatar-detail-collection-note" role="status">{{ 'shop_page.avatar_detail.in_collection' | translate }}</p>
+                } @else {
+                <div
+                    class="avatar-detail-purchase-progress"
+                    aria-live="polite"
+                    [class.avatar-detail-purchase-progress--short]="!canAfford(detail.price)"
+                    [class.avatar-detail-purchase-progress--ready]="canAfford(detail.price)"
+                >
+                    <p class="avatar-detail-purchase-progress-ratio">{{ userCurrency }} / {{ detail.price }}</p>
+                    <div class="avatar-detail-purchase-progress-bar">
+                        <span class="avatar-detail-purchase-progress-coin avatar-detail-purchase-progress-coin--bar" aria-hidden="true"><app-coin-icon /></span>
+                        <div
+                            class="avatar-detail-purchase-progress-track"
+                            role="progressbar"
+                            aria-valuemin="0"
+                            aria-valuemax="100"
+                            [attr.aria-valuenow]="purchaseProgressPercent(detail.price)"
+                            [attr.aria-label]="'shop_page.avatar_detail.progress_a11y' | translate: { have: userCurrency, need: detail.price }"
+                        >
+                            <div class="avatar-detail-purchase-progress-fill" [style.width.%]="purchaseProgressPercent(detail.price)"></div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="avatar-detail-actions">
+                    @if (canAfford(detail.price)) {
+                    <button type="button" class="avatar-detail-btn avatar-detail-btn--buy" (click)="purchaseAvatar(detail)">
+                        {{ 'shop_page.buy' | translate }}
+                    </button>
+                    } @else {
+                    <button type="button" class="avatar-detail-btn avatar-detail-btn--blocked" disabled>
+                        {{ 'shop_page.insufficient' | translate }}
+                    </button>
+                    }
+                </div>
+                }
+            </div>
+        </div>
+    </div>
+</div>
+}
+<div class="shop-container">
+    <h1 class="shop-title">{{ 'shop_page.title' | translate }}</h1>
+
+    <div class="category-tabs">
+        <button class="tab-button" [class.active]="selectedCategory === 'avatars'" (click)="selectCategory('avatars')">
+            {{ 'shop_page.avatars' | translate }}
+        </button>
+        <button class="tab-button" [class.active]="selectedCategory === 'backgrounds'" (click)="selectCategory('backgrounds')">
+            {{ 'shop_page.backgrounds' | translate }}
+        </button>
+        <button class="tab-button" [class.active]="selectedCategory === 'music'" (click)="selectCategory('music')">
+            {{ 'shop_page.musics' | translate }}
+        </button>
+    </div>
+
+    @if (selectedCategory === 'backgrounds') {
+    <div class="items-grid">
+        @for (background of shopBackgrounds; track background.id) {
+        <div class="shop-item" [class.owned]="isBackgroundOwned(background.id)">
+            <div class="item-preview" [style.background-image]="getBackgroundPreview(background)"></div>
+            <div class="item-info">
+                <h3>{{ background.name | translate }}</h3>
+                <div class="item-footer">
+                    <span class="price"><app-coin-icon /> {{ background.price }}</span>
+                    @if (isBackgroundOwned(background.id)) {
+                    <button class="buy-button owned" disabled>{{ 'shop_page.owned' | translate }}</button>
+                    } @else if (!canAfford(background.price)) {
+                    <button class="buy-button" disabled>{{ 'shop_page.insufficient' | translate }}</button>
+                    } @else {
+                    <button class="buy-button" (click)="purchaseBackground(background)">{{ 'shop_page.buy' | translate }}</button>
+                    }
+                </div>
+            </div>
+        </div>
+        }
+    </div>
+    } @else if (selectedCategory === 'avatars') {
+    <div class="items-grid">
+        @for (avatar of shopAvatars; track avatar.id) {
+        <div class="shop-item" [class.owned]="isAvatarOwned(avatar.name)">
+            <div
+                class="item-preview avatar-preview"
+                role="button"
+                tabindex="0"
+                [attr.aria-label]="'shop_page.avatar_detail.open' | translate: { name: avatar.name }"
+                (click)="openAvatarDetail(avatar)"
+                (keydown.enter)="openAvatarDetail(avatar)"
+                (keydown.space)="$event.preventDefault(); openAvatarDetail(avatar)"
+            >
+                <img class="avatar-static" [src]="getAvatarAnimation(avatar)" [alt]="avatar.name" />
+            </div>
+            <div class="item-info">
+                <h3>{{ avatar.name }}</h3>
+                <div class="item-footer">
+                    <span class="price"><app-coin-icon /> {{ avatar.price }}</span>
+                    @if (isAvatarOwned(avatar.name)) {
+                    <button class="buy-button owned" disabled>{{ 'shop_page.owned' | translate }}</button>
+                    } @else if (!canAfford(avatar.price)) {
+                    <button class="buy-button" disabled>{{ 'shop_page.insufficient' | translate }}</button>
+                    } @else {
+                    <button class="buy-button" (click)="purchaseAvatar(avatar)">{{ 'shop_page.buy' | translate }}</button>
+                    }
+                </div>
+            </div>
+        </div>
+        }
+    </div>
+    } @else {
+    <div class="items-grid">
+        @for (music of shopMusics; track music.id) {
+        <div class="shop-item" [class.owned]="isMusicOwned(music.id)">
+            <div class="item-preview music-preview">
+                <img [src]="music.cover" [alt]="music.name" class="music-cover" />
+                <span class="music-icon" aria-hidden="true">♫</span>
+            </div>
+            <div class="item-info">
+                <h3>{{ music.name | translate }}</h3>
+                <div class="item-footer">
+                    <span class="price"><app-coin-icon /> {{ music.price }}</span>
+                    @if (isMusicOwned(music.id)) {
+                    <button class="buy-button owned" disabled>{{ 'shop_page.owned' | translate }}</button>
+                    } @else if (!canAfford(music.price)) {
+                    <button class="buy-button" disabled>{{ 'shop_page.insufficient' | translate }}</button>
+                    } @else {
+                    <button class="buy-button" (click)="purchaseMusic(music)">{{ 'shop_page.buy' | translate }}</button>
+                    }
+                </div>
+            </div>
+        </div>
+        }
+    </div>
+    }
+</div>
+}

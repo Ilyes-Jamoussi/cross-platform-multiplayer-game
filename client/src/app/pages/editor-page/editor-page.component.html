@@ -1,0 +1,38 @@
+@defer { @if (!isSaving) {
+<div
+    class="page-container"
+    (mousemove)="onMouseMove($event)"
+    (dragend)="onDragEnd($event)"
+    (contextmenu)="onContextMenu($event)"
+    (mousedown)="onMouseDown($event)"
+    (mouseup)="onMouseUp($event)"
+>
+    <div class="left-bar">
+        <app-tile-bar></app-tile-bar>
+    </div>
+    <div class="center-content">
+        <app-game-grid (visibilityChange)="toggleIsSaving($event)" (generatorModalOpen)="openGeneratorModal()"></app-game-grid>
+    </div>
+    <div class="right-bar">
+        <app-item-bar></app-item-bar>
+    </div>
+</div>
+
+@if (showGeneratorModal) {
+<app-map-generator
+    [gridSize]="gridSize"
+    [gameMode]="gameMode"
+    [isModalOpen]="showGeneratorModal"
+    [isGenerating]="isGenerating"
+    (generate)="onGenerateGrid($event)"
+    (closeGenerator)="closeGeneratorModal()"
+></app-map-generator>
+} } @else {
+<div class="page-container">
+    <div class="left-bar"></div>
+    <div class="center-content">
+        <app-description (visibilityChange)="toggleIsSaving($event)"></app-description>
+    </div>
+    <div class="right-bar"></div>
+</div>
+} }

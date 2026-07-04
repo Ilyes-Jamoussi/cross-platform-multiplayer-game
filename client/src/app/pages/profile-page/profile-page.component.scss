@@ -1,0 +1,512 @@
+:host {
+    display: block;
+    flex: 1;
+    min-height: 0;
+    overflow-y: auto;
+}
+
+.profile-container {
+    width: 100%;
+    min-height: 100%;
+    padding: 2vmin;
+    font-family: 'Press Start 2P', monospace;
+    display: flex;
+    flex-direction: column;
+    box-sizing: border-box;
+}
+
+.profile-main {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 2vmin;
+    flex: 1;
+    min-height: 0;
+}
+
+.profile-left {
+    display: flex;
+    flex-direction: column;
+    gap: 2vmin;
+    min-height: 0;
+    overflow-y: auto;
+    padding: 0.8vmin;
+}
+
+.profile-right {
+    display: flex;
+    flex-direction: column;
+    gap: 2vmin;
+    min-height: 0;
+    overflow-y: auto;
+    padding: 0.8vmin;
+}
+
+// Currency banner
+.currency-banner {
+    background: var(--app-primary-background);
+    border-radius: 1.5vmin;
+    padding: 1.2vmin 2vmin;
+    display: flex;
+    align-items: center;
+    gap: 1.5vmin;
+    flex-shrink: 0;
+    box-shadow:
+        0 0 0 0.3vmin var(--app-primary),
+        0 0 0 0.6vmin var(--app-secondary);
+}
+
+.currency-icon {
+    font-size: 24px;
+    color: #e6b830;
+}
+
+.currency-amount {
+    font-size: 2.2vmin;
+    color: #e6b830;
+    text-shadow: 0.2vmin 0.2vmin 0 rgba(0, 0, 0, 0.5);
+}
+
+// Cosmetics panel
+.cosmetics-panel {
+    background: var(--app-primary-background);
+    border-radius: 1.5vmin;
+    padding: 1.5vmin;
+    flex-shrink: 0;
+    box-shadow:
+        0 0 0 0.3vmin var(--app-primary),
+        0 0 0 0.6vmin var(--app-secondary);
+}
+
+.tab-buttons {
+    display: flex;
+    gap: 1vmin;
+    margin-bottom: 1.5vmin;
+}
+
+.tab-btn {
+    flex: 1;
+    padding: 1vmin;
+    background: var(--app-panel-inset);
+    border: 0.3vmin solid var(--app-primary);
+    border-radius: 5vmin;
+    color: var(--app-text-muted);
+    font-family: 'Press Start 2P', monospace;
+    font-size: 1vmin;
+    cursor: pointer;
+    transition: all 0.2s;
+
+    &.active {
+        background: var(--app-primary);
+        color: var(--app-primary-hover-text);
+        border-color: var(--app-secondary);
+        box-shadow: 0 0 1vmin var(--app-secondary-disabled);
+    }
+
+    &:hover:not(.active) {
+        background: var(--app-highlight-bg);
+        color: var(--app-primary-text);
+    }
+}
+
+.tab-content {
+    min-height: 70px;
+}
+
+.cosmetic-row-items {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(100px, 1fr));
+    gap: 1.5vmin;
+}
+
+.cosmetic-item-mini {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 1vmin;
+    cursor: pointer;
+    padding: 1.2vmin;
+    border-radius: 1.5vmin;
+    background: var(--app-panel-inset);
+    transition: all 0.25s;
+    box-shadow:
+        0 0 0 0.25vmin var(--app-primary),
+        0 0 0 0.5vmin var(--app-secondary);
+
+    &:hover {
+        transform: scale(1.04);
+        box-shadow:
+            0 0 0 0.3vmin var(--app-primary),
+            0 0 0 0.6vmin var(--app-secondary),
+            0 0 1vmin var(--app-secondary-disabled);
+    }
+
+    &.selected {
+        box-shadow:
+            0 0 0 0.3vmin var(--app-secondary),
+            0 0 0 0.6vmin var(--app-tertiary),
+            0 0 1.5vmin var(--app-secondary-disabled);
+    }
+}
+
+.cosmetic-thumb {
+    width: 100%;
+    aspect-ratio: 1;
+    border-radius: 1vmin;
+    object-fit: cover;
+    image-rendering: pixelated;
+    border: 0.2vmin solid var(--app-primary);
+}
+
+.bg-thumb {
+    background-size: cover !important;
+    background-position: center !important;
+    background-repeat: no-repeat !important;
+    background-color: var(--app-surface);
+}
+
+.music-off-thumb {
+    width: 100%;
+    aspect-ratio: 1;
+    border-radius: 1vmin;
+    background: var(--app-panel-inset);
+    border: 0.2vmin dashed var(--app-text-muted);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+
+    svg {
+        width: 40%;
+        height: 40%;
+        color: var(--app-text-muted);
+    }
+}
+
+.cosmetic-name-mini {
+    font-family: 'Press Start 2P', monospace;
+    font-size: 0.8vmin;
+    color: var(--app-primary-text);
+    text-align: center;
+    max-width: 100%;
+    word-wrap: break-word;
+    line-height: 1.5;
+}
+
+.empty-msg {
+    font-size: 1vmin;
+    color: var(--app-text-muted);
+}
+
+// Stats card
+.stats-card {
+    background: var(--app-primary-background);
+    border-radius: 1.5vmin;
+    padding: 1.5vmin;
+    flex-shrink: 0;
+    box-shadow:
+        0 0 0 0.3vmin var(--app-primary),
+        0 0 0 0.6vmin var(--app-secondary);
+}
+
+.stats-title {
+    font-size: 1.5vmin;
+    color: var(--app-primary-text);
+    margin: 0 0 1.2vmin 0;
+    text-align: center;
+}
+
+.stats-list {
+    display: flex;
+    flex-direction: column;
+    gap: 0.8vmin;
+}
+
+.stats-row {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 1vmin 1.5vmin;
+    background: var(--app-panel-inset);
+    border-radius: 1vmin;
+    border: 0.2vmin solid var(--app-primary);
+}
+
+.stats-label {
+    font-size: 1vmin;
+    color: var(--app-primary-text);
+}
+
+.stats-value {
+    font-size: 1.5vmin;
+    color: var(--app-secondary);
+}
+
+// Info card
+.info-card {
+    background: var(--app-primary-background);
+    border-radius: 1.5vmin;
+    padding: 1.5vmin;
+    display: flex;
+    flex-direction: column;
+    justify-content: flex-start;
+    flex-shrink: 0;
+    box-shadow:
+        0 0 0 0.3vmin var(--app-primary),
+        0 0 0 0.6vmin var(--app-secondary);
+}
+
+.info-item {
+    display: flex;
+    flex-direction: column;
+    gap: 0.6vmin;
+    padding: 1vmin 0;
+    border-bottom: 0.2vmin solid var(--app-primary);
+
+    &:last-of-type {
+        border-bottom: none;
+    }
+}
+
+.danger-section {
+    padding-top: 1.2vmin;
+    margin-top: 0.5vmin;
+    border-top: 0.3vmin solid #dc3545;
+    text-align: center;
+}
+
+.info-label {
+    font-size: 1vmin;
+    color: var(--app-secondary);
+}
+
+.info-value {
+    font-size: 1.2vmin;
+    color: var(--app-primary-text);
+    word-break: break-all;
+}
+
+.info-value-row {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 1.5vmin;
+}
+
+.edit-field {
+    display: flex;
+    flex-direction: column;
+    gap: 0.8vmin;
+}
+
+.edit-actions {
+    display: flex;
+    gap: 1vmin;
+    justify-content: center;
+}
+
+.field-error {
+    font-size: 0.9vmin;
+    color: #ff6b6b;
+    margin: 0;
+}
+
+// Avatar card
+.avatar-card {
+    background: var(--app-primary-background);
+    border-radius: 1.5vmin;
+    padding: 1.5vmin;
+    text-align: center;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    flex-shrink: 0;
+    box-shadow:
+        0 0 0 0.3vmin var(--app-primary),
+        0 0 0 0.6vmin var(--app-secondary);
+}
+
+.profile-avatar {
+    width: 12vmin;
+    height: 12vmin;
+    border: 0.3vmin solid var(--app-secondary);
+    border-radius: 1.5vmin;
+    margin-bottom: 1.2vmin;
+    image-rendering: pixelated;
+    box-shadow: 0 0 1.5vmin var(--app-secondary-disabled);
+}
+
+.selector-title {
+    font-size: 1.2vmin;
+    color: var(--app-secondary);
+    margin: 0 0 1.2vmin 0;
+}
+
+.avatar-grid {
+    display: grid;
+    grid-template-columns: repeat(3, 7vmin);
+    gap: 1vmin;
+    justify-content: center;
+    margin-bottom: 1vmin;
+}
+
+.upload-row {
+    display: flex;
+    justify-content: center;
+    margin-bottom: 1.2vmin;
+}
+
+.avatar-option {
+    width: 7vmin;
+    height: 7vmin;
+    border: 0.2vmin solid var(--app-primary);
+    border-radius: 1vmin;
+    cursor: pointer;
+    transition: all 0.2s;
+    object-fit: cover;
+    image-rendering: pixelated;
+
+    &:hover {
+        border-color: var(--app-secondary);
+        box-shadow: 0 0 0.8vmin var(--app-secondary-disabled);
+    }
+
+    &.selected {
+        border-color: var(--app-secondary);
+        border-width: 0.3vmin;
+        box-shadow: 0 0 1vmin var(--app-secondary-disabled);
+    }
+
+    &.isDashed {
+        border: 0.2vmin dashed var(--app-primary);
+        opacity: 0.7;
+
+        &:hover {
+            opacity: 1;
+        }
+    }
+
+    &.upload-placeholder {
+        border: 0.2vmin dashed var(--app-text-muted);
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        background: var(--app-panel-inset);
+    }
+}
+
+.upload-icon {
+    font-size: 2.5vmin;
+    color: var(--app-secondary);
+    line-height: 1;
+}
+
+.upload-btn {
+    margin-bottom: 1.2vmin;
+}
+
+.avatar-actions {
+    display: flex;
+    gap: 1vmin;
+    justify-content: center;
+}
+
+.hidden-input {
+    display: none;
+}
+
+// Delete account
+.delete-confirm {
+    text-align: center;
+    padding: 1vmin 0;
+}
+
+.warning {
+    font-size: 0.9vmin;
+    color: #ff6b6b;
+    margin: 0 0 0.8vmin 0;
+}
+
+.confirm-text {
+    font-size: 0.9vmin;
+    color: var(--app-text-muted);
+    margin: 0 0 1vmin 0;
+}
+
+.confirm-input {
+    width: 100%;
+    padding: 1vmin;
+    border: 0.3vmin solid var(--app-primary);
+    border-radius: 0.8vmin;
+    font-family: 'Press Start 2P', monospace;
+    font-size: 1vmin;
+    margin-bottom: 1vmin;
+    background: var(--app-panel-inset);
+    color: var(--app-primary-text);
+    box-sizing: border-box;
+
+    &:focus {
+        outline: none;
+        border-color: var(--app-secondary);
+        box-shadow: 0 0 0.8vmin var(--app-secondary-disabled);
+    }
+}
+
+.delete-actions {
+    display: flex;
+    gap: 1vmin;
+    justify-content: center;
+}
+
+// Buttons
+.pixel-button {
+    padding: 1vmin 2vmin;
+    background: var(--app-primary-background);
+    border: 0.3vmin solid var(--app-primary);
+    border-radius: 5vmin;
+    color: var(--app-primary-text);
+    font-family: 'Press Start 2P', monospace;
+    font-size: 1vmin;
+    cursor: pointer;
+    transition: all 0.3s;
+
+    &:hover {
+        background: var(--app-primary);
+        color: var(--app-primary-hover-text);
+        border-color: var(--app-secondary);
+        box-shadow: 0 0 1vmin var(--app-secondary-disabled);
+    }
+
+    &.primary {
+        background: var(--app-primary);
+        color: var(--app-primary-hover-text);
+        border-color: var(--app-secondary);
+
+        &:hover {
+            background: var(--app-secondary-hover);
+            box-shadow: 0 0 1.5vmin var(--app-secondary-disabled);
+        }
+    }
+
+    &.danger {
+        border-color: #dc3545;
+        color: #dc3545;
+
+        &:hover {
+            background: #dc3545;
+            color: white;
+            box-shadow: 0 0 1vmin rgba(220, 53, 69, 0.4);
+        }
+
+        &:disabled {
+            opacity: 0.5;
+            cursor: not-allowed;
+            background: var(--app-panel-inset);
+            border-color: var(--app-text-muted);
+            color: var(--app-text-muted);
+        }
+    }
+
+    &.small {
+        padding: 0.8vmin 1.5vmin;
+        font-size: 0.9vmin;
+    }
+}
