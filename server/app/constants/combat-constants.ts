@@ -1,0 +1,11 @@
+export const POTION_LIFE_BONUS = 2;
+export const POTION_DEFENSE_PENALTY = 1;
+export const SHIELD_DEFENSE_BONUS = 2;
+export const SHIELD_ATTACK_PENALTY = 1;
+export const DAGGER_ATTACK_BONUS = 2;
+export const POISON_DAMAGE_CAP = 1;
+export const MIN_LIFE_AFTER_REVIVE = 1;
+export const DICE_EFFECT_RANGE = 2;
+export const DEBUG_DEFENSE_VALUE = 1;
+export const DICE_MIN_VALUE = 1;
+export const DAGGER_LIFE_THRESHOLD = 3;

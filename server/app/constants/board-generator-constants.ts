@@ -1,0 +1,11 @@
+export const MIN_STARTING_POINT_DISTANCE = 3;
+export const MIN_BODY_SIZE = 4;
+export const MAX_GENERATION_ATTEMPTS = 100;
+export const MIN_STRUCTURE_INTERIOR_SIZE = 2;
+export const MAX_PLACEMENT_ATTEMPTS = 1000;
+export const MIN_STRUCTURE_SIZE = 4;
+export const MAX_STRUCTURE_SIZE = 8;
+export const STRUCTURE_SPACING = 2;
+export const BODY_EXPANSION_PROBABILITY = 0.3;
+export const NUMBER_OF_SIDES = 4;
+export const PERCENTAGE_DIVISOR = 100;
