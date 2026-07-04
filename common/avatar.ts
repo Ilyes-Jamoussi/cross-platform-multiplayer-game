@@ -1,0 +1,145 @@
+export type Avatar = {
+    name: string;
+    icon: string;
+    animation: string;
+    image: string;
+    idle: string;
+    combatIdle?: string;
+    attack?: string;
+    attackDuration?: number;
+};
+
+export const AVATARS: Avatar[] = [
+    {
+        name: 'Archer',
+        icon: 'assets/avatar_icon/archer_icon.png',
+        animation: 'assets/avatar_gif/archer.gif',
+        image: 'assets/avatar_png/archer.png',
+        idle: 'assets/avatar_idle/archer.gif',
+        combatIdle: 'assets/avatar_combat/avatar_idle/archer.gif',
+        attack: 'assets/avatar_combat/avatar_attack/archer.gif',
+        attackDuration: 1610,
+    },
+    {
+        name: 'Cubic',
+        icon: 'assets/avatar_icon/cubic_icon.png',
+        animation: 'assets/avatar_gif/cubic.gif',
+        image: 'assets/avatar_png/cubic.png',
+        idle: 'assets/avatar_idle/cubic.gif',
+        combatIdle: 'assets/avatar_combat/avatar_idle/cubic.gif',
+        attack: 'assets/avatar_combat/avatar_attack/cubic.gif',
+        attackDuration: 2520,
+    },
+    {
+        name: 'Golden Punch',
+        icon: 'assets/avatar_icon/golden_punch_icon.png',
+        animation: 'assets/avatar_gif/golden_punch.gif',
+        image: 'assets/avatar_png/golden_punch.png',
+        idle: 'assets/avatar_idle/golden_punch.gif',
+        combatIdle: 'assets/avatar_combat/avatar_idle/golden_punch.gif',
+        attack: 'assets/avatar_combat/avatar_attack/golden_punch.gif',
+        attackDuration: 2069,
+    },
+    {
+        name: 'IceWolf',
+        icon: 'assets/avatar_icon/ice_wolf_icon.png',
+        animation: 'assets/avatar_gif/icewolf.gif',
+        image: 'assets/avatar_png/ice_wolf.png',
+        idle: 'assets/avatar_idle/ice_wolf.gif',
+        combatIdle: 'assets/avatar_combat/avatar_idle/ice_wolf.gif',
+        attack: 'assets/avatar_combat/avatar_attack/ice_wolf.gif',
+        attackDuration: 2520,
+    },
+    {
+        name: 'Inferno',
+        icon: 'assets/avatar_icon/inferno_icon.png',
+        animation: 'assets/avatar_gif/inferno.gif',
+        image: 'assets/avatar_png/inferno.png',
+        idle: 'assets/avatar_idle/inferno.gif',
+        combatIdle: 'assets/avatar_combat/avatar_idle/inferno.gif',
+        attack: 'assets/avatar_combat/avatar_attack/inferno.gif',
+        attackDuration: 2170,
+    },
+    {
+        name: 'Phoenix',
+        icon: 'assets/avatar_icon/phoenix_icon.png',
+        animation: 'assets/avatar_gif/phoenix.gif',
+        image: 'assets/avatar_png/phoenix.png',
+        idle: 'assets/avatar_idle/pheonix.gif',
+        combatIdle: 'assets/avatar_combat/avatar_idle/pheonix.gif',
+        attack: 'assets/avatar_combat/avatar_attack/pheonix.gif',
+        attackDuration: 2249,
+    },
+    {
+        name: 'Rainbow',
+        icon: 'assets/avatar_icon/rainbow_icon.png',
+        animation: 'assets/avatar_gif/rainbow.gif',
+        image: 'assets/avatar_png/rainbow.png',
+        idle: 'assets/avatar_idle/rainbow.gif',
+        combatIdle: 'assets/avatar_combat/avatar_idle/rainbow.gif',
+        attack: 'assets/avatar_combat/avatar_attack/rainbow.gif',
+        attackDuration: 2820,
+    },
+    {
+        name: 'Ronin',
+        icon: 'assets/avatar_icon/ronin_icon.png',
+        animation: 'assets/avatar_gif/ronin.gif',
+        image: 'assets/avatar_png/ronin.png',
+        idle: 'assets/avatar_idle/ronin.gif',
+        combatIdle: 'assets/avatar_combat/avatar_idle/ronin.gif',
+        attack: 'assets/avatar_combat/avatar_attack/ronin.gif',
+        attackDuration: 1470,
+    },
+    {
+        name: 'Specter',
+        icon: 'assets/avatar_icon/specter_icon.png',
+        animation: 'assets/avatar_gif/specter.gif',
+        image: 'assets/avatar_png/specter.png',
+        idle: 'assets/avatar_idle/specter.gif',
+        combatIdle: 'assets/avatar_combat/avatar_idle/specter.gif',
+        attack: 'assets/avatar_combat/avatar_attack/specter.gif',
+        attackDuration: 1470,
+    },
+    {
+        name: 'Titan',
+        icon: 'assets/avatar_icon/titan_icon.png',
+        animation: 'assets/avatar_gif/titan.gif',
+        image: 'assets/avatar_png/titan.png',
+        idle: 'assets/avatar_idle/titan.gif',
+        combatIdle: 'assets/avatar_combat/avatar_idle/titan.gif',
+        attack: 'assets/avatar_combat/avatar_attack/titan.gif',
+        attackDuration: 2040,
+    },
+    {
+        name: 'Whiplash',
+        icon: 'assets/avatar_icon/whiplash_icon.png',
+        animation: 'assets/avatar_gif/whiplash.gif',
+        image: 'assets/avatar_png/whiplash.png',
+        idle: 'assets/avatar_idle/whiplash.gif',
+        combatIdle: 'assets/avatar_combat/avatar_idle/whiplash.gif',
+        attack: 'assets/avatar_combat/avatar_attack/whiplash.gif',
+        attackDuration: 1610,
+    },
+    {
+        name: 'Yang',
+        icon: 'assets/avatar_icon/yang_icon.png',
+        animation: 'assets/avatar_gif/yang.gif',
+        image: 'assets/avatar_png/yang.png',
+        idle: 'assets/avatar_idle/yang.gif',
+        combatIdle: 'assets/avatar_combat/avatar_idle/yang.gif',
+        attack: 'assets/avatar_combat/avatar_attack/yang.gif',
+        attackDuration: 3010,
+    },
+
+    {
+        name: 'Knuckles',
+        icon: 'assets/avatar_png/knuckles.png',
+        image: 'assets/avatar_png/knuckles.png',
+        idle: 'assets/avatar_png/knuckles.png',
+        animation: 'assets/avatar_png/knuckles.png',
+        combatIdle: 'assets/avatar_png/knuckles.png',
+        attack:  'assets/avatar_png/knuckles.png',
+        attackDuration: 1000,
+    },
+
+];
