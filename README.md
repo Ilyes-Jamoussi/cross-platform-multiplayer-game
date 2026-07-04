@@ -135,7 +135,10 @@ cd client && npm test         # web client unit tests (Karma/Jasmine)
 ## About this project
 
 Poly Arena was built over four months by a team of six as a software engineering
-capstone project, and iterated on afterwards.
+capstone project, and iterated on afterwards. The original development history lives
+on the university's GitLab (545 commits, 6 authors); this repository is a curated
+re-publication — secrets and course material removed — so its public history starts
+fresh.
 
 **My contributions** ([@Ilyes-Jamoussi](https://github.com/Ilyes-Jamoussi), ~52% of commits): led the Angular
 web client end-to-end (game board, map editor, lobbies, shop, profile), implemented
