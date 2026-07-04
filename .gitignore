@@ -1,0 +1,38 @@
+# Dependencies
+node_modules/
+
+# Build output
+dist/
+out/
+build/
+.angular/
+desktop_electron/renderer/
+coverage/
+
+# Flutter / Android
+.dart_tool/
+.gradle/
+*.iml
+mobile_client/.flutter-plugins
+mobile_client/.flutter-plugins-dependencies
+
+# Environment & secrets
+.env
+.env.*
+!.env.example
+*.pem
+google-services.json
+serviceAccount*.json
+
+# IDE
+/.cursor/
+/.vs/
+/.kiro/
+/.claude/
+.vscode/chrome
+
+# OS / logs
+.DS_Store
+Thumbs.db
+*.log
+npm-debug.log*

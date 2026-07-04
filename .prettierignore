@@ -1,0 +1,14 @@
+*.ico
+.gitkeep
+
+# Binaires et assets non texte (évite erreurs « No parser could be inferred » avec src/**/* côté client)
+**/*.png
+**/*.gif
+**/*.jpg
+**/*.jpeg
+**/*.webp
+**/*.svg
+**/*.mp3
+**/*.woff
+**/*.woff2
+**/*.ttf
