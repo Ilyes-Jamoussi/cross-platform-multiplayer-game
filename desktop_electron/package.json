@@ -1,0 +1,42 @@
+{
+  "name": "poly-arena-desktop",
+  "version": "1.0.0",
+  "main": "main.js",
+  "scripts": {
+    "start": "electron .",
+    "build:angular:prod": "cd ../client && npx ng build --configuration production --base-href ./ --deploy-url ./",
+    "build:angular:dev": "cd ../client && npx ng build --configuration development --base-href ./ --deploy-url ./",
+    "sync-angular": "node scripts/sync-angular.js",
+    "dev": "npm run build:angular:dev && npm run sync-angular && npm start",
+    "prod": "npm run build:angular:prod && npm run sync-angular && npm start",
+    "build": "npm run build:angular:prod && npm run sync-angular && electron-builder"
+  },
+  "devDependencies": {
+    "electron": "^31.0.0",
+    "electron-builder": "^24.13.3",
+    "fs-extra": "^11.2.0"
+  },
+  "build": {
+    "appId": "com.polyarena.desktop",
+    "productName": "Poly Arena",
+    "files": [
+      "main.js",
+      "preload.js",
+      "package.json",
+      "renderer/**"
+    ],
+    "win": {
+      "target": "nsis"
+    },
+    "mac": {
+      "target": ["dmg", "zip"]
+    },
+    "linux": {
+      "target": "AppImage"
+    }
+  },
+  "dependencies": {
+    "@ngx-translate/core": "^17.0.0",
+    "@ngx-translate/http-loader": "^17.0.0"
+  }
+}
