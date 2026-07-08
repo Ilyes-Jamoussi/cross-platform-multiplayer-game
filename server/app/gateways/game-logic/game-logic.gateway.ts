@@ -350,11 +350,7 @@ export class GameLogicGateway {
         try {
             const room = this.gameRoomService.getRoom(data.roomId);
             if (!room || room.statsRecorded) return;
-            if (
-                room.map?.gameMode === GameModes.Classic &&
-                room.lobbyGameMode === LobbyGameMode.FastElimination &&
-                !room.gameState?.isGameOver
-            ) {
+            if (room.map?.gameMode === GameModes.Classic && room.lobbyGameMode === LobbyGameMode.FastElimination && !room.gameState?.isGameOver) {
                 return;
             }
 
