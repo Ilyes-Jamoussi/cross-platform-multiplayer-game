@@ -29,7 +29,8 @@
                         "style": "kebab-case"
                     }
                 ],
-                "@angular-eslint/use-lifecycle-interface": "error" // Warn in @angular-eslint/recommended
+                "@angular-eslint/use-lifecycle-interface": "error", // Warn in @angular-eslint/recommended
+                "@angular-eslint/prefer-inject": "off" // Constructor injection is still valid; new default in angular-eslint 20
             }
         },
         {

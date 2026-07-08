@@ -70,9 +70,7 @@ export class GameRoomGateway implements OnGatewayConnection, OnGatewayDisconnect
             // be able to join the socket room even if isLocked is true (the drop-in filled the
             // last slot and triggered the lock, but that same player must still get in).
             const isFastElimDropInJoiner =
-                room.lobbyGameMode === LobbyGameMode.FastElimination &&
-                room.hasGameStarted &&
-                room.players.some((p) => p.id === client.id);
+                room.lobbyGameMode === LobbyGameMode.FastElimination && room.hasGameStarted && room.players.some((p) => p.id === client.id);
 
             if (room.isLocked && !(room.dropInDropOutEnabled && room.hasGameStarted) && !isFastElimDropInJoiner) {
                 client.emit(GameRoomEvents.JoinDenied, { message: 'server_msg.game_locked' });

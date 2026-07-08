@@ -1,7 +1,7 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { provideHttpClient } from '@angular/common/http';
 import { MainPageComponent } from './main-page.component';
-import { provideRouter } from '@angular/router';
+import { provideRouter, Router, RouterLink } from '@angular/router';
 import { By } from '@angular/platform-browser';
 import { TranslateModule } from '@ngx-translate/core';
 
@@ -29,8 +29,11 @@ describe('MainPageComponent', () => {
         // eslint-disable-next-line @typescript-eslint/no-magic-numbers
         expect(buttons.length).toBe(3);
 
-        expect(buttons[0].attributes['ng-reflect-router-link']).toBe('/join');
-        expect(buttons[1].attributes['ng-reflect-router-link']).toBe('/game-creation');
-        expect(buttons[2].attributes['ng-reflect-router-link']).toBe('/admin');
+        const router = TestBed.inject(Router);
+        const routeOf = (button: (typeof buttons)[number]) => router.serializeUrl(button.injector.get(RouterLink).urlTree!);
+
+        expect(routeOf(buttons[0])).toBe('/join');
+        expect(routeOf(buttons[1])).toBe('/game-creation');
+        expect(routeOf(buttons[2])).toBe('/admin');
     });
 });
