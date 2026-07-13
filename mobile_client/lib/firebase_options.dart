@@ -38,37 +38,37 @@ class DefaultFirebaseOptions {
   }
 
   static const FirebaseOptions web = FirebaseOptions(
-    apiKey: 'YOUR_FIREBASE_API_KEY',
-    appId: 'YOUR_FIREBASE_WEB_APP_ID',
-    messagingSenderId: 'YOUR_SENDER_ID',
-    projectId: 'your-project',
-    authDomain: 'your-project.firebaseapp.com',
-    storageBucket: 'your-project.firebasestorage.app',
+    apiKey: 'AIzaSyDzGEWPcCnVqUCypIi2nykz-6bRV6FHhdc',
+    appId: '1:286450791118:web:c45af032f8b70e78d9169f',
+    messagingSenderId: '286450791118',
+    projectId: 'log3900-equipe-206',
+    authDomain: 'log3900-equipe-206.firebaseapp.com',
+    storageBucket: 'log3900-equipe-206.firebasestorage.app',
   );
 
   static const FirebaseOptions android = FirebaseOptions(
-    apiKey: 'YOUR_FIREBASE_API_KEY',
-    appId: 'YOUR_FIREBASE_ANDROID_APP_ID',
-    messagingSenderId: 'YOUR_SENDER_ID',
-    projectId: 'your-project',
-    storageBucket: 'your-project.firebasestorage.app',
+    apiKey: 'AIzaSyDzGEWPcCnVqUCypIi2nykz-6bRV6FHhdc',
+    appId: '1:286450791118:android:TEMP_DEV_CONFIG',
+    messagingSenderId: '286450791118',
+    projectId: 'log3900-equipe-206',
+    storageBucket: 'log3900-equipe-206.firebasestorage.app',
   );
 
   static const FirebaseOptions ios = FirebaseOptions(
-    apiKey: 'YOUR_FIREBASE_API_KEY',
-    appId: 'YOUR_FIREBASE_IOS_APP_ID',
-    messagingSenderId: 'YOUR_SENDER_ID',
-    projectId: 'your-project',
-    storageBucket: 'your-project.firebasestorage.app',
+    apiKey: 'AIzaSyDzGEWPcCnVqUCypIi2nykz-6bRV6FHhdc',
+    appId: '1:286450791118:ios:TEMP_DEV_CONFIG',
+    messagingSenderId: '286450791118',
+    projectId: 'log3900-equipe-206',
+    storageBucket: 'log3900-equipe-206.firebasestorage.app',
     iosBundleId: 'com.example.mobileClient',
   );
 
   static const FirebaseOptions macos = FirebaseOptions(
-    apiKey: 'YOUR_FIREBASE_API_KEY',
-    appId: 'YOUR_FIREBASE_IOS_APP_ID',
-    messagingSenderId: 'YOUR_SENDER_ID',
-    projectId: 'your-project',
-    storageBucket: 'your-project.firebasestorage.app',
+    apiKey: 'AIzaSyDzGEWPcCnVqUCypIi2nykz-6bRV6FHhdc',
+    appId: '1:286450791118:ios:TEMP_DEV_CONFIG',
+    messagingSenderId: '286450791118',
+    projectId: 'log3900-equipe-206',
+    storageBucket: 'log3900-equipe-206.firebasestorage.app',
     iosBundleId: 'com.example.mobileClient',
   );
 }

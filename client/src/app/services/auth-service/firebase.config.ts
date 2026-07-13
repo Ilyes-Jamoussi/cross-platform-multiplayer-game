@@ -1,15 +1,14 @@
 import { initializeApp } from 'firebase/app';
 import { getAuth } from 'firebase/auth';
 
-// Firebase web app configuration.
-// Create your own project at https://console.firebase.google.com and paste its config here.
+// Firebase web app configuration (client-side keys — public by design).
 const firebaseConfig = {
-    apiKey: 'YOUR_FIREBASE_API_KEY',
-    authDomain: 'your-project.firebaseapp.com',
-    projectId: 'your-project',
-    storageBucket: 'your-project.firebasestorage.app',
-    messagingSenderId: 'YOUR_SENDER_ID',
-    appId: 'YOUR_FIREBASE_APP_ID',
+    apiKey: 'AIzaSyDzGEWPcCnVqUCypIi2nykz-6bRV6FHhdc',
+    authDomain: 'log3900-equipe-206.firebaseapp.com',
+    projectId: 'log3900-equipe-206',
+    storageBucket: 'log3900-equipe-206.firebasestorage.app',
+    messagingSenderId: '286450791118',
+    appId: '1:286450791118:web:c45af032f8b70e78d9169f',
 };
 
 export const firebaseApp = initializeApp(firebaseConfig);
