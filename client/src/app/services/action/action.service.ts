@@ -28,6 +28,7 @@ export class ActionService implements OnDestroy {
     private _isActionClicked: boolean = false;
     private _isCombat: boolean = false;
     private readonly activeGridService: ActiveGridService;
+    private readonly combatService: CombatService;
 
     constructor(
         @Inject(forwardRef(() => ActiveGridService))
@@ -35,9 +36,14 @@ export class ActionService implements OnDestroy {
         private readonly socketService: SocketService,
         private readonly turnService: TurnService,
         private readonly playerService: PlayerService,
-        private readonly combatService: CombatService,
+        // Lazy reference: combat.service.ts imports ActionService back, so a direct
+        // class reference here is in the temporal dead zone when webpack happens to
+        // evaluate this module first.
+        @Inject(forwardRef(() => CombatService))
+        combatService: unknown,
     ) {
         this.activeGridService = activeGridService as ActiveGridService;
+        this.combatService = combatService as CombatService;
         this.init();
     }
 

@@ -38,6 +38,7 @@ import { ChatChannel, chatChannelSchema, ChatChannelMessage, chatChannelMessageS
 import { FriendsGateway } from './gateways/friends/friends.gateway';
 import { FriendsService } from './services/friends/friends.service';
 import { FriendsController } from '@app/controllers/friends/friends.controller';
+import { HealthController } from '@app/controllers/health/health.controller';
 
 @Module({
     imports: [
@@ -59,7 +60,7 @@ import { FriendsController } from '@app/controllers/friends/friends.controller';
             { name: ChatChannelMessage.name, schema: chatChannelMessageSchema },
         ]),
     ],
-    controllers: [BoardController, GameRoomController, AuthController, FriendsController],
+    controllers: [BoardController, GameRoomController, AuthController, FriendsController, HealthController],
     providers: [
         BoardService,
         BoardGeneratorService,

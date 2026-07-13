@@ -1,0 +1,22 @@
+# Render Blueprint — deploys the Poly Arena game server on the free plan.
+# https://render.com/docs/blueprint-spec
+#
+# Secrets (set in the Render dashboard, never committed):
+#   DATABASE_CONNECTION_STRING  MongoDB Atlas URI
+#   FIREBASE_SERVICE_ACCOUNT    base64-encoded Firebase Admin service-account JSON
+services:
+  - type: web
+    name: poly-arena
+    runtime: node
+    plan: free
+    rootDir: server
+    buildCommand: npm ci && npm run build
+    startCommand: npm run start:prod
+    healthCheckPath: /api/health
+    envVars:
+      - key: NODE_VERSION
+        value: "22"
+      - key: DATABASE_CONNECTION_STRING
+        sync: false
+      - key: FIREBASE_SERVICE_ACCOUNT
+        sync: false

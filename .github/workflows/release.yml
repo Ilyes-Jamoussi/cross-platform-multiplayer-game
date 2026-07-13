@@ -1,0 +1,62 @@
+name: Release
+
+on:
+  push:
+    tags: ['v*']
+
+permissions:
+  contents: write
+
+jobs:
+  desktop:
+    name: Desktop — ${{ matrix.os }}
+    runs-on: ${{ matrix.os }}
+    strategy:
+      fail-fast: false
+      matrix:
+        os: [windows-latest, macos-latest, ubuntu-latest]
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 22
+          cache: npm
+          cache-dependency-path: desktop_electron/package-lock.json
+      - run: npm ci
+        working-directory: client
+      - run: npm ci
+        working-directory: desktop_electron
+      # Builds the Angular client in production mode, syncs it into renderer/
+      # and packages the installers (NSIS / dmg+zip / AppImage per OS).
+      - run: npm run build -- --publish never
+        working-directory: desktop_electron
+      - uses: softprops/action-gh-release@v2
+        with:
+          files: |
+            desktop_electron/dist/PolyArena-Setup.exe
+            desktop_electron/dist/PolyArena-mac.dmg
+            desktop_electron/dist/PolyArena-mac.zip
+            desktop_electron/dist/PolyArena-linux.AppImage
+
+  android:
+    name: Android APK
+    runs-on: ubuntu-latest
+    defaults:
+      run:
+        working-directory: mobile_client
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-java@v4
+        with:
+          distribution: temurin
+          java-version: 17
+      - uses: subosito/flutter-action@v2
+        with:
+          channel: stable
+          cache: true
+      - run: flutter pub get
+      - run: flutter build apk --release --dart-define=SERVER_URL=https://poly-arena.onrender.com
+      - run: mv build/app/outputs/flutter-apk/app-release.apk build/app/outputs/flutter-apk/PolyArena-android.apk
+      - uses: softprops/action-gh-release@v2
+        with:
+          files: mobile_client/build/app/outputs/flutter-apk/PolyArena-android.apk

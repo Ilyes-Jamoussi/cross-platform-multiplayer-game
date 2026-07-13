@@ -26,13 +26,19 @@
       "renderer/**"
     ],
     "win": {
-      "target": "nsis"
+      "target": "nsis",
+      "artifactName": "PolyArena-Setup.${ext}"
+    },
+    "nsis": {
+      "artifactName": "PolyArena-Setup.${ext}"
     },
     "mac": {
-      "target": ["dmg", "zip"]
+      "target": ["dmg", "zip"],
+      "artifactName": "PolyArena-mac.${ext}"
     },
     "linux": {
-      "target": "AppImage"
+      "target": "AppImage",
+      "artifactName": "PolyArena-linux.${ext}"
     }
   }
 }

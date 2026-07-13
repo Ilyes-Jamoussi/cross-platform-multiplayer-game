@@ -1,9 +1,13 @@
 class AppConfig {
   AppConfig._();
 
-  // Default backend host. Override at launch time:
-  //   flutter run --dart-define=SERVER_HOST=localhost
-  // Android emulator reaching the host machine:
+  // Full backend URL (scheme + host, no trailing slash). Takes precedence over
+  // SERVER_HOST/SERVER_PORT. Used for production builds:
+  //   flutter build apk --dart-define=SERVER_URL=https://poly-arena.onrender.com
+  static const String _serverUrl = String.fromEnvironment('SERVER_URL');
+
+  // Host/port pair kept for local development. Android emulator reaching the
+  // host machine:
   //   flutter run --dart-define=SERVER_HOST=10.0.2.2
   static const String _defaultServerHost = '10.0.2.2';
 
@@ -17,6 +21,7 @@ class AppConfig {
   );
 
   static String get host => _serverHost;
-  static String get socketBaseUrl => 'http://$host:$_serverPort';
+  static String get socketBaseUrl =>
+      _serverUrl.isNotEmpty ? _serverUrl : 'http://$host:$_serverPort';
   static String get apiBaseUrl => '$socketBaseUrl/api';
 }
